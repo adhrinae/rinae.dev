@@ -1,29 +1,28 @@
 module.exports = {
-  title: `Bee starter`,
-  description: `Blog posted about ...`,
-  author: `[Your Name]`,
-  introduction: `I explain with words and code. I explain with words and code. I explain with words and code.`,
-  siteUrl: `https://gatsby-starter-bee.netlify.com`, // Your blog site url
+  title: `rinae.dev`,
+  description: `리내의 개발블로그입니다. 좋은 기술 문서 번역을 주력으로 삼고 있습니다. 또한 개인적으로 공부한 내용이나, 모아두었던 글을 공유하고 있습니다.`,
+  author: `Ahn Dohyung (rinae)`,
+  introduction: `삽질을 하고, 글을 남기면서 다른 사람들과 함께 자라고 싶어하는 프론트엔드 개발자입니다.`,
+  siteUrl: `https://rinae.dev`,
   social: {
-    twitter: ``, // Your Twitter account
-    github: ``, // Your GitHub account
-    medium: ``, // Your Medium account
-    facebook: ``, // Your Facebook account
+    twitter: `adhrinae`,
+    github: `adhrinae`,
+    medium: `rinae`,
+    facebook: `adh.rinae`,
   },
-  icon: `content/assets/felog.png`, // Add your favicon
-  keywords: [`blog`],
+  icon: `content/assets/milky-way.png`,
+  keywords: [`frontend`, `translation`, `react`, `typescript`],
   comment: {
-    disqusShortName: '', // Your disqus-short-name. check disqus.com.
-    utterances: 'JaeYeopHan/gatsby-starter-bee', // Your repository for archive comment
+    utterances: 'adhrinae/rinae.dev',
   },
   configs: {
-    countOfInitialPost: 10, // Config your initial count of post
+    countOfInitialPost: 10,
   },
   sponsor: {
-    buyMeACoffeeId: 'jbee',
+    buyMeACoffeeId: 'O2ZbLj7',
   },
   share: {
-    facebookAppId: '', // Add facebookAppId for using facebook share feature v3.2
+    facebookAppId: '279412939677376', // Add facebookAppId for using facebook share feature v3.2
   },
-  ga: '', // Add your google analytics tranking ID
+  ga: 'UA-110939745-1',
 }
