@@ -1,11 +1,11 @@
 {
-  "name": "gatsby-starter-bee",
+  "name": "rinae.dev",
   "private": true,
-  "description": "Gatsby blog starter template",
+  "description": "Gatsby blog (thanks to @JaeYeopHan)",
   "version": "0.1.0",
-  "author": "Jbee[JaeYeopHan]<ljyhanll@gmail.com>",
+  "author": "rinae[adhrinae]<me@rinae.dev>",
   "bugs": {
-    "url": "https://github.com/JaeYeopHan/gatsby-starter-bee/issues"
+    "url": "https://github.com/adhrinae/rinae.dev/issues"
   },
   "dependencies": {
     "gatsby": "^2.2.8",
@@ -30,18 +30,17 @@
     "gatsby-source-filesystem": "^2.0.28",
     "gatsby-transformer-remark": "^2.3.8",
     "gatsby-transformer-sharp": "^2.1.17",
-    "intersection-observer": "^0.5.1",
+    "intersection-observer": "^0.6.0",
     "lodash": "^4.17.11",
     "node-sass": "^4.11.0",
     "prismjs": "^1.15.0",
     "react": "^16.8.1",
-    "react-disqus-comments": "^1.4.0",
     "react-dom": "^16.8.1",
     "react-helmet": "^5.2.0",
-    "react-switch": "^4.0.1",
+    "react-switch": "^5.0.0",
     "react-typography": "^0.16.13",
     "smooth-scroll": "^16.0.0",
-    "typeface-catamaran": "0.0.54",
+    "typeface-catamaran": "0.0.72",
     "typeface-merriweather": "0.0.72",
     "typeface-montserrat": "0.0.54",
     "typeface-noto-sans-kr": "0.0.63",
@@ -57,18 +56,21 @@
     "inquirer": "^6.2.2",
     "lighthousebot": "git+https://github.com/GoogleChromeLabs/lighthousebot.git",
     "prettier": "^1.14.2",
+    "prop-types": "^15.7.2",
     "recursive-readdir": "^2.2.2",
-    "signale": "^1.3.0"
+    "signale": "^1.3.0",
+    "webpack": "^4.30.0"
   },
-  "homepage": "https://github.com/JaeYeopHan/gatsby-starter-bee#readme",
+  "homepage": "https://github.com/adhrinae/rinae.dev",
   "keywords": [
-    "gatsby"
+    "gatsby",
+    "blog"
   ],
   "license": "MIT",
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JaeYeopHan/gatsby-starter-bee.git"
+    "url": "git+https://github.com/adhrinae/rinae.dev.git"
   },
   "scripts": {
     "post": "node ./cli/create-new-post.js",
