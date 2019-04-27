@@ -12,7 +12,7 @@ export const Category = ({ categories, category, selectCategory }) => {
       role="tablist"
       id="category"
       style={{
-        margin: `0 -${rhythm(3 / 4)}`,
+        margin: `0 -${rhythm(3 / 4)} 1rem`,
       }}
     >
       <Item title={'All'} category={category} selectCategory={selectCategory} />

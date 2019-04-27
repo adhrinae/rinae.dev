@@ -51,7 +51,7 @@ body.light {
       color: $middle-gray;
     }
     &:hover {
-      text-shadow: $light-hover-text-shadow;
+      background-color: $light-hover-background-color;
     }
   }
 
