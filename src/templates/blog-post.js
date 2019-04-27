@@ -23,12 +23,22 @@ export default ({ data, pageContext, location }) => {
 
   const post = data.markdownRemark
   const metaData = data.site.siteMetadata
-  const { title, comment, siteUrl, author, sponsor } = metaData
+  const { title, comment, author, sponsor } = metaData
   const { utterances } = comment
 
   return (
     <Layout location={location} title={title}>
-      <Head title={post.frontmatter.title} description={post.excerpt} />
+      <Head
+        title={post.frontmatter.title}
+        description={post.frontmatter.description}
+        coverImageUrl={post.frontmatter.coverImageUrl}
+        meta={[
+          {
+            property: `og:url`,
+            content: metaData.siteUrl + post.frontmatter.path,
+          },
+        ]}
+      />
       <PostTitle title={post.frontmatter.title} />
       <PostContainer html={post.html} />
       <SocialShare title={post.frontmatter.title} author={author} />
@@ -50,6 +60,7 @@ export const pageQuery = graphql`
         title
         author
         siteUrl
+        defaultOgImage
         comment {
           utterances
         }
@@ -64,7 +75,11 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
-        date(formatString: "MMMM DD, YYYY")
+        path
+        tags
+        coverImageUrl
+        description
+        date(formatString: "YYYY/MM/DD")
       }
     }
   }

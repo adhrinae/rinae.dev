@@ -2,7 +2,7 @@ module.exports = {
   title: `rinae's devlog`,
   description: `리내의 개발블로그입니다. 좋은 기술 문서 번역을 주력으로 삼고 있습니다. 또한 개인적으로 공부한 내용이나, 모아두었던 글을 공유하고 있습니다.`,
   author: `Ahn Dohyung (rinae)`,
-  introduction: `삽질을 하고, 글을 남기면서 다른 사람들과 함께 자라고 싶어하는 프론트엔드 개발자입니다.`,
+  introduction: `삽질을 하고, 글을 남기면서 다른 사람들과 함께 자라고 싶어하는 프론트엔드 개발자입니다. 더 좋은 코드와 설계를 항상 고민하며 지식의 습득 전파를 어떻게 효율적으로 할 수 있을지도 고민합니다.`,
   siteUrl: `https://rinae.dev`,
   social: {
     twitter: `adhrinae`,
@@ -11,6 +11,7 @@ module.exports = {
     facebook: `adh.rinae`,
   },
   icon: `content/assets/milky-way.png`,
+  defaultOgImage: `content/assets/blog-og-default-image.png`,
   keywords: [`frontend`, `translation`, `react`, `typescript`],
   comment: {
     utterances: 'adhrinae/rinae.dev',

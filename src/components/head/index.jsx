@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 
-export function Head({ description, lang, meta, keywords, title }) {
+export function Head({ description, lang, meta, keywords, title, coverImageUrl }) {
   return (
     <StaticQuery
       query={detailsQuery}
@@ -33,6 +33,10 @@ export function Head({ description, lang, meta, keywords, title }) {
               {
                 property: `og:type`,
                 content: `website`,
+              },
+              {
+                property: `og:image`,
+                content: coverImageUrl || data.ogDefaultImage.childImageSharp.original.src
               },
               {
                 name: `twitter:card`,
@@ -83,6 +87,13 @@ Head.propTypes = {
 
 const detailsQuery = graphql`
   query DefaultSEOQuery {
+    ogDefaultImage: file(absolutePath: {regex: "/blog-og-default-image.png/"}) {
+      childImageSharp {
+        original {
+          src
+        }
+      }
+    }
     site {
       siteMetadata {
         title
