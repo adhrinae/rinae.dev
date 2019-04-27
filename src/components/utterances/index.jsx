@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 const src = 'https://utteranc.es/client.js'
 const branch = 'master'
 
 export const Utterences = ({ repo }) => {
-  const rootElm = React.createRef()
+  const rootElm = useRef(null)
 
   useEffect(() => {
     const utterances = document.createElement('script')

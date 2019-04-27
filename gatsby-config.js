@@ -66,7 +66,7 @@ module.exports = {
         short_name: metaConfig.title,
         start_url: `/`,
         background_color: `#ffffff`,
-        theme_color: `#663399`,
+        theme_color: `#2C3038`,
         display: `minimal-ui`,
         icon: metaConfig.icon,
       },
@@ -84,6 +84,6 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-lodash`,
-    `gatsby-plugin-sitemap`
+    `gatsby-plugin-sitemap`,
   ],
 }
