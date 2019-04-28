@@ -1,6 +1,13 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
+const SLUG_CAPTURE_REGEX = /(^\/\d{4}-\d{2}-\d{2}-)(.+)/
+
+function divideDateAndTitle(slug) {
+  const capturedByGroups = SLUG_CAPTURE_REGEX.exec(slug)
+  return [capturedByGroups[1], capturedByGroups[2]]
+}
+
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
@@ -41,12 +48,15 @@ exports.createPages = ({ graphql, actions }) => {
     posts.forEach((post, index) => {
       const previous = index === posts.length - 1 ? null : posts[index + 1].node
       const next = index === 0 ? null : posts[index - 1].node
+      const slug = post.node.fields.slug
+      const [, title] = divideDateAndTitle(slug)
+      const path = `/posts/${title}`
 
       createPage({
-        path: post.node.frontmatter.path,
+        path,
         component: blogPostTemplate,
         context: {
-          slug: post.node.fields.slug,
+          slug,
           previous,
           next,
         },

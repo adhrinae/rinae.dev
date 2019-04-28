@@ -12,6 +12,7 @@ import { Bio } from '../components/bio'
 import { PostNavigator } from '../components/post-navigator'
 import { Utterences } from '../components/utterances'
 import * as ScrollManager from '../utils/scroll'
+import { divideDateAndPath } from '../utils/frontmatter'
 
 import '../styles/code.scss'
 
@@ -25,6 +26,7 @@ export default ({ data, pageContext, location }) => {
   const metaData = data.site.siteMetadata
   const { title, comment, author, sponsor } = metaData
   const { utterances } = comment
+  const [date, path] = divideDateAndPath(post.fields.slug)
 
   return (
     <Layout location={location} title={title}>
@@ -35,7 +37,7 @@ export default ({ data, pageContext, location }) => {
         meta={[
           {
             property: `og:url`,
-            content: metaData.siteUrl + post.frontmatter.path,
+            content: metaData.siteUrl + path,
           },
         ]}
       />
@@ -73,9 +75,11 @@ export const pageQuery = graphql`
       id
       excerpt(pruneLength: 280)
       html
+      fields {
+        slug
+      }
       frontmatter {
         title
-        path
         tags
         coverImageUrl
         description
