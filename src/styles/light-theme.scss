@@ -69,4 +69,12 @@ body.light {
       color: $navigator-text-color;
     }
   }
+
+  .post-title > time {
+    color: $light-post-time-color;
+  }
+
+  .thumbnail-date {
+    color: $light-post-time-color;
+  }
 }

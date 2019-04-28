@@ -16,3 +16,15 @@ body {
     margin: 2rem auto;
   }
 }
+
+.post-title > time {
+  float: right;
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+
+.thumbnail-date {
+  display: block;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}

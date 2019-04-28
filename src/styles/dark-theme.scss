@@ -79,4 +79,12 @@ body.dark {
       color: $navigator-text-color;
     }
   }
+
+  .post-title > time {
+    color: $dark-post-time-color;
+  }
+
+  .thumbnail-date {
+    color: $dark-post-time-color;
+  }
 }

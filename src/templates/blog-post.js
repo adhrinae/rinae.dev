@@ -41,7 +41,7 @@ export default ({ data, pageContext, location }) => {
           },
         ]}
       />
-      <PostTitle title={post.frontmatter.title} />
+      <PostTitle title={post.frontmatter.title} date={date} />
       <PostContainer html={post.html} />
       <SocialShare title={post.frontmatter.title} author={author} />
       {!!sponsor.buyMeACoffeeId && (

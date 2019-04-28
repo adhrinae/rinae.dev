@@ -1,7 +1,7 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
-const SLUG_CAPTURE_REGEX = /(^\/\d{4}-\d{2}-\d{2}-)(.+)/
+const SLUG_CAPTURE_REGEX = /^\/(\d{4}-\d{2}-\d{2})-(.+)\//
 
 function divideDateAndTitle(slug) {
   const capturedByGroups = SLUG_CAPTURE_REGEX.exec(slug)
