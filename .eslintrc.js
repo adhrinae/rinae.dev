@@ -8,10 +8,9 @@ module.exports = {
     graphql: false,
   },
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
       jsx: true,
     },
   },
