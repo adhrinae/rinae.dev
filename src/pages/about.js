@@ -8,7 +8,7 @@ export default ({ data }) => {
   const resumes = data.allMarkdownRemark.edges
 
   const resume = resumes
-    .filter(({ node }) => node.frontmatter.lang === Lang.ENGLISH)
+    .filter(({ node }) => node.frontmatter.lang === Lang.KOREAN)
     .map(({ node }) => node)[0]
 
   return (
@@ -29,7 +29,7 @@ export default ({ data }) => {
 
 export const pageQuery = graphql`
   query {
-    allMarkdownRemark(filter: { frontmatter: { category: { eq: null } } }) {
+    allMarkdownRemark(filter: { frontmatter: { tags: { eq: null } } }) {
       edges {
         node {
           id
@@ -37,7 +37,6 @@ export const pageQuery = graphql`
           html
           frontmatter {
             title
-            date(formatString: "YYYY/MM/DD")
             lang
           }
         }

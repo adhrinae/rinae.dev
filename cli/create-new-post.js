@@ -8,6 +8,8 @@ const inquirer = require('inquirer')
 const log = require('signale')
 const cwd = process.cwd()
 
+// TODO: 만약 CLI를 활용하고자 한다면 Category 관련 로직을 Tag로 수정해야함
+
 const CONTENTS_DIR = '/content/blog'
 const TARGET_DIR = `${cwd}${CONTENTS_DIR}`
 const IGNORE_DIR = 'images'
@@ -54,7 +56,7 @@ const fetchCategory = async () => {
     {
       type: 'list',
       name: 'selectedCategory',
-      message: 'Select a category',
+      message: 'Select a tag',
       choices: categoryChoices,
     },
   ])
@@ -64,7 +66,7 @@ const fetchCategory = async () => {
       {
         type: 'input',
         name: 'customizedCategory',
-        message: 'Enter the customized category',
+        message: 'Enter the customized tag',
         validate: val => {
           if (val.includes("'")) {
             return 'Cannot use single quote'
@@ -84,7 +86,7 @@ const fetchCategory = async () => {
   }
 
   if (!category) {
-    throw Error('Unknown Error: Cannot find category!')
+    throw Error('Unknown Error: Cannot find tag!')
   }
 
   return category

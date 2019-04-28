@@ -9,7 +9,7 @@ body.light {
 
   .bio {
     .author-name-content {
-      background-color: $light-category-border-color;
+      background-color: $light-tag-border-color;
     }
     .author-introduction {
       color: $middle-gray;
@@ -19,26 +19,26 @@ body.light {
     }
   }
 
-  .category-container {
-    border-top: 1px solid $light-category-border-color;
-    border-bottom: 1px solid $light-category-border-color;
-    border-right: 6px solid $light-category-border-color;
-    border-left: 6px solid $light-category-border-color;
-    background-color: $light-category-background-color;
+  .tag-container {
+    border-top: 1px solid $light-tag-border-color;
+    border-bottom: 1px solid $light-tag-border-color;
+    border-right: 6px solid $light-tag-border-color;
+    border-left: 6px solid $light-tag-border-color;
+    background-color: $light-tag-background-color;
     .item {
-      border: 1px solid $light-category-border-color;
-      background-color: $light-category-item-color;
+      border: 1px solid $light-tag-border-color;
+      background-color: $light-tag-item-color;
       -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
       box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
       a {
-        color: $light-category-text-color;
+        color: $light-tag-text-color;
       }
       &[aria-selected='true'] {
-        border: 2px solid $light-category-highlight-border-color;
+        border: 2px solid $light-tag-highlight-border-color;
         font-weight: bolder;
       }
       &[aria-selected='true'] a {
-        color: $light-category-highlight-text-color;
+        color: $light-tag-highlight-text-color;
       }
     }
   }

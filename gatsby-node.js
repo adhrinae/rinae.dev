@@ -26,9 +26,8 @@ exports.createPages = ({ graphql, actions }) => {
                 slug
               }
               frontmatter {
-                path
                 title
-                category
+                tags
               }
             }
           }
@@ -42,7 +41,7 @@ exports.createPages = ({ graphql, actions }) => {
 
     // Create blog posts pages.
     const posts = result.data.allMarkdownRemark.edges.filter(
-      ({ node }) => !!node.frontmatter.category
+      ({ node }) => !!node.frontmatter.tags
     )
 
     posts.forEach((post, index) => {

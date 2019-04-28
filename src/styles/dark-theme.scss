@@ -10,7 +10,7 @@ body.dark {
 
   .bio {
     .author-name-content {
-      background-color: $dark-category-border-color;
+      background-color: $dark-tag-border-color;
     }
     .author-introduction {
       color: $dark-middle-font-color;
@@ -20,26 +20,26 @@ body.dark {
     }
   }
 
-  .category-container {
-    border-top: 1px solid $dark-category-border-color;
-    border-bottom: 1px solid $dark-category-border-color;
-    border-right: 6px solid $dark-category-border-color;
-    border-left: 6px solid $dark-category-border-color;
-    background-color: $dark-category-background-color;
+  .tag-container {
+    border-top: 1px solid $dark-tag-border-color;
+    border-bottom: 1px solid $dark-tag-border-color;
+    border-right: 6px solid $dark-tag-border-color;
+    border-left: 6px solid $dark-tag-border-color;
+    background-color: $dark-tag-background-color;
     .item {
-      border: 1px solid $dark-category-border-color;
-      background-color: $dark-category-item-color;
+      border: 1px solid $dark-tag-border-color;
+      background-color: $dark-tag-item-color;
       -webkit-box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.1);
       box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.1);
       a {
-        color: $dark-category-text-color;
+        color: $dark-tag-text-color;
       }
       &[aria-selected='true'] {
-        border: 2px solid $dark-category-highlight-border-color;
+        border: 2px solid $dark-tag-highlight-border-color;
         font-weight: bolder;
       }
       &[aria-selected='true'] a {
-        color: $dark-category-highlight-text-color;
+        color: $dark-tag-highlight-text-color;
       }
     }
   }

@@ -83,7 +83,6 @@ export const pageQuery = graphql`
         tags
         coverImageUrl
         description
-        date(formatString: "YYYY/MM/DD")
       }
     }
   }

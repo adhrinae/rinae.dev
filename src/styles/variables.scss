@@ -29,13 +29,13 @@ $light-post-time-color: darkgray;
 $inline-dimmed-color: #ece5f1;
 $inline-text-color: #4b2043;
 
-// category
-$light-category-border-color: #ecf0f2;
-$light-category-highlight-border-color: #909da1;
-$light-category-background-color: #f4f7f8;
-$light-category-text-color: #666;
-$light-category-highlight-text-color: #636c6e;
-$light-category-item-color: #fff;
+// tag
+$light-tag-border-color: #ecf0f2;
+$light-tag-highlight-border-color: #909da1;
+$light-tag-background-color: #f4f7f8;
+$light-tag-text-color: #666;
+$light-tag-highlight-text-color: #636c6e;
+$light-tag-item-color: #fff;
 
 /**
  * @dark theme
@@ -51,11 +51,11 @@ $dark-text-shadow: 0 0 0.1px rgba(255, 255, 255, 0.3);
 $dark-hover-background-color: rgba(45, 67, 115, 0.49);
 $dark-post-time-color: rgba(30, 144, 255, 0.39);
 
-$dark-category-item-color: #282c35;
-$dark-category-background-color: #24272c;
+$dark-tag-item-color: #282c35;
+$dark-tag-background-color: #24272c;
 
-$dark-category-border-color: rgb(56, 54, 54);
-$dark-category-text-color: #d8d7d7;
+$dark-tag-border-color: rgb(56, 54, 54);
+$dark-tag-text-color: #d8d7d7;
 
-$dark-category-highlight-border-color: #666;
-$dark-category-highlight-text-color: #fff;
+$dark-tag-highlight-border-color: #666;
+$dark-tag-highlight-text-color: #fff;
