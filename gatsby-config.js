@@ -1,5 +1,12 @@
 const metaConfig = require('./gatsby-meta-config')
 
+const SLUG_CAPTURE_REGEX = /^\/(\d{4}-\d{2}-\d{2})-(.+)\//
+
+function divideDateAndPath(slug) {
+  const capturedByGroups = SLUG_CAPTURE_REGEX.exec(slug)
+  return [capturedByGroups[1], `/posts/${capturedByGroups[2]}`]
+}
+
 module.exports = {
   siteMetadata: metaConfig,
   plugins: [
@@ -96,10 +103,12 @@ module.exports = {
           {
             serialize: ({ query: { site, allMarkdownRemark } }) => {
               return allMarkdownRemark.edges.map(edge => {
+                const [, path] = divideDateAndPath(edge.node.fields.slug)
+
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
-                  url: site.siteMetadata.siteUrl + edge.node.frontmatter.path,
-                  guid: site.siteMetadata.siteUrl + edge.node.frontmatter.path,
+                  url: site.siteMetadata.siteUrl + path,
+                  guid: site.siteMetadata.siteUrl + path,
                   custom_elements: [{ 'content:encoded': edge.node.html }],
                 })
               })
@@ -109,11 +118,15 @@ module.exports = {
                 allMarkdownRemark(
                   limit: 1000,
                   sort: { order: DESC, fields: [frontmatter___date] }
+                  filter: { frontmatter: { tags: { ne: null } } }
                 ) {
                   edges {
                     node {
                       excerpt
                       html
+                      fields {
+                        slug
+                      }
                       frontmatter {
                         title
                         date

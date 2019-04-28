@@ -83,7 +83,7 @@ Bear라는 앱은 태그 기반으로 노트의 카테고리를 구분할 수 �
 - [**Overreacted**](https://overreacted.io) - Redux의 제작자이자, 지금은 리액트 코어 개발자로 일하고 있는 [Dan Abramov](https://mobile.twitter.com/dan_abramov)의 블로그입니다. 개인 블로그를 최근에 열었다는게 오히려 신기할 정도인데요. 리액트의 내부 동작을 알기 쉽게 설명해주는 글이 많습니다. `@Developer` `@React` `@OSS`
 - [**편리한 git alias 설정하기 - 기계인간 John Grib**](https://johngrib.github.io/wiki/git-alias/) - Git을 GUI로만 쓰시는 분들에게는 별로 공감이 되지 않는 주제일 수 있으나, Git CLI를 더 유용하게 이용할 수 있도록 만들어주는 다양한 팁이 공유된 글입니다. `@Git` `@Terminal`
 - [**Meta Tags — Preview, Edit and Generate**](https://metatags.io) - 주요 사이트 및 애플리케이션에 사용되는 OpenGraph가 어떤 모양으로 나타날지 직접 메타 태그를 입력해보고 눈으로 견본을 확인할 수 있는 웹 애플리케이션입니다. `@Tool`
-- [**(번역) 기술 업계의 독성 말투 문제, 고칩시다! - Here, Edward 👨🏻‍💻**](https://edykim.com/ko/post/tech-has-a-toxic-tone-problem-lets-fix-it/) - IT 업계에서 일하면서 언제나 커뮤니케이션의 중요성을 실감하고 있습니다. 커뮤니케이션에 문제가 발생하는 상황은 여럿 있지만, 이 글은 독성 말투에 초점을 맞추어 좋지 않은 예와 현실적인 대안을 제시하고 있습니다. `@Developer`
+- [**(번역) 기술 업계의 독성 말투 문제, 고칩시다! - Here, Edward 👨🏻💻**](https://edykim.com/ko/post/tech-has-a-toxic-tone-problem-lets-fix-it/) - IT 업계에서 일하면서 언제나 커뮤니케이션의 중요성을 실감하고 있습니다. 커뮤니케이션에 문제가 발생하는 상황은 여럿 있지만, 이 글은 독성 말투에 초점을 맞추어 좋지 않은 예와 현실적인 대안을 제시하고 있습니다. `@Developer`
 - [**Web components still need to be accessible - 24 Accessibility**](https://www.24a11y.com/2018/web-components-still-need-to-be-accessible/) - 웹 컴포넌트를 만들 때도 당연히 접근성을 신경써야 한다는 글입니다. 그게 다는 아닙니다. SPA(Single Page Application)을 만들면서 우리는 컴포넌트의 구조를 어떻게 잘 작성하는지만 신경 쓸 때가 많은데, 결국 그렇게 작성한 코드의 결과물은 브라우저에 그려지는 DOM입니다. 그 DOM의 접근성을 신경써야 하는 것은 프론트엔드 개발자의 의무입니다. `@Web`
 - [**JavaScript 코드 리뷰 - 코드 리뷰 문화 – 좋은 JavaScript 코드 작성을 위한 블로그**](https://cimfalab.github.io/deepscan/2016/08/code-review-1) - 제목은 자바스크립트 코드 리뷰라고 이야기하고 있지만, 어떤 언어 기반이라 하더라도 팀에 코드 리뷰를 적용하는 방법을 잘 안내하고 있는 훌륭한 글입니다. `@Developer`
 

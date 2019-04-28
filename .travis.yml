@@ -4,7 +4,6 @@ os:
   - osx
 node_js:
   - 'lts/*'
-  - '8'
 before_install:
   - yarn global add greenkeeper-lockfile@1
 install:
@@ -16,7 +15,7 @@ script:
 after_script:
   - greenkeeper-lockfile-upload
 after_success:
-  - yarn lh -- --perf=90 --pwa=100 --no-comment https://rinae.dev/
+  - yarn lh --perf=90 --pwa=100 --no-comment https://rinae.dev/
 branches:
   only:
     - master
