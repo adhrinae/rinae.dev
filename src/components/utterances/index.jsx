@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
 const src = 'https://utteranc.es/client.js'
-const branch = 'master'
 
 export const Utterences = ({ repo }) => {
   const rootElm = useRef(null)
@@ -11,10 +10,10 @@ export const Utterences = ({ repo }) => {
     const utterancesConfig = {
       src,
       repo,
-      branch,
-      async: true,
       'issue-term': 'pathname',
+      theme: 'github-light',
       crossorigin: 'anonymous',
+      async: true,
     }
 
     Object.keys(utterancesConfig).forEach(configKey => {
