@@ -1,5 +1,6 @@
 ---
 title: This Month I Learned - 2019년 4월
+date: 2019-04-28
 tags:
   - TIL
   - React
@@ -8,10 +9,10 @@ tags:
 description: '2019년 4월동안 익혔던 / 읽었던 것들 정리'
 ---
 
-- 한동안 열심히 벼르다가 못하고 있던 블로그 개편을 주말동안 도전해봤습니다. [한재엽님의 템플릿](https://github.com/JaeYeopHan/gatsby-starter-bee)을 활용하여 개인적으로 아쉬웠던 몇몇 부분의 스타일을 보강하고, 태그 기반의 정렬을 적용했습니다.  
-- 또한 Netlify로 배포 플랫폼을 옮겼는데, 기존 Github pages에 있던 페이지는 자연스럽게 마이그레이션하기 힘들 것 같아서 어떻게 처리해야할지 조금 고민됩니다.  
-- 기존 블로그의 형태는 [템플릿으로 저장소를 남겨두었으니](https://github.com/adhrinae/gatsby-blog-template-rinae) 참고하실 분은 참고하시기 바랍니다.  
-- 개발중인 프로젝트에 [Hook API](https://reactjs.org/docs/hooks-reference.html)를 적용하면서 React Hook 관련 문서를 많이 읽다 보니 이번에는 프론트엔드 섹션도 따로 분리해봤습니다.  
+- 한동안 열심히 벼르다가 못하고 있던 블로그 개편을 주말동안 도전해봤습니다. [한재엽님의 템플릿](https://github.com/JaeYeopHan/gatsby-starter-bee)을 활용하여 개인적으로 아쉬웠던 몇몇 부분의 스타일을 보강하고, 태그 기반의 정렬을 적용했습니다.
+- 또한 Netlify로 배포 플랫폼을 옮겼는데, 기존 Github pages에 있던 페이지는 자연스럽게 마이그레이션하기 힘들 것 같아서 어떻게 처리해야할지 조금 고민됩니다.
+- 기존 블로그의 형태는 [템플릿으로 저장소를 남겨두었으니](https://github.com/adhrinae/gatsby-blog-template-rinae) 참고하실 분은 참고하시기 바랍니다.
+- 개발중인 프로젝트에 [Hook API](https://reactjs.org/docs/hooks-reference.html)를 적용하면서 React Hook 관련 문서를 많이 읽다 보니 이번에는 프론트엔드 섹션도 따로 분리해봤습니다.
 
 ## 읽을거리 - 일반
 
@@ -50,4 +51,3 @@ description: '2019년 4월동안 익혔던 / 읽었던 것들 정리'
 
 - [Perflink | JS Benchmarks](https://perf.link) - JSPerf보다 훨씬 미려한 디자인으로 벤치마킹을 해볼 수 있는 사이트
 - [GitHub - mifi/lossless-cut: Save space by quickly and losslessly trimming video and audio files](https://github.com/mifi/lossless-cut) - 이전에 간단한 비디오 트리밍에 유료 소프트웨어 체험판 써본다고 난리를 친적이 있었는데, 이거 있으면 간단한 동영상 자르기정도는 충분히 해결할 수 있겠다.
-
