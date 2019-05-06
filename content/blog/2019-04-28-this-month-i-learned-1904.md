@@ -42,7 +42,7 @@ description: '2019년 4월동안 익혔던 / 읽었던 것들 정리'
 
 ## 오픈 소스 프로젝트
 
-- [GitHub - codex-team/editor.js: A block-styled editor with clean JSON output](https://github.com/codex-team/editor.js) - 홟발히 개발되고 있는 웹용 위지윅 에디터. 보아하니 퓨어 타입스크립트 + CSS로 이루어져있는 듯 하다. 문서화도 굉장히 잘 되어있고 소스코드의 가독성이 좋아서 틈틈이 보는 재미가 있다.
+- [GitHub - codex-team/editor.js: A block-styled editor with clean JSON output](https://github.com/codex-team/editor.js) - 활발히 개발되고 있는 웹용 위지윅 에디터. 보아하니 퓨어 타입스크립트 + CSS로 이루어져있는 듯 하다. 문서화도 굉장히 잘 되어있고 소스코드의 가독성이 좋아서 틈틈이 보는 재미가 있다.
 - [GitHub - sindresorhus/ky: 🌳 Tiny & elegant HTTP client based on window.fetch](https://github.com/sindresorhus/ky) - `fetch` API 기반 HTTP 클라이언트 라이브러리. `axios` 가 보통 가장 우선적으로 꼽히는 라이브러리고 기능이 더 많긴 하지만, 결정적인 차이가 있다면 `axios` 는 `XMLHttpRequest` 객체 기반으로 밑바닥부터 만들었기 때문에 조금 더 묵직한 반면, `ky` 는 `fetch` API 기반 추상화 라이브러리이기 때문에 훨씬 코드 양이 적고 `fetch` API 지원만 되는 브라우저라면 편안히 쓸 수 있다. 다만 글로벌 옵션같은게 따로 없어보여서 지금 `axios` 를 사용하고 있는 부분을 바로 교체하긴 힘들겠다.
 - [GitHub - elbywan/wretch: A tiny wrapper built around fetch with an intuitive syntax.](https://github.com/elbywan/wretch) - 지난번에 적었던 `ky` 라는 라이브러리의 [이슈 코멘트에서 '왜 또 새로운 라이브러리냐?' 같은 질문이 있었고](https://github.com/sindresorhus/ky/issues/10#issuecomment-420174555) 질문을 한 사람이 예를 들면서 이 라이브러리를 제시했다. `wretch` 쪽이 기능적인 면에선 좀더 우세해 보인다. 어차피 axios를 생으로 쓰는 것을 벗어나 프로젝트에 사용할 적절한 래퍼를 만들거면 이 라이브러리도 고려를 해봐야겠다.
 - [GitHub - jefflau/jest-fetch-mock: Jest mock for the fetch polyfill](https://github.com/jefflau/jest-fetch-mock) - `axios` 도 다양하고 잘 만들어진 Mock Adapter 가 있다만, `fetch` 할 때는 어떤 방식으로 테스트에 모킹을 할까 고민하다 이 라이브러리가 잘 동작했다. 만약 `fetch` 를 사용하고 있고 Jest로 테스트를 작성하고 있다면 단연코 바로 추천하고 싶다.
