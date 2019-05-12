@@ -7,12 +7,13 @@ public_folder: /images
 
 collections:
   - name: 'blog'
-    label: 'Blog'
+    label: 'Blog Post'
     folder: 'content/blog'
     create: true
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    slug: '{{year}}-{{month}}-{{day}}-{{fields.slug}}'
     fields:
       - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Slug', name: 'slug', widget: 'string' }
       - { label: 'Description', name: 'description', widget: 'text' }
       - {
           label: 'Publish Date',
