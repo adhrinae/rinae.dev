@@ -10,7 +10,7 @@ coverImageUrl: >-
   https://images.unsplash.com/photo-1511345624864-d6cf46344e8c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80
 ---
 
-**[David Gilbertson](https://twitter.com/D__Gilbertson)의 [The find art of fast development](https://hackernoon.com/the-fine-art-of-fast-development-f3b1abb509da)을 저자의 허락 아래 번역한 글입니다.**
+**[David Gilbertson](https://twitter.com/D__Gilbertson)의 [The fine art of fast development](https://hackernoon.com/the-fine-art-of-fast-development-f3b1abb509da)을 저자의 허락 아래 번역한 글입니다.**
 
 번역 서문: 슥 훑어보니 내용이 마음에 들어 저자에게 허락을 받았습니다만, 내용이 생각보다 너무 길어서 두 편으로 나누어 발행하려고 합니다. 결론을 빨리 얻고 싶으시다면 서문에 쓰인 대로 ‘짧은 버전’ 만 슥슥 읽으셔도 되긴 합니다.
 
