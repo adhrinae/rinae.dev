@@ -1,8 +1,8 @@
 ---
-path: "/posts/understanding-taming-the-meta-language-kor"
-date: "2017-04-04"
-title: "[번역] 메타언어 길들이기"
-category: "Translation"
+path: '/posts/understanding-taming-the-meta-language-kor'
+date: '2017-04-04'
+title: '[번역] 메타언어 길들이기'
+category: 'Translation'
 tags:
   - Programming
   - Learning
@@ -24,13 +24,11 @@ tags:
 
 이 그림의 이해를 돕기 위해 다양한 예제를 준비해왔습니다.
 
-
-
 ## 어셈블리 명령어 → 변수명
 
 우주 산업 분야에서 행성으로부터의 [탈출 속도(escape velocity)](https://ko.wikipedia.org/wiki/%ED%83%88%EC%B6%9C_%EC%86%8D%EB%8F%84)를 구하기 위해 사용되는 코드 일부를 살펴보겠습니다.
 
-```assembly
+```nasm
 .SUB_0_21:
     ; Computes escape velocity
     ; register xmm0 - planet mass
@@ -60,8 +58,6 @@ double escape_velocity(double mass, double radius) {
 
 그저 변수에 이름을 지정해주었을 뿐인데 메타언어에 기대고 있던 정보를 언어 자체로 끌어내릴 수 있게 됐습니다.
 
-
-
 ## 변수명 → 심화 타입(Advanced Types)
 
 C 버전의 코드는 어셈블리로 작성된 코드보다 훨씬 많은 정보를 가지고 있고, 메타언어도 더 높은 수준으로 이루어져 있습니다. 이제 우리는 반복 작성을 하거나 코드 안의 내용이 무엇인지 문서화할 필요가 없어졌습니다. 이 함수가 2개의 인자를 받아야 하며 첫 번째 인자는 질량, 두 번째 인자는 반경이라는 내용 말입니다.
@@ -83,7 +79,7 @@ let escape_velocity (Kilograms mass) (Meters radius) =
     MetersPerSecond (2.0 *. gravity_constant *. mass /. radius |> sqrt)
 ```
 
-*실은 지구로부터의 탈출 속도를 계산할 때 제 구현체에서 버그를 발견했습니다. 질량을 엉뚱한 단위로 입력하고 있었어요.*
+_실은 지구로부터의 탈출 속도를 계산할 때 제 구현체에서 버그를 발견했습니다. 질량을 엉뚱한 단위로 입력하고 있었어요._
 
 위의 코드에서 `length` 와 `mass` 는 단순한 숫자가 아니라 1급 객체(first class citizen)입니다. 덕분에 더욱 안전하고 유지보수가 용이하며 코드를 발전시키기 쉬워졌지요. 예를 들어 우리가 야드파운드법을 지원하고자 한다면(왜 그래야하는지는 모르겠지만), `mass` 타입을 이렇게 바꾸면 됩니다.
 
@@ -94,8 +90,6 @@ type mass =
 ```
 
 이러면 타입 체커가 기존 코드에서 새 단위를 적용하기 위해 수정해야 할 부분을 낱낱이 지적해줄 겁니다.
-
-
 
 ## 사용되지 않을 경우(Deprecation)와 다른 메타정보들
 
@@ -112,8 +106,6 @@ let escape_velocity = ...
 [@ocaml.deprecated "Please use `quantum_escape` instead"]
 ```
 
-
-
 ## 추가 예시
 
 지금까지 메타적 공간에 있던 많은 정보를 언어 자체에 심어주는 하나의 방법을 보여드렸습니다. 다른 예들을 보여드리겠습니다.
@@ -127,23 +119,21 @@ state = {
   data: null,
   error: null,
   loading: true,
-};
+}
 ```
 
 이 경우 `loading` 이 `false` 라면 `data` 나 `error` 중에 하나가 `null` 이 되어서는 안된다는 안내를 하려면 메타언어를 사용할 수 밖에 없습니다. 그 대신 우리는 Flow나 타입스크립트(Typescript)를 사용하여 언어 단위에서 제약을 걸 수 있습니다.
 
 ```typescript
 type State =
-  { progress: 'loading' } |
-  { progress: 'done', data: Object } |
-  { progress: 'error', error: Error };
+  | { progress: 'loading' }
+  | { progress: 'done'; data: Object }
+  | { progress: 'error'; error: Error }
 ```
 
 **리덕스(Redux)와 불변성(Immutability):** 현재는 문서, 블로그 포스트, 비디오, 컨퍼런스 발표 등에서 리덕스를 사용할 때 변수나 객체에 직접적으로 변화를 주지 않을 것을(lack of direct mutation) 전제하고 있습니다. 만약 자바스크립트가 기본적으로 불변 데이터 타입과 타입 선언(type annotations)을 제공한다면 위에서 말하는 전제를 코드에서 바로 표현할 수 있지 않을까요?
 
 **프로미스(Promises)와 옵저버블(Observables):** 자바스크립트에서 프로미스 패턴은 라이브러리에서 제공하는 기능이었지만 이제 코어 기능으로 자리잡았습니다. [옵저버블](https://github.com/tc39/proposal-observable)에도 같은 과정이 진행중입니다.
-
-
 
 ## 결론
 
@@ -151,7 +141,7 @@ type State =
 
 반드시 어딘가엔 복잡한 부분이 존재합니다. 만약 언어가 아주 단순하다면, 복잡한 부분은 메타언어에 머무르게 됩니다.
 
-참고로  [Sebastian Markbåge의 최소한의 API 표현 범위(minimal API surface area)에 관한 발표와](https://www.youtube.com/watch?v=4anAwXYqLG8), [Jared Forsyth의 타입 시스템에 대한 발표](https://www.youtube.com/watch?v=V1po0BT7kac)를 살펴보세요. 아 그리고 영화 [컨택트(Arrival, 2016)](http://movie.daum.net/moviedb/main?movieId=105570)도 꼭 보세요. 강추합니다!
+참고로 [Sebastian Markbåge의 최소한의 API 표현 범위(minimal API surface area)에 관한 발표와](https://www.youtube.com/watch?v=4anAwXYqLG8), [Jared Forsyth의 타입 시스템에 대한 발표](https://www.youtube.com/watch?v=V1po0BT7kac)를 살펴보세요. 아 그리고 영화 [컨택트(Arrival, 2016)](http://movie.daum.net/moviedb/main?movieId=105570)도 꼭 보세요. 강추합니다!
 
 ---
 
@@ -161,10 +151,10 @@ type State =
 
 ```javascript
 // explicit
-if (obj !== undefined) return obj.x;
+if (obj !== undefined) return obj.x
 
 // implicit
-if (obj) return obj.x;
+if (obj) return obj.x
 ```
 
 보고 계시는 자바스크립트 코드에서 위쪽에 제시된 코드가 평균적으로 최대 15%까지 처리 속도가 빠르다고 합니다. [DHH는 트위터에서](https://twitter.com/dhh/status/846627223176167424) '어차피 15%라고 해봤자 실제로는 몇 밀리초 이하일텐데 왜 기계에게 맞추려고 하느냐' 같은 내용의 비판을 쏟아내었지요. 코드를 어떻게 작성하실건지는 여러분의 취향에 맡기겠습니다.
