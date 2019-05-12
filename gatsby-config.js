@@ -149,5 +149,6 @@ module.exports = {
     `gatsby-plugin-sass`,
     `gatsby-plugin-lodash`,
     `gatsby-plugin-sitemap`,
+    `gatsby-plugin-netlify-cms`,
   ],
 }
