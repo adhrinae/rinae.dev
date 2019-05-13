@@ -64,7 +64,14 @@ exports.createPages = ({ graphql, actions }) => {
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions
+  const { createNodeField, createRedirect } = actions
+
+  createRedirect({
+    fromPath: `/posts/the-find-art-of-fast-development-kr-1`,
+    toPath: `/posts/the-fine-art-of-fast-development-kr-1`,
+    isPermanent: true,
+    redirectInBrowser: true,
+  })
 
   if (node.internal.type === `MarkdownRemark`) {
     const value = createFilePath({ node, getNode })
