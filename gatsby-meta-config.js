@@ -7,7 +7,7 @@ module.exports = {
   social: {
     twitter: `adhrinae`,
     github: `adhrinae`,
-    medium: `rinae`,
+    medium: `@rinae`,
     facebook: `adh.rinae`,
   },
   icon: `content/assets/milky-way.png`,
