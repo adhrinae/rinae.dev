@@ -1,7 +1,7 @@
 ---
 title: '[번역] 빠른 개발을 위한 기술 - 2'
 slug: the-fine-art-of-fast-development-kr-2
-description: 빠른 개발을 위한 방법론 번역 첫 번째
+description: 빠른 개발(이라고 쓰고 생산성 향상이라고 읽는다)을 위한 방법론 번역 두 번째
 date: 2019-05-19
 tags:
   - Reading
