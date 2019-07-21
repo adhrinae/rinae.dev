@@ -124,7 +124,7 @@ class Library {
 
 ## in 연산자를 활용한 자동 타입 추론
 
-처음 타입스크립트를 활용할 때 착각하던 부분이 있었는데, 유니언 타입의 활용 방식이었다. 예를 들어 아래와 같이 `Admin`, `User` 타입이 있다고 할 때 함수 인자의 타입을 유니언으로 지정해주면 어떤 경우에도 두 속성을 다 잘 처리해줄 줄 알았다.
+처음 타입스크립트를 사용할 때 착각하던 부분이 있었는데, 유니언 타입의 활용 방식이었다. 예를 들어 아래와 같이 `Admin`, `User` 타입이 있다고 할 때 함수 인자의 타입을 유니언으로 지정해주면 어떤 경우에도 두 속성을 다 잘 처리해줄 줄 알았다.
 
 ```ts
 interface Admin {
@@ -376,7 +376,8 @@ type ReadonlyPet =
 
 ## 자기 자신을 참조하는 타입 만들기
 
-일반적으로 타입을 정의할 때 하나의 계층, 좀 크면 두개의 계층 정도까지 생각하게 된다. 그런데 트리나 연결 리스트같은 자료구조라면 사용하기에 따라 아주 깊은 계층까지 형성될 수 있다. 그리고 참조하는 노드는 자기 자신이다.
+일반적으로 타입을 정의할 때 하나의 계층, 좀 크면 두개의 계층 정도까지 생각하게 된다.  
+그런데 트리나 연결 리스트같은 자료구조라면 사용하기에 따라 아주 깊은 계층까지 형성될 수 있다. 그리고 참조하는 노드의 구조(타입)은 동일하다.
 
 ```ts
 interface TreeNode<T> {
@@ -508,7 +509,7 @@ let actionNode4: ListNode<Action> = {
 actionNode3.next = actionNode4
 ```
 
-아까 만들어둔 이터레이터를 이용한다면 `next` 메서드 호출 뿐 아니라 `for..of`, 전개 연산자같이 이터러블 프로토콜을 사용하는 조작은 모두 사용할 수 있다. 다만 컴파일 할때는 타겟을 ES6 이상으로 해 주어야 한다. 하위 호환성을 챙기려면 바벨과 함께 사용해주어야 할 것이다.
+아까 만들어둔 이터레이터를 이용한다면 `next` 메서드 호출 뿐 아니라 `for..of`, 전개 연산자같이 이터러블 프로토콜을 사용하는 조작은 모두 사용할 수 있다. 다만 컴파일 할때는 타겟을 ES6 이상으로 해 주어야 한다. 하위 호환성을 챙기려면 바벨과 함께 사용해야 한다.
 
 ```ts
 const backwardActionsList = new BackwardActionIterator(actionNode4)
@@ -541,26 +542,26 @@ for (const action of backwardActionsList) {
 
 ```ts
 interface StringContainer {
-  value: string;
-  format(): string;
-  split(): string[];
+  value: string
+  format(): string
+  split(): string[]
 }
 
 interface NumberContainer {
-  value: number;
-  nearestPrime: number;
-  round(): number;
+  value: number
+  nearestPrime: number
+  round(): number
 }
 
 interface Item<T> {
-  id: T;
-  container: T extends string ? StringContainer : NumberContainer;
+  id: T
+  container: T extends string ? StringContainer : NumberContainer
 }
 
 let item: Item<string> = {
   id: "a23d",
   container: null
-};
+}
 
 item.container.
 // 여기까지 찍어보면 타입스크립트 개발 환경에서는 StringContainer 타입에 맞는 자동완성이 나온다.
@@ -640,9 +641,10 @@ type NumbersArrayFlattened = FlattenArray<typeof someNumbers> // -> number
 type SomeObjectFlattened = FlattenObject<typeof someObject> // -> number | string
 ```
 
-`FlattenArray`, `FlattenObject` 가 비슷해보이지만 본질적으로 다른 이유는 JS의 배열도 일종의 객체지만 key를 `number` 타입으로만 쓰는 특수한 객체라는 것이다. 만약에 `FlattenObject<typeof someNumbers>` 타입을 만들어보고 무슨 타입이 나오는지 확인해보면, 배열에서 쓸 수 있는 모든 메서드의 타입이 유니언 타입으로 잡힐 것이다.
+`FlattenArray`, `FlattenObject` 가 비슷해보이지만 본질적으로 다른 이유는 JS의 배열도 일종의 객체지만 key를 `number` 타입으로만 쓰는 특수한 객체라는 것이다.  
+만약에 `FlattenObject<typeof someNumbers>` 타입을 만들어보고 무슨 타입이 나오는지 확인해보면, 배열 안에 있는 요소 뿐 아니라 배열에서 쓸 수 있는 모든 메서드의 타입의 모음이 유니언 타입으로 나타날 것이다.
 
-정말 만약의 경우지만 `SomeBooleanFlattened` 같은 타입이 필요할 때는 어떻게 해야할까? 위의 두 가지 방법은 쓸 수가 없다. 그냥 자기 자신을 리턴하게만 만들면 되기 때문이다.
+정말 만일의 경우지만 `SomeBooleanFlattened` 같은 타입이 필요할 때는 어떻게 해야할까? 위의 두 가지 방법은 쓸 수가 없다. 그냥 자기 자신을 리턴하게만 만들면 되기 때문이다.
 
 여기까지 이야기했음에도 소제목과 다르게 조건부 타입에 대한 이야기가 나오지 않았지만, 슬슬 조건부 타입이 등장할 차례가 되었다. 조건부 타입을 활용하면 저 3가지 조건을 모두 충족하는 타입 `Flatten` 하나를 만들 수 있다.
 
@@ -708,7 +710,7 @@ function lookupEntity(id: Id) {
 }
 ```
 
-다른 사용 예로 프로미스(Promise) 객체 안에 있는 값의 타입을 편하게 꺼내려 할 때도 `infer` 키워드를 사용하면 런타임에서 결정되는 타입을 손쉽게 정의할 수 있다.
+다른 사용 예로 프라미스(Promise) 객체 안에 있는 값의 타입을 편하게 꺼내려 할 때도 `infer` 키워드를 사용하면 런타임에서 결정되는 타입을 손쉽게 정의할 수 있다.
 
 ```ts
 type UnpackPromiseArray<P> = P extends Promise<infer K>[] ? K : any
@@ -728,15 +730,15 @@ type ExpectedBoolean = UnpackPromiseArray<typeof arr> // -> boolean
  */
 export type Handler<S, P> = (state: S, payload: P) => S
 type Payload<H> = H extends (s: any) => any
-  ? undefined // 페이로드가 인자에 포함되지 않은 경우 // `H` 타입이 `Handler` 타입이 아닌 경우 에러를 표시한다
-  : H extends Handler<any, infer Payload>
+  ? undefined // 페이로드가 인자에 포함되지 않은 경우
+  : H extends Handler<any, infer Payload> // `H` 타입이 `Handler` 타입이 아닌 경우 에러를 표시한다
   ? Payload
   : never
 ```
 
 ## 중첩된 객체의 모든 속성을 read-only 타입으로 만들기
 
-리덕스(Redux)를 사용하다 보면 `state` 는 이뮤터블이어야 한다. 그렇다면 같이 일하는 팀원이나 내가 만든 리덕스 관련 라이브러리를 사용하는 사람이 이 값을 실수로 재할당하는 일이 없었으면 좋을 것이다. (물론 타입스크립트 사용자여야겠지만)
+리덕스(Redux)를 사용하다 보면 `state` 는 불변(이뮤터블) 객체여야 한다. 그렇다면 같이 일하는 팀원이나 내가 만든 리덕스 관련 라이브러리를 사용하는 사람이 이 값을 실수로 재할당하는 일이 없으면 좋을 것이다. (물론 타입스크립트 사용자여야겠지만)
 
 아래 예제와 같이 타입 및 리듀서가 정의되어 있다고 하자. 지금 상태에서는 사용자가 코드 아랫부분같이 직접 객체를 변경해도 타입스크립트가 아무런 경고를 표시하지 않는다.
 
