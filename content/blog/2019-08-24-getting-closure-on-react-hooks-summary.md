@@ -31,7 +31,7 @@ React Hook(이하 훅) 에 대한 간단한 소개(리액트 문서를 보라고
 
 그리고 본 발표의 메인 주제 중 하나인 클로저(Closures)를 간단히 되짚어보았다. 클로저를 이해하고 있지 못하다면 다양한 설명 글이 있지만, ['속 깊은 자바스크립트' 책의 설명](https://unikys.tistory.com/309)을 추천하고 싶다. [이 글](https://meetup.toast.com/posts/86)도 괜찮다.
 
-> *"[Closure] makes it possible for a function to have "private" variables"* - W3Schools  
+> _"[Closure] makes it possible for a function to have "private" variables"_ - W3Schools
 
 이 구절이 W3Schools가 유일하게 유익한 부분이었다고 한다. 왜 그런지는 [W3Schools의 악명](https://qr.ae/TWr0iO)에 대해 들어본 사람이라면 알 것이다. 혹시 몰랐다면 지금이라도 필요한 검색 결과를 W3Schools에서 보기보다 [MDN](https://developer.mozilla.org/ko/)에서 살펴보기를 권한다.
 
@@ -43,18 +43,18 @@ React Hook(이하 훅) 에 대한 간단한 소개(리액트 문서를 보라고
 
 ```js
 function getAdd() {
-  let foo = 1;
+  let foo = 1
   return function() {
-    foo += 1;
-    return foo;
-  };
+    foo += 1
+    return foo
+  }
 }
 
-const add = getAdd();
-console.log(add()); // 2
-console.log(add()); // 3
-console.log(add()); // 4
-console.log(add()); // 5
+const add = getAdd()
+console.log(add()) // 2
+console.log(add()) // 3
+console.log(add()) // 4
+console.log(add()) // 5
 ```
 
 ### useState 만들기
@@ -63,93 +63,93 @@ console.log(add()); // 5
 
 ```js
 function useState(initVal) {
-  let _val = initVal;
-  const state = _val;
+  let _val = initVal
+  const state = _val
   const setState = newVal => {
-    _val = newVal;
-  };
-  return [state, setState];
+    _val = newVal
+  }
+  return [state, setState]
 }
 
-const [count, setCount] = useState(1);
-console.log(count); // 1
-setCount(2);
-console.log(count); // 1 (?)
+const [count, setCount] = useState(1)
+console.log(count) // 1
+setCount(2)
+console.log(count) // 1 (?)
 ```
 
-하지만 아직 count의 값 변화는 우리가 리액트를 쓸 때처럼 즉각적으로 바뀌지 않는다.  `count` 는 한번 가져오고 끝난 값이기 때문이다. 만약에 `const state = _val` 부분을 함수 형태로 바꾸어 주고, 값을 쓰는게 아니라 호출해주는 식으로 바꾼다면 호출할 때마다 값을 가져오기 때문에 `setCount` 가 반영된 값을 가져올 수 있다.
+하지만 아직 count의 값 변화는 우리가 리액트를 쓸 때처럼 즉각적으로 바뀌지 않는다. `count` 는 한번 가져오고 끝난 값이기 때문이다. 만약에 `const state = _val` 부분을 함수 형태로 바꾸어 주고, 값을 쓰는게 아니라 호출해주는 식으로 바꾼다면 호출할 때마다 값을 가져오기 때문에 `setCount` 가 반영된 값을 가져올 수 있다.
 
 ```js
 // useState 안에서
 // ...
-  const state = () => _val;
+const state = () => _val
 // ...
 
-const [count, setCount] = useState(1);
-console.log(count()); // 1
-setCount(2);
-console.log(count()); // 2
+const [count, setCount] = useState(1)
+console.log(count()) // 1
+setCount(2)
+console.log(count()) // 2
 ```
 
 ### 컴포넌트에 붙여보기
 
 이런 원리를 사용해서 미니 리액트를 만들어보자. 모듈 패턴을 이용하여 `React` 라는 네임스페이스에 아까 만들어놨던 `useState` 를 집어넣고 사용해보기로 한다. 그리고 DOM을 사용하는 것은 아니지만 가상의 컴포넌트를 만들어 `useState` 훅을 가져다 쓰는 시나리오를 만들어본다.
 
-가상의 컴포넌트를 랜더링하는 행위는 `render` 라는 함수로 대체하기로 한다.  
+가상의 컴포넌트를 랜더링하는 행위는 `render` 라는 함수로 대체하기로 한다.
 
 ```js
 const React = (function() {
   function useState(initVal) {
-    let _val = initVal;
-    const state = _val;
+    let _val = initVal
+    const state = _val
     const setState = newVal => {
-      _val = newVal;
-    };
-    return [state, setState];
+      _val = newVal
+    }
+    return [state, setState]
   }
 
   function render(Component) {
-    const C = Component();
-    C.render();
-    return C;
+    const C = Component()
+    C.render()
+    return C
   }
 
-  return {useState, render};
-})();
+  return { useState, render }
+})()
 
 function Component() {
-  const [count, setCount] = React.useState(1);
+  const [count, setCount] = React.useState(1)
   return {
     render: () => console.log(count),
     click: () => setCount(count + 1),
-  };
+  }
 }
 
 // 아직까진 중간 과정이므로 제대로 동작하지 않는다.
-var App = React.render(Component);
+var App = React.render(Component)
 App.click()
-var App = React.render(Component);
+var App = React.render(Component)
 ```
 
-여기서 `count` 가 제대로 동작하게 만들기 위해 `_val` 로 쓰고 있던 변수를 `React` 내부로 끌어올려본다. 그러면 랜더링 이후 클릭을 해도 잘 동작한다. 
+여기서 `count` 가 제대로 동작하게 만들기 위해 `_val` 로 쓰고 있던 변수를 `React` 내부로 끌어올려본다. 그러면 랜더링 이후 클릭을 해도 잘 동작한다.
 
 ```js
 const React = (function() {
-  let _val;
+  let _val
   function useState(initVal) {
-    const state = _val || initVal;
+    const state = _val || initVal
     // ...
   }
   // ...
-})();
+})()
 
-var App = React.render(Component); // 1
+var App = React.render(Component) // 1
 App.click()
-var App = React.render(Component); // 2
+var App = React.render(Component) // 2
 App.click()
-var App = React.render(Component); // 3
+var App = React.render(Component) // 3
 App.click()
-var App = React.render(Component); // 4
+var App = React.render(Component) // 4
 ```
 
 ### 여러 개의 훅을 사용하기
@@ -158,47 +158,47 @@ var App = React.render(Component); // 4
 
 ```js
 function Component() {
-  const [count, setCount] = React.useState(1);
-  const [text, setText] = React.useState('apple');
+  const [count, setCount] = React.useState(1)
+  const [text, setText] = React.useState('apple')
   return {
-    render: () => console.log({count, text}),
+    render: () => console.log({ count, text }),
     click: () => setCount(count + 1),
     type: word => setText(word),
-  };
+  }
 }
 
-var App = React.render(Component); // {count: 1, text: 'apple'}
+var App = React.render(Component) // {count: 1, text: 'apple'}
 App.click()
-var App = React.render(Component); // {count: 2, text: 2}
+var App = React.render(Component) // {count: 2, text: 2}
 App.type('banana')
-var App = React.render(Component); // {count: 'banana', text: 'banana'}
+var App = React.render(Component) // {count: 'banana', text: 'banana'}
 ```
 
 보다시피 중간에 값이 덮어씌워지게 된다. 이 값을 좀 더 손쉽게 관리하려면 각 값 별로 배열에 담아 다루면 된다. 훅을 담아 둔 배열과 현재 어떤 훅이 어떤 인덱스를 바라보고 있는지 관리해주는 약간의 요령이 필요하다.
 
 ```js
 const React = (function() {
-  let hooks = [];
-  let idx = 0;
+  let hooks = []
+  let idx = 0
   function useState(initVal) {
-    const state = hooks[idx] || initVal;
-    const _idx = idx; // 이 훅이 사용해야 하는 인덱스를 가둬둔다.
+    const state = hooks[idx] || initVal
+    const _idx = idx // 이 훅이 사용해야 하는 인덱스를 가둬둔다.
     const setState = newVal => {
-      hooks[_idx] = newVal;
-    };
-    idx++; // 다음 훅은 다른 인덱스를 사용하도록 한다.
-    return [state, setState];
+      hooks[_idx] = newVal
+    }
+    idx++ // 다음 훅은 다른 인덱스를 사용하도록 한다.
+    return [state, setState]
   }
 
   function render(Component) {
-    idx = 0; // 랜더링 시 훅의 인덱스를 초기화한다.
-    const C = Component();
-    C.render();
-    return C;
+    idx = 0 // 랜더링 시 훅의 인덱스를 초기화한다.
+    const C = Component()
+    C.render()
+    return C
   }
 
-  return {useState, render};
-})();
+  return { useState, render }
+})()
 ```
 
 이런 원리로 훅을 관리하고 있다면 공식 문서에 있는 [훅의 규칙](https://ko.reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level)이 왜 있는지 깨닫게 된다. 조건부로 훅이 호출되거나 루프 안에서 훅이 호출되어야 하는 경우 등이 있다면 인덱스의 순서를 보장할 수 없고, 상태의 관리도 보장할 수 없게 된다. 여담이지만 만약 조건부로 훅을 호출하는 방법을 고민중이라면, [이 글](https://inventingwithmonster.io/20190207-break-the-rules-of-react-hooks/)이 약간이나마 도움이 되리라 생각한다.
@@ -209,14 +209,14 @@ const React = (function() {
 
 ```js
 function Component() {
-  const [count, setCount] = React.useState(1);
-  const [text, setText] = React.useState('apple');
+  const [count, setCount] = React.useState(1)
+  const [text, setText] = React.useState('apple')
 
   // 랜더링 시 최초에 한 번만 실행된다.
   // 배열 안에 관찰하고자 하는 상태를 전달하면 그 상태에 반응하여 콜백이 실행된다.
   React.useEffect(() => {
-    console.log('side effect');
-  }, []);
+    console.log('side effect')
+  }, [])
   // ...
 }
 ```
@@ -225,20 +225,20 @@ function Component() {
 
 ```js
 function useEffect(cb, depArray) {
-  const oldDeps = hooks[idx]; // 이미 저장되어있던 의존 값 배열이 있는지 본다.
-  let hasChanged = true;
+  const oldDeps = hooks[idx] // 이미 저장되어있던 의존 값 배열이 있는지 본다.
+  let hasChanged = true
   if (oldDeps) {
     // 의존 값 배열의 값 중에서 차이가 발생했는지 확인한다.
     // 실제로 리액트 구현체도 `Object.is` 로 값을 비교한다. 정확한 동작은 MDN 참고.
-    hasChanged = depArray.some((dep, i) => !Object.is(dep, oldDeps[i]));
+    hasChanged = depArray.some((dep, i) => !Object.is(dep, oldDeps[i]))
   }
   // 값이 바뀌었으니 콜백을 실행한다.
   if (hasChanged) {
-    cb();
+    cb()
   }
   // useEffect도 훅의 일부분이다. hooks 배열에 넣어서 관리해준다.
-  hooks[idx] = depArray;
-  idx++;
+  hooks[idx] = depArray
+  idx++
 }
 ```
 
