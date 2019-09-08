@@ -8,9 +8,18 @@
   transition: text-shadow 0.3s, opacity 0.4s;
   opacity: 0;
 
-  p {
+  article {
     font-size: 90%;
     line-height: 1.4;
+    color: $middle-gray;
+
+    *:first-of-type {
+      margin-top: 1rem;
+    }
+
+    a {
+      color: inherit;
+    }
   }
 }
 

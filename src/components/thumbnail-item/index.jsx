@@ -12,13 +12,15 @@ export const ThumbnailItem = ({ node }) => {
 
   return (
     <Link className={`thumbnail ${TARGET_CLASS}`} to={path}>
-      <div key={path}>
+      <article key={path}>
         <h3>
           {node.frontmatter.title}
-          <time className="thumbnail-date" dateTime={date}>{date}</time>
+          <time className="thumbnail-date" dateTime={date}>
+            {date}
+          </time>
         </h3>
-        <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-      </div>
+        <article dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+      </article>
     </Link>
   )
 }
