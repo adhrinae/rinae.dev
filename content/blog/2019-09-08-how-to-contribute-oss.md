@@ -1,7 +1,7 @@
 ---
 title: 차근차근 오픈소스에 기여해보기 (동기부여 편)
 slug: how-to-contribute-oss
-date: 2019-09-06
+date: 2019-09-08
 tags:
   - OSS
 description: '오픈소스 프로젝트에 기여하는 첫 걸음을 떼는 데 도움이 되는 글을 써 봤습니다'
