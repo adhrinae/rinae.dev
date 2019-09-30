@@ -4,10 +4,6 @@ slug: this-month-i-learned-05
 date: 2019-06-01
 tags:
   - TIL
-  - React
-  - Web Fundamental
-  - Programming
-  - OSS
 description: '2019년 5월동안 익혔던 / 읽었던 것들 정리'
 ---
 

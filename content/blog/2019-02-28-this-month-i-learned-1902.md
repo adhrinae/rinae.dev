@@ -5,11 +5,6 @@ title: 'This Month I Learned - 2019년 2월'
 category: 'This Month I Learned'
 tags:
   - TIL
-  - Learning
-  - Reading
-  - Programming
-  - React
-  - CSS
 description: '2019년 2월동안 익혔던 / 읽었던 것들 정리'
 ---
 ## 읽을거리 - 일반

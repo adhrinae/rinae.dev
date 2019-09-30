@@ -5,10 +5,6 @@ title: 'This Month I Learned - 2019년 1월'
 category: 'This Month I Learned'
 tags:
   - TIL
-  - Learning
-  - Reading
-  - Programming
-  - React
 description: '2019년 1월동안 익혔던 / 읽었던 것들 정리'
 ---
 

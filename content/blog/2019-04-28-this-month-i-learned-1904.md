@@ -3,9 +3,6 @@ title: This Month I Learned - 2019년 4월
 date: 2019-04-28
 tags:
   - TIL
-  - React
-  - Reading
-  - Programming
 description: '2019년 4월동안 익혔던 / 읽었던 것들 정리'
 ---
 

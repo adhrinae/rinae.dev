@@ -4,9 +4,6 @@ slug: this-month-i-learned-1908
 date: 2019-08-31
 tags:
   - TIL
-  - React
-  - Typescript
-  - Reading
 description: '2019년 8월동안 익혔던 / 읽었던 것들 정리'
 ---
 

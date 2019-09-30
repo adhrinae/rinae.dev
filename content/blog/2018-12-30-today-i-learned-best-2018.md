@@ -5,9 +5,6 @@ title: 'Today I Learned - 2018년 Best of Best'
 category: 'Today I Learned'
 tags:
   - TIL
-  - Learning
-  - Reading
-  - Programming
 description: '2018년 Today I Learned 중 인상깊었던 내용을 선별해봤습니다'
 ---
 
