@@ -45,9 +45,9 @@ export const Layout = ({ location, title, children }) => {
   }, [])
 
   useEffect(() => {
-    const checked = Dom.hasClassOfBody(THEME.DARK)
+    const isDarkMode = themeSwitchChecked
 
-    handleThemeChange(checked)
+    handleThemeChange(isDarkMode)
   }, [])
 
   return (
