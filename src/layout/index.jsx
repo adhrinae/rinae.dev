@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useLayoutEffect } from 'react'
 
 import { THEME } from '../constants'
 import { Top } from '../components/top'
@@ -44,7 +44,7 @@ export const Layout = ({ location, title, children }) => {
     Storage.setTheme(nextTheme)
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const isDarkMode = themeSwitchChecked
 
     handleThemeChange(isDarkMode)
