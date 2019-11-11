@@ -10,13 +10,6 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.post-container {
-  img {
-    display: block;
-    margin: 2rem auto;
-  }
-}
-
 .post-title > time {
   float: right;
   font-size: 1.5rem;
