@@ -10,9 +10,9 @@ description: Dan Abramov의 'A Complete Guide to useEffect 번역'
 
 ## 번역 서문
 
-이 글은 [Dan Abramov가 작성한 'A Complete Guide to useEffect'](https://overreacted.io/a-complete-guide-to-useeffect/)의 번역문입니다. 현재 원본 저장소에 PR을 올려둔 상태이지만 머지되는데까지 시간이 걸리는 것을 감안하여 제 개인 블로그에도 공개합니다.
+이 글은 [Dan Abramov가 작성한 'A Complete Guide to useEffect'](https://overreacted.io/a-complete-guide-to-useeffect/)의 번역문입니다.
 
-머지 완료되는대로 overreacted.io 링크도 첨부하겠습니다.
+[원본 블로그에서 같은 내용의 번역문을 보실 수 있습니다.](https://overreacted.io/ko/a-complete-guide-to-useeffect/)
 
 번역에 대한 지적이나 의견이 있으시면 언제든지 댓글로 알려주시면 확인 후 반영하겠습니다.
 
