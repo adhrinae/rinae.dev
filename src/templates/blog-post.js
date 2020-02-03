@@ -24,7 +24,7 @@ export default ({ data, pageContext, location }) => {
 
   const post = data.markdownRemark
   const metaData = data.site.siteMetadata
-  const { title, comment, author, sponsor } = metaData
+  const { title, comment, author, sponsor, social } = metaData
   const { utterances } = comment
   const [date, path] = divideDateAndPath(post.fields.slug)
 
@@ -43,7 +43,11 @@ export default ({ data, pageContext, location }) => {
       />
       <PostTitle title={post.frontmatter.title} date={date} />
       <PostContainer html={post.html} />
-      <SocialShare title={post.frontmatter.title} author={author} />
+      <SocialShare
+        title={post.frontmatter.title}
+        authorName={author}
+        twitter={social.twitter}
+      />
       {!!sponsor.buyMeACoffeeId && (
         <SponsorButton sponsorId={sponsor.buyMeACoffeeId} />
       )}
@@ -68,6 +72,9 @@ export const pageQuery = graphql`
         }
         sponsor {
           buyMeACoffeeId
+        }
+        social {
+          twitter
         }
       }
     }
