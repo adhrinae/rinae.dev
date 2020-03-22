@@ -34,7 +34,7 @@
     "gatsby-transformer-sharp": "^2.3.19",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.15",
-    "netlify-cms-app": "^2.9.7",
+    "netlify-cms-app": "^2.11.29",
     "node-sass": "^4.13.1",
     "prismjs": "^1.17.1",
     "react": "^16.11.0",
