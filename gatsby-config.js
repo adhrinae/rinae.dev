@@ -49,9 +49,10 @@ module.exports = {
           },
           `gatsby-remark-code-titles`,
           {
-            resolve: `gatsby-remark-prismjs`,
+            resolve: `gatsby-remark-vscode`,
             options: {
-              inlineCodeMarker: '%',
+              theme: 'Night Owl',
+              extensions: ['night-owl'],
             },
           },
           `gatsby-remark-copy-linked-files`,
