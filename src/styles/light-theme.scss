@@ -63,6 +63,11 @@ body.light {
   }
 
   // post
+
+  strong {
+    color: lightslategray;
+  }
+
   .navigator {
     a {
       background-color: $navigator-background-color;
