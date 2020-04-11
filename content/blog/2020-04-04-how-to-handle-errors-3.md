@@ -11,7 +11,8 @@ coverImageUrl: https://images.unsplash.com/photo-1515674447568-09bbb507b96c?ixli
 description: React + Hooks + MST(mobx-state-tree) 사용 시 데이터와 UI 결합 에 대한 고민 및 아이디어
 ---
 
-[(OpenGraph 커버 이미지 출처 - Unsplash @franckinjapan)](https://unsplash.com/photos/Xlx80tr5bEE)
+[(OpenGraph 커버 이미지 출처 - Unsplash @franckinjapan)](https://unsplash.com/photos/Xlx80tr5bEE)  
+**2020/04/11 추가:** Codesandbox 임베딩이 접속에 문제를 일으키는 것 같아 직접 링크로 대체했습니다.
 
 **부제: React + Hooks + MST(mobx-state-tree) 사용 시 데이터와 UI 결합 에 대한 고민 및 아이디어**
 
@@ -91,13 +92,7 @@ export default function App() {
 }
 ```
 
-<iframe
-     src="https://codesandbox.io/embed/handling-error-1-btt2h?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="handling-error-1"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-></iframe>
+[컴포넌트에서 에러 상태를 관리하는 예](https://codesandbox.io/s/handling-error-1-btt2h)
 
 에러를 컴포넌트에게 전달하는 다양한 방법이 있겠지만, 일단 [이전에 작성했었던 글](https://rinae.dev/posts/how-to-handle-errors-1) 대로 `[Success, Failure]` 튜플 형태로 API 요청 결과를 리턴하도록 만들고 그에 따라 에러를 표시했습니다. (위에서 Golang 스타일이 별로라고 언급했던 것은 가볍게 넘어가줍니다.)
 
@@ -207,13 +202,7 @@ export default function App() {
 }
 ```
 
-<iframe
-     src="https://codesandbox.io/embed/handling-error-2-bekqo?autoresize=1&fontsize=14&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="handling-error-2"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-></iframe>
+[상태 컨테이너에서 에러 상태를 관리하는 예](https://codesandbox.io/s/handling-error-2-bekqo?file=/src/App.tsx)
 
 컴포넌트가 어차피 `AppStore` 를 가져와 스토어 안의 값을 쓰고 있으니, 여기서 비동기 액션들의 로딩, 에러 상태도 함께 관리하도록 만들었습니다. 데이터를 불러오는 과정의 시작부터 끝까지 필요한 상태를 상태 스토어가 관리할 필요가 있다고 상정한 뒤 나온 결과물이죠.
 여기까지 의식의 흐름을 이어가고 나니, 이전에 회사 동료분이 만들어놓은 조합용 스토어가 있다는 사실을 떠올랐습니다. `LoadingStore` 라고 하는데, 아래와 같이 구현되어 있습니다.
@@ -385,13 +374,7 @@ export function getFlowWrapper(self: IFetchingStore) {
 }
 ```
 
-<iframe
-     src="https://codesandbox.io/embed/handling-error-3-u0n9m?autoresize=1&fontsize=14&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="handling-error-3"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-></iframe>
+[다른 상태 컨테이너와 결한 가능한 FetchingStore 를 구현하고 활용한 예](https://codesandbox.io/s/handling-error-3-u0n9m)
 
 대체적으로 머리를 싸매던 문제는 해결되었지만, 아직 명료하지 않은 문제가 남아 있는데, 바로 경합 조건에 대한 문제입니다. 만약 제가 어떤 페이지에 진입하여 3가지 요청을 동시에 했는데 백엔드 서버에 이상이 생겨서 3가지 요청 모두 에러가 발생했거나, 혹은 인증 토큰에 문제가 생겨서 요청 중 2개가 에러가 났을 경우, 이 때 UI는 어떤 식으로 처리되는게 가장 사용자에게 안정적인 형태로 보여질까요?
 
@@ -399,15 +382,9 @@ export function getFlowWrapper(self: IFetchingStore) {
 
 또한 `FetchingStore` 의 전신인 `LoadingStore` 부터 시작된 문제이지만, 어떤 액션의 상태를 담아두고 체크하기 위한 key 는 문자열로만 이루어져 있으며, 이 문자열에 대한 타입을 보장하는 것이 깔끔하지 못합니다. 이는 MST의 '런타임 모델 타입 정의를 먼저 선언하는 개념' 때문에 겪는 문제입니다.
 
-타입스크립트의 도움을 받아 예제 코드와 같은 방식으로 액션의 처리 상태를 관리하고 싶다면, 사용할 액션들의 이름을 스토어 파일 안에서 `enum` 으로 선언해두고 그것만 쓰도록 강제하는 규약을 설정하는 것도 괜찮다고 봅니다. 아래의 예는 이런 고민거리를 정리하여 두개의 스토어에서 데이터를 다루고, 로딩 및 에러 상태를 컨트롤하는 법을 나름 설정해본 규약에 따라 정리해본 것입니다. (직접 codesandbox를 열어 보시는것을 권장합니다.)
+타입스크립트의 도움을 받아 예제 코드와 같은 방식으로 액션의 처리 상태를 관리하고 싶다면, 사용할 액션들의 이름을 스토어 파일 안에서 `enum` 으로 선언해두고 그것만 쓰도록 강제하는 규약을 설정하는 것도 괜찮다고 봅니다. 아래의 예는 이런 고민거리를 정리하여 두개의 스토어에서 데이터를 다루고, 로딩 및 에러 상태를 컨트롤하는 법을 나름 설정해본 규약에 따라 정리해본 것입니다.
 
-<iframe
-     src="https://codesandbox.io/embed/handling-error-4-nmusj?autoresize=1&fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="handling-error-4"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-></iframe>
+[위의 구현들을 적절히 활용하는 예](https://codesandbox.io/s/handling-error-4-nmusj)
 
 컴포넌트나 개별 스토어에서 직접 에러를 다루고 싶다면 `FetchingStore` 하단의 `getFlowWrapper` 함수에 있는 `catch` 블록에서 에러를 그대로 받아 `throw` 시켜주면 됩니다.
 
