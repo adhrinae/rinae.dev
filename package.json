@@ -34,7 +34,7 @@
     "gatsby-transformer-sharp": "^2.4.4",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.15",
-    "netlify-cms-app": "^2.11.29",
+    "netlify-cms-app": "^2.12.4",
     "night-owl": "sdras/night-owl-vscode-theme",
     "node-sass": "^4.13.1",
     "prismjs": "^1.19.0",
