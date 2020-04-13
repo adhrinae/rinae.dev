@@ -8,14 +8,14 @@
     "url": "https://github.com/adhrinae/rinae.dev/issues"
   },
   "dependencies": {
-    "gatsby": "^2.20.13",
+    "gatsby": "^2.20.17",
     "gatsby-image": "^2.3.2",
     "gatsby-plugin-feed": "^2.3.29",
     "gatsby-plugin-google-analytics": "^2.1.38",
     "gatsby-plugin-lodash": "^3.1.22",
     "gatsby-plugin-manifest": "^2.2.48",
     "gatsby-plugin-netlify-cms": "^4.1.43",
-    "gatsby-plugin-react-helmet": "^3.1.24",
+    "gatsby-plugin-react-helmet": "^3.2.2",
     "gatsby-plugin-sass": "^2.1.31",
     "gatsby-plugin-sharp": "^2.5.4",
     "gatsby-plugin-sitemap": "^2.2.30",
