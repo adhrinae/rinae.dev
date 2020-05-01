@@ -48,7 +48,8 @@
     "typeface-montserrat": "0.0.75",
     "typeface-noto-sans-kr": "0.0.63",
     "typography": "^0.16.17",
-    "typography-theme-github": "^0.16.18"
+    "typography-theme-github": "^0.16.18",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "date-fns": "^2.6.0",
@@ -84,6 +85,9 @@
     "start": "npm run develop",
     "build": "gatsby build",
     "lh": "lighthousebot",
-    "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js"
-  }
+    "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
+  },
+  "snyk": true
 }
