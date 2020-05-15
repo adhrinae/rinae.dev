@@ -865,7 +865,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.9.2":
+"@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
   version "7.9.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
   integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
@@ -6684,6 +6684,15 @@ gatsby-core-utils@^1.2.0:
     configstore "^5.0.1"
     node-object-hash "^2.0.0"
 
+gatsby-core-utils@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-1.2.2.tgz#19ad6e3917e4748333d952a04ec30ade02fe81fd"
+  integrity sha512-EdVUq0K7C9t32V7wndldUmUGzZp8EwU8gNMc1dtI1whyDUaUuZa6zlkbkpJwbwhPhRHdao5zhvHJXydhgzTEog==
+  dependencies:
+    ci-info "2.0.0"
+    configstore "^5.0.1"
+    node-object-hash "^2.0.0"
+
 gatsby-graphiql-explorer@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/gatsby-graphiql-explorer/-/gatsby-graphiql-explorer-0.4.0.tgz#1efe626ba7406f0f39784d0d971e3d27b305644c"
@@ -6751,13 +6760,13 @@ gatsby-plugin-lodash@^3.2.4:
     babel-plugin-lodash "^3.3.4"
     lodash-webpack-plugin "^0.11.5"
 
-gatsby-plugin-manifest@^2.3.6:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.4.1.tgz#57381d3cc2d3b8aaa0d40bfcb7595323490f8708"
-  integrity sha512-OdpqwRdhJJn/BtwWBqRbNllIbNAFAHF1ntkZQqi7LvvaUeSdeKewi7IhYRab6O/fAZ5oQsLq1DWVjpyLEt0czg==
+gatsby-plugin-manifest@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.4.3.tgz#7d6e25609a59ba2ae8abc9881fa8abbc44e44d79"
+  integrity sha512-uljlo8edIknqTL/AaNi1wU/ESFigxGIXqy6H9B7lGcT99zOaApSEGLnJ9IQnZjISOjmgEcxabKtIJt6lpx7qqg==
   dependencies:
-    "@babel/runtime" "^7.9.2"
-    gatsby-core-utils "^1.2.0"
+    "@babel/runtime" "^7.9.6"
+    gatsby-core-utils "^1.2.2"
     semver "^5.7.1"
     sharp "^0.25.1"
 
@@ -6963,15 +6972,15 @@ gatsby-remark-emoji@0.0.3:
     bluebird "^3.5.0"
     emojione "^3.1.2"
 
-gatsby-remark-images@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-3.3.0.tgz#1ce581c13043feda315b5cd9029a76600044d59c"
-  integrity sha512-I60o3Mfc51yk8hPDD0J3pR883fuvy3VN9Eba8U8EkQDH71wjeu3leoF9ReRDfg6StYIRW+xug7OZyjCfdvvz5w==
+gatsby-remark-images@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-3.3.3.tgz#1a11db8a9f6c27e84e0decd370a31b5d47f84f3d"
+  integrity sha512-AfIhf4bA+isV7uSJxsx0IVKoeVJrFTLjbumdh27P54YGKp8eQLsex0UlPZWB3RCvGBnWmYJmPvnMVjyPMpHFRw==
   dependencies:
-    "@babel/runtime" "^7.9.2"
+    "@babel/runtime" "^7.9.6"
     chalk "^2.4.2"
     cheerio "^1.0.0-rc.3"
-    gatsby-core-utils "^1.2.0"
+    gatsby-core-utils "^1.2.2"
     is-relative-url "^3.0.0"
     lodash "^4.17.15"
     mdast-util-definitions "^1.2.5"
