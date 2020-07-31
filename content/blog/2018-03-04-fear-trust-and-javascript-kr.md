@@ -176,7 +176,7 @@ function formatDocument(doc: Document, source: String): void {
 }
 ```
 
-```flow
+```typescript
 function formatDocument(doc: Document, source: String): void {
   if (doc.creationDate) {
     doc.creationDate = convertTimeToUtc(doc.creationDate)
