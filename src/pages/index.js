@@ -49,7 +49,7 @@ export default ({ data, location }) => {
       _.flow(
         _.reduce((tags, post) => tags.concat(post.node.frontmatter.tags), []),
         _.groupBy(_.identity),
-        _.sortBy(tag => tag.length),
+        _.sortBy((tag) => tag.length),
         _.reverse,
         _.flatten,
         _.uniq
@@ -77,7 +77,7 @@ export default ({ data, location }) => {
     setDestScrollPos(DEST_POS + convertRemToPx(rhythm(1)))
   })
 
-  const selectTag = tag => {
+  const selectTag = (tag) => {
     setTag(tag)
     ScrollManager.go(destScrollPos)
   }
@@ -88,7 +88,7 @@ export default ({ data, location }) => {
     const doesNeedMore = () =>
       posts.length > countRef.current * countOfInitialPost
 
-    return EventManager.toFit(() => setCount(prev => prev + 1), {
+    return EventManager.toFit(() => setCount((prev) => prev + 1), {
       dismissCondition: () => !isTriggerPos(),
       triggerCondition: () => isTriggerPos() && doesNeedMore(),
     })()
