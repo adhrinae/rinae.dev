@@ -28,10 +28,10 @@ tags:
 - [What is Product Led Growth? How to Build a Software Company in the End User Era | OpenView](https://openviewpartners.com/blog/what-is-product-led-growth)
   - SasS로 밥 벌어먹고 사는 회사들이 어떻게 성장을 할 수 있는지 살펴볼 수 있는 좋은 글.
   - 엔드유저에게 제품을 어떻게 공급하는가?
-    - 제품을 사용자가 사는 지역에 공급하기
-    - 시작하기 쉽게 만들기
-    - 돈 걷기 전에 가치를 전달하기
-    - 세일즈는 마지막에 고용하기
+      - 제품을 사용자가 사는 지역에 공급하기
+      - 시작하기 쉽게 만들기
+      - 돈 걷기 전에 가치를 전달하기
+      - 세일즈는 마지막에 고용하기
 
 ## Developer
 
@@ -51,47 +51,46 @@ tags:
 - [ADR을 써야 하는 이유 | GeekNews](https://news.hada.io/topic?id=2665)
   - 한 프로젝트를 오래 붙들고 있다 보면, 자연스럽게 '왜 이런 식으로 코드를 짰었더라?' 하는 순간이 오게 된다. 회사 프로젝트의 README가 잘 관리하기 어려운 것 같아 노션으로 프로젝트의 관련 문서를 작성하고 있었는데, 가능하면 코드에 대한 문서는 코드에서 최대한 가까이 있는게 맞겠다는 생각이 들었다.
   - ADR에 대해서는 이미 링크 안에 본문이 너무 잘 정리되어있는데, 중요하다고 생각하는 부분은 다음과 같다.
-    - 시간을 좀 내서, 결정을 내릴때 생각한 과정을 적어두면 팀원들이 당신의 머리속에 들어올 기회를 주게 됨. 
-    - ADR을 작성하면 "Decision Socialization(의사 결정의 사회화)"가 가능해짐. 
-    - 이렇게 하면, 개별적으로 결정을 내리는 대신 팀이 유지관리에 대한 책임을 지는 결정을 내리게 함.
+      - 시간을 좀 내서, 결정을 내릴때 생각한 과정을 적어두면 팀원들이 당신의 머리속에 들어올 기회를 주게 됨. 
+      - ADR을 작성하면 "Decision Socialization(의사 결정의 사회화)"가 가능해짐. 
+      - 이렇게 하면, 개별적으로 결정을 내리는 대신 팀이 유지관리에 대한 책임을 지는 결정을 내리게 함.
   - 나도 더 늦기 전에 업무에 ADR을 어떤 방식으로 적용할 수 있을지 고민하게 되었고, 덩달아 연관 링크를 찾아보게 되었다.
-    - [Earn future maintainers esteem by writing simple ADRs | Understand Legacy Code](https://understandlegacycode.com/blog/earn-maintainers-esteem-with-adrs/#revisit-a-past-decision--a-new-adr)
+      - [Earn future maintainers esteem by writing simple ADRs | Understand Legacy Code](https://understandlegacycode.com/blog/earn-maintainers-esteem-with-adrs/#revisit-a-past-decision--a-new-adr)
 
 
 ## JS / TS
 
 - [Announcing TypeScript 4.0 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0/)
   - 오랜만에 타입스크립트 메이저 버전업이 나왔다. 2018년 7월 30일 3.0이 런칭되고 난 이후 2년도 더 되었다.
-  - 새로운 기능
-    - Variadic Tuple Types
+  - Variadic Tuple Types
       - 튜플 타입 선언 시 전개 연산자(Spread Operator)를 사용하는 것이 제네릭이 된다. 덕분에 불필요한 오버로딩을 하지 않고도 적절한 타입 추론이 가능해졌다.
       - 정확한 길이가 있는 튜플을 펼칠 경우 다른 타입이나 제네릭과 결합되었을 때 그 길이가 정확히 보장되기 때문에 사용하기 편리해졌다.
       - 단순히 `concat`, `tail` 정도의 함수에 활용하는 예제를 넘어 부분 적용 함수를 만들 때, 인자를 전달할 때도 유용하게 적용될 수 있다. 인자가 정확히 몇개가 들어오는지 구분하고, 그 인자들의 타입도 효과적으로 추론하는게 가능해졌다.
       - 덕분에 함수 조합과 관련하여 다영한 활용 방법이 생기리라 기대한다.
-    - Labeled Tuple Elements
+  - Labeled Tuple Elements
       - 튜플 요소에 이름을 붙일 수 있는 기능이다. 예를 들어 `[number, number]` 라고 표현되던 튜플에 `[start: number, end: number]` 라고 각 요소에 이름을 붙일 수 있게 된 것이다.
       - 튜플 인자 리스트 등을 활용하여 오버로딩을 구현하면서 타입 안정성을 확보할 때 유용하게 사용할 수 있다.
-    - Class Property Inference from Constructors
+  - Class Property Inference from Constructors
       - 클래스의 생성자에서 선언하여 할당한 속성도 class property의 타입으로 자동 추론이 된다.
-    - Short-Circuiting Assignment Operators
+  - Short-Circuiting Assignment Operators
       - `&&=`, `||=`, `??=` 로 해당 연산자의 조건에 맞을 경우 새로운 값을 할당하는 것이 가능하다. 이전에 루비를 다룰 때 있던 연산자라 이런 식의 할당이 가능해진게 반갑다.
-    - `catch` 블록에서 에러 객체를 `unknown` 으로 지정
+  - `catch` 블록에서 에러 객체를 `unknown` 으로 지정
       - 이전에 `catch (error) {}` 로 잡힌 `error` 객체는 기본적으로 `any` 타입이다. 하지만 이렇게 되었을 경우 타입 안정성도 보장하기 어렵다보니 에러 객체를 다루다 실수할 수 있는 여지가 있다.
       - 4.0 버전부터는 `unknown` 으로 타입을 지정할 수 있으므로, 에러를 처리하는 쪽에서는 명시적으로 타입 가드를 해야 한다는 것을 인지시키고 결과적으로 좀 더 안전하게 에러를 처리할 수 있게 된다.
-    - 커스텀 JSX 팩토리
+  - 커스텀 JSX 팩토리
       - JSX를 사용할 때 여러 자손 엘리먼트를 리턴할 수 있도록 [Fragment 문법](https://reactjs.org/docs/fragments.html)을 지원한다. 타입스크립트 초기에는 다른 JSX 사용 라이브러리들이 이 아이디어를 차용하리라고 생각하지 못했으나, 자연스레 다른 라이브러리들도 비슷한 형태의 API를 제공하기 시작했다.
       - 그래서 이 fragment 선언을 더 적절하게 활용하기 위해 어떤 함수가 fragment 생성에 사용되는지 직접 `tsconfig.json` 에서 지정해줄 수 있게 되었다.
   - 각종 에디터 지원 기능
-    - 옵셔널 체이닝 문법으로 자동 전환 지원.
-    - `@deprecated` 지원
-    - 큰 프로젝트를 불러올 때 에디터 시작 시 일부만 우선적으로 시맨틱을 적용하는 모드 지원.
-    - 더 똑똑해진 Auto import: 기존에 `@types` 패키지만을 우선적으로 자동 불러오기의 대상으로 삼았던 것에서 발전하여 `package.json` 파일에 있는 패키지도 자동으로 불러올 수 있도록 별도의 처리를 하는 옵션이 생겼다.
+      - 옵셔널 체이닝 문법으로 자동 전환 지원.
+      - `@deprecated` 지원
+      - 큰 프로젝트를 불러올 때 에디터 시작 시 일부만 우선적으로 시맨틱을 적용하는 모드 지원.
+      - 더 똑똑해진 Auto import: 기존에 `@types` 패키지만을 우선적으로 자동 불러오기의 대상으로 삼았던 것에서 발전하여 `package.json` 파일에 있는 패키지도 자동으로 불러올 수 있도록 별도의 처리를 하는 옵션이 생겼다.
   - 새로운 웹사이트
-    - 훨씬 세련된 새 웹사이트가 등장했다. [참고로 이 웹사이트는 Gatsby로 만들었다고 한다.](https://www.gatsbyjs.org/blog/2020-01-23-why-typescript-chose-gatsby/)
+      - 훨씬 세련된 새 웹사이트가 등장했다. [참고로 이 웹사이트는 Gatsby로 만들었다고 한다.](https://www.gatsbyjs.org/blog/2020-01-23-why-typescript-chose-gatsby/)
   - Breaking Changes
-    - `lib.d.ts` 선언이 변경되었고, 주로 DOM에 대한 타입이 변경되었다.
-    - 클래스 속성이 접근자(getter, setter)를 오버라이드 할 때 에러를 표시
-    - `strictNullChecks` 옵션을 켰을 때 `delete` 연산자의 호출 대상은 옵셔널로 처리되어야 한다. 
+      - `lib.d.ts` 선언이 변경되었고, 주로 DOM에 대한 타입이 변경되었다.
+      - 클래스 속성이 접근자(getter, setter)를 오버라이드 할 때 에러를 표시
+      - `strictNullChecks` 옵션을 켰을 때 `delete` 연산자의 호출 대상은 옵셔널로 처리되어야 한다. 
 - [Hyeseong's Blog - TypeScript 튜플 타입 요리하기](https://blog.cometkim.kr/posts/typescript-tuples/)
   - 너무 담아두고 계신게 많아서 글은 천천히 쓰시는 혜성님의 TS 고급(적어도 나에겐 고급이다) 글. Variadic Tuple 부분 설명하기 이전에 재귀적인 타입 선언 방법이 너무 재미있었다.
   - 예제 코드 하나하나 직접 타입스크립트 플레이그라운드에서 따라 쳐보고 이해하는 것만 해도 타입스크립트에 대한 이해를 어느정도 올릴 수 있으니 꼭 글을 읽고 예제를 따라해보라고 권해보고 싶다.
