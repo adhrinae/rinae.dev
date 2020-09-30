@@ -82,7 +82,7 @@
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
     "develop": "gatsby develop",
     "start": "npm run develop",
-    "build": "gatsby build",
+    "build": "gatsby clean && gatsby build",
     "lh": "lighthousebot",
     "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js"
   }
