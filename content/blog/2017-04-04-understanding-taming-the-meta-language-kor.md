@@ -28,7 +28,7 @@ tags:
 
 우주 산업 분야에서 행성으로부터의 [탈출 속도(escape velocity)](https://ko.wikipedia.org/wiki/%ED%83%88%EC%B6%9C_%EC%86%8D%EB%8F%84)를 구하기 위해 사용되는 코드 일부를 살펴보겠습니다.
 
-```nasm
+```
 .SUB_0_21:
     ; Computes escape velocity
     ; register xmm0 - planet mass
@@ -68,7 +68,7 @@ C 버전의 코드는 어셈블리로 작성된 코드보다 훨씬 많은 정�
 
 이제 더 복잡한 타입을 지원하는 언어의 예를 살펴보겠습니다. 저는 OCaml을 사용하겠지만 대부분의 ML-계열 언어들(하스켈, 스위프트 등)은 이런 기능을 지원합니다. ([그리고 F#은 아예 단위에 대해 가장 높은 우선 순위로 지원을 하고 있습니다.](https://docs.microsoft.com/en-us/dotnet/articles/fsharp/language-reference/units-of-measure))
 
-```ocaml
+```
 let gravity_constant = 6.67408e-11
 
 type mass = Kilograms of float
@@ -83,7 +83,7 @@ _실은 지구로부터의 탈출 속도를 계산할 때 제 구현체에서 �
 
 위의 코드에서 `length` 와 `mass` 는 단순한 숫자가 아니라 1급 객체(first class citizen)입니다. 덕분에 더욱 안전하고 유지보수가 용이하며 코드를 발전시키기 쉬워졌지요. 예를 들어 우리가 야드파운드법을 지원하고자 한다면(왜 그래야하는지는 모르겠지만), `mass` 타입을 이렇게 바꾸면 됩니다.
 
-```ocaml
+```
 type mass =
   | Kilograms of float
   | Pounds of float
@@ -101,7 +101,7 @@ type mass =
 
 만약 언어 자체가 이 메타정보를 알아서 알려주는 기능을 지원한다면 어떨까요?
 
-```ocaml
+```
 let escape_velocity = ...
 [@ocaml.deprecated "Please use `quantum_escape` instead"]
 ```
