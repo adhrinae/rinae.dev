@@ -103,7 +103,7 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.edges.map(edge => {
+              return allMarkdownRemark.edges.map((edge) => {
                 const [, path] = divideDateAndPath(edge.node.fields.slug)
 
                 return Object.assign({}, edge.node.frontmatter, {
@@ -149,6 +149,5 @@ module.exports = {
     `gatsby-plugin-sass`,
     `gatsby-plugin-lodash`,
     `gatsby-plugin-sitemap`,
-    `gatsby-plugin-netlify-cms`,
   ],
 }
