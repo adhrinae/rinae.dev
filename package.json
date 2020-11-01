@@ -34,7 +34,7 @@
     "lodash": "^4.17.20",
     "night-owl": "sdras/night-owl-vscode-theme",
     "node-sass": "^4.14.1",
-    "prismjs": "^1.21.0",
+    "prismjs": "^1.22.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-helmet": "^6.1.0",
