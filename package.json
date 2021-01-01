@@ -30,7 +30,7 @@
     "gatsby-source-filesystem": "^2.6.1",
     "gatsby-transformer-remark": "^2.11.1",
     "gatsby-transformer-sharp": "^2.7.0",
-    "intersection-observer": "^0.11.0",
+    "intersection-observer": "^0.12.0",
     "lodash": "^4.17.20",
     "night-owl": "sdras/night-owl-vscode-theme",
     "node-sass": "^4.14.1",
