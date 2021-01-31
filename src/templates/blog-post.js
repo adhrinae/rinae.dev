@@ -16,7 +16,7 @@ import { divideDateAndPath } from '../utils/frontmatter'
 
 import '../styles/code.scss'
 
-export default ({ data, pageContext, location }) => {
+const BlogPost = ({ data, pageContext, location }) => {
   useEffect(() => {
     ScrollManager.init()
     return () => ScrollManager.destroy()
@@ -58,6 +58,8 @@ export default ({ data, pageContext, location }) => {
     </Layout>
   )
 }
+
+export default BlogPost
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {

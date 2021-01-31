@@ -32,7 +32,7 @@ function convertRemToPx(rem) {
   )
 }
 
-export default ({ data, location }) => {
+const Index = ({ data, location }) => {
   const initialCount = Storage.getCount(1)
   const initialTag = Storage.getTag(CATEGORY_TYPE.ALL)
   const [count, setCount] = useState(initialCount)
@@ -108,6 +108,8 @@ export default ({ data, location }) => {
     </Layout>
   )
 }
+
+export default Index
 
 export const pageQuery = graphql`
   query {
