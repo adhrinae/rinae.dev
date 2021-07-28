@@ -1,7 +1,7 @@
 ---
-title: "'자바스크립트는 왜 이모양인가' 읽기"
+title: "'자바스크립트는 왜 그 모양일까?' 읽기"
 slug: how-javascript-works-summary
-description: "더글라스 크락포드의 '자바스크립트는 왜 이모양인가' 감상평 및 요약"
+description: "더글라스 크락포드의 '자바스크립트는 왜 그 모양일까?' 감상평 및 요약"
 date: 2021-07-19
 tags:
 - Javascript
