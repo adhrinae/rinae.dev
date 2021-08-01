@@ -172,24 +172,24 @@ tags:
       - `export { thing as default }` 는 레퍼런스를 전달한다.
       - `export default function` 도 해당 함수의 레퍼런스를 전달한다. 만약 `export default` 에 함수가 전달되는 것도 표현식처럼 동작하게 된다면 가져다 쓰는 쪽에서는 아직 할당되지 않은 함수라서 `undefined`  를 맛보게 될 것이다.
 
-  ```js
-  // These give you a live reference to the exported thing(s):
-  import { thing } from './module.js';
-  import { thing as otherName } from './module.js';
-  import * as module from './module.js';
-  const module = await import('./module.js');
-  // This assigns the current value of the export to a new identifier:
-  let { thing } = await import('./module.js');
+      ```js
+      // These give you a live reference to the exported thing(s):
+      import { thing } from './module.js';
+      import { thing as otherName } from './module.js';
+      import * as module from './module.js';
+      const module = await import('./module.js');
+      // This assigns the current value of the export to a new identifier:
+      let { thing } = await import('./module.js');
 
-  // These export a live reference:
-  export { thing };
-  export { thing as otherName };
-  export { thing as default };
-  export default function thing() {}
-  // These export the current value:
-  export default thing;
-  export default 'hello!';
-  ```
+      // These export a live reference:
+      export { thing };
+      export { thing as otherName };
+      export { thing as default };
+      export default function thing() {}
+      // These export the current value:
+      export default thing;
+      export default 'hello!';
+      ```
 
   - 그래서 모듈의 순환 참조 문제를 겪게 된다면, 이번 글에서는 함수를 위주로 다루었는데, `foo` 라는 함수를 먼저 선언한 뒤에 `export default foo` 를 하고서 순환 참조를 하게 되면 아직 `foo` 의 할당이 일어나기 전이기 때문에 문제를 겪게 될 것이다. 하지만 `export default function foo ...` 는 위에서 언급한 특수 케이스에 포함되어 바로 레퍼런스가 연결되기 때문에 문제없이 참조할 수 있다.
   - **하지만 되도록이면 순환 참조를 피하도록 하자**
@@ -269,25 +269,25 @@ tags:
       - 너무 간단히 만든거라 나중에 퍼포먼스 문제가 일어나지 않을까 살짝 걱정되긴 하지만 적당히 제 역할은 할 수 있는 것으로 보인다.
   - 결국은 생으로 `render` 함수를 호출해야 하기 때문에 원본 코드에서는 `setTimeout` 을 사용하여 업데이트 시에 블락이 일어나지 않도록 만들고 있다. 그런데 기억하기로는 이펙트의 실행이 `requestAnimationFrame` 을 활용하고 있으니까 상관 없어 보인다.
 
-  ```jsx
-  function Portal({ children, into }) {
-    const renderRef = useRef(null);
+    ```jsx
+    function Portal({ children, into }) {
+      const renderRef = useRef(null);
 
-    useEffect(() => {
-      const container =
-        typeof into === "string" ? document.querySelector(into) : into;
-      if (!renderRef.current && container && hasChildren(children)) {
-        renderRef.current = render(children, container);
-      }
+      useEffect(() => {
+        const container =
+          typeof into === "string" ? document.querySelector(into) : into;
+        if (!renderRef.current && container && hasChildren(children)) {
+          renderRef.current = render(children, container);
+        }
 
-      return () => {
-        renderRef.current = null;
-      };
-    }, [into, children]);
+        return () => {
+          renderRef.current = null;
+        };
+      }, [into, children]);
 
-    return null;
-  }
-  ```
+      return null;
+    }
+    ```
 
 ## OSS
 
