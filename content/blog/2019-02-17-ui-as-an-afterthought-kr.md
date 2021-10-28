@@ -41,8 +41,7 @@ description: '유명 상태 관리 라이브러리 MobX의 작성자가 도메�
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">💡 Model and develop your app&39;t be.<br><br>This will force you to avoid coupling logic with presentation, which mainstream frameworks (React, Angular, Vue) unintentionally encourage.</p>&mdash; David K. 🎹 (@DavidKPiano) <a href="https://twitter.com/DavidKPiano/status/1092424711655567360?ref_src=twsrc%5Etfw">February 4, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 [트윗 번역]  
-애플리케이션의 (비지니스)로직을 다양한 UI에서 사용될 수 있도록 설계하고 개발하세요. 그럴 일이 없다 하더라도요.  
-이렇게 하면 (비지니스)로직이 표현 계층과 결합되는 것을 피하도록 강제합니다. 보통 메인스트림 프레임워크(리액트, 앵귤러, 뷰 등)가 의도했는진 모르겠으나 로직과 표현 계층의 분리를 유도하고 있죠.
+애플리케이션의 (비지니스)로직을 다양한 UI에서 사용될 수 있도록 설계하고 개발하세요. 그럴 일이 없다 하더라도요. 메인스트림 프레임워크(리액트, 앵귤러, 뷰 등)가 의도치 않게 로직과 표현 계층이 결합되도록 유도하고 있는데, 이를 피할 수 있도록 강제합니다.
   
 이 시점에서 아직 사용자가 어떤 환경의 도구를 사용하는지는 관계없이 비지니스와 상호작용을 할 수 있습니다. 웹 애플리케이션일까요? 리액트 네이티브 애플리케이션일까요? npm 모듈의 SDK일까요? 아니면 CLI(Command Line Interface)? 아무런 상관 없습니다! 따라서-
 
