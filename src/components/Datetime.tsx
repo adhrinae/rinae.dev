@@ -30,11 +30,9 @@ export default function Datetime({ datetime, size = "sm", className }: Props) {
 const FormattedDatetime = ({ datetime }: { datetime: string | Date }) => {
   const myDatetime = new Date(datetime);
 
-  const date = myDatetime.toLocaleDateString(LOCALE, {
+  return myDatetime.toLocaleDateString(LOCALE, {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-
-  return date;
 };
