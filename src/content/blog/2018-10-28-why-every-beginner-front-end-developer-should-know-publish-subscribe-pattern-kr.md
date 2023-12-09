@@ -355,7 +355,7 @@ UI 를 업데이트하는 함수를 정의하고 완전히 다른 부분으로 �
 
 까짓거 한 번 해보죠! 서비스 쪽에 함수를 기억할 수 있는 공간을 마련해두고 특정한 시점에 실행되도록 만들어보겠습니다.
 
-```javascript{3,5-7,20-22}
+```javascript {3,5-7,20-22}
 /* dataService.js */
 // ...
 let changeListener = null;
@@ -365,12 +365,10 @@ export function subscribe(callbackFunction) {
 }
 
 export function addPlace(latLng) {
-  geocoder.geocode({ location: latLng }, function(results) {
+  geocoder.geocode({ location: latLng }, function (results) {
     try {
-      const cityName = results
-        .find(result => result.types.includes('locality'))
-        .address_components[0]
-        .long_name;
+      const cityName = results.find(result => result.types.includes("locality"))
+        .address_components[0].long_name;
 
       myPlaces.push({ position: latLng, name: cityName });
 
@@ -379,9 +377,9 @@ export function addPlace(latLng) {
         changeListener();
       }
 
-      localStorage.setItem('myPlaces', JSON.stringify(myPlaces));
+      localStorage.setItem("myPlaces", JSON.stringify(myPlaces));
     } catch (e) {
-      console.error('No city found in this location! :(');
+      console.error("No city found in this location! :(");
     }
   });
 }
@@ -421,7 +419,7 @@ export function subscribe(callbackFunction) {
 
 이제 코드를 좀 정리하고 모든 리스너를 실행하는 함수를 작성하겠습니다.
 
-```javascript{3-5,18}
+```javascript {3-5,18}
 /* dataService.js */
 // 위에 작성한 코드 바로 아래에
 function publish() {
@@ -429,23 +427,21 @@ function publish() {
 }
 
 export function addPlace(latLng) {
-  geocoder.geocode({ location: latLng }, function(results) {
+  geocoder.geocode({ location: latLng }, function (results) {
     try {
-      const cityName = results
-        .find(result => result.types.includes('locality'))
-        .address_components[0]
-        .long_name;
+      const cityName = results.find(result => result.types.includes("locality"))
+        .address_components[0].long_name;
 
       myPlaces.push({ position: latLng, name: cityName });
 
       // 변경된 부분
       publish();
 
-      localStorage.setItem('myPlaces', JSON.stringify(myPlaces));
+      localStorage.setItem("myPlaces", JSON.stringify(myPlaces));
     } catch (e) {
-      console.error('No city found in this location! :(');
+      console.error("No city found in this location! :(");
     }
-  })
+  });
 }
 ```
 
@@ -465,7 +461,7 @@ subscribe(renderMarkers);
 
 수신자를 데이터를 전송하는데 사용하려면 어떻게 해야할까요? 이런 식으로 _리스너에 직접 인자로_ 전달해 줄 수 있습니다.
 
-```javascript{2-4,16}
+```javascript {2-4,16}
 /* dataService.js */
 function publish(data) {
   changeListeners.forEach(changeListener => changeListener(data));
@@ -490,18 +486,18 @@ export function addPlace(latLng) {
 
 이렇게 하면 쉽게 컴포넌트에 데이터를 전달할 수 있습니다.
 
-```javascript{4,10,18}
+```javascript {4,10,18}
 /* sidebar.js */
-import { getPlaces, subscribe } from './dataService';
+import { getPlaces, subscribe } from "./dataService";
 
 function renderCities(placesArray) {
-  const cityListElement = document.getElementById('citiesList');
+  const cityListElement = document.getElementById("citiesList");
 
-  cityListElement.innerHTML = '';
+  cityListElement.innerHTML = "";
 
   // getPlaces 함수 호출을 placesArray로 교체
   placesArray.forEach(place => {
-    const cityElement = document.createElement('div');
+    const cityElement = document.createElement("div");
     cityElement.innerText = place.name;
     cityListElement.appendChild(cityElement);
   });

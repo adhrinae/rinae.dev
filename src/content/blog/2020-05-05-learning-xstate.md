@@ -73,36 +73,36 @@ isBroken() {
 
 하지만 이런식으로 다루어야 하는 상태의 가짓수가 많아질 수록 신경써야 할 것이 많아지는데 비해 상태 자체를 열거형으로 변환하여 다루면 한결 수월해진다.
 
-```js{15-21}
+```js {15-21}
 const STATES = {
-  lit: 'lit',
-  unlit: 'unlit',
-  broken: 'broken',
-}
+  lit: "lit",
+  unlit: "unlit",
+  broken: "broken",
+};
 
 function lightBulb() {
-  let state = STATES.unlit
+  let state = STATES.unlit;
 
   return {
     state() {
-      return state
+      return state;
     },
     toggle() {
       switch (state) {
         case STATES.unlit:
-          state = STATES.lit
-          break
+          state = STATES.lit;
+          break;
         case STATES.lit:
-          state = STATES.unlit
-          break
+          state = STATES.unlit;
+          break;
         default:
-          break
+          break;
       }
     },
     break() {
-      state = STATES.broken
+      state = STATES.broken;
     },
-  }
+  };
 }
 ```
 
@@ -200,33 +200,33 @@ Redux Devtools 처럼, XState 도 고유의 시각화된 개발자 도구가 존
 
 XState 에서 액션은 트랜지션 후에 "일어나고 잊혀지는" 사이드 이펙트(부수 효과)를 뜻한다. 이를 지정하기 위해 위의 `lightBulb` 머신의 정의를 약간 수정할 필요가 있다.
 
-```js{13}
+```js {13}
 const lightBulbMachine = Machine({
-  id: 'lightBulb',
-  initial: 'unlit',
+  id: "lightBulb",
+  initial: "unlit",
   states: {
     lit: {
       on: {
-        BREAK: 'broken',
-        TOGGLE: 'unlit',
+        BREAK: "broken",
+        TOGGLE: "unlit",
       },
     },
     unlit: {
       on: {
-        BREAK: 'broken', // => 이 부분을 변경 예정
-        TOGGLE: 'lit',
+        BREAK: "broken", // => 이 부분을 변경 예정
+        TOGGLE: "lit",
       },
     },
     broken: {
-      type: 'final',
+      type: "final",
     },
   },
-})
+});
 ```
 
 특정 이벤트 이름에 바로 `'broken'` 을 써 넣는 것은 실제로는 `{target: 'broken'}` 라는 객체를 할당하는 대신 축약한 것이다. 이 객체에 다양한 속성을 넘겨줄 수 있는데, `actions` 도 그 중 하나이다. `actions` 는 일어날 사이드 이펙트를 단일 함수 혹은 함수의 배열로 받으며, 각 함수는 `(context, event) => any | void` 의 시그니처를 가지고 있다.
 
-```js{6}
+```js {6}
 // ...
 unlit: {
   on: {
@@ -241,51 +241,54 @@ unlit: {
 
 이런 액션이 만약 공통적으로 사용된다면, 머신을 생성할 때 두 번째 인자로 옵션을 전달해줄 때 거기에 사전에 정의된 액션을 전달해줄 수 있다. 그러면 각 이벤트에서는 액션의 이름을 문자열로 기록해두기만 하면 된다.
 
-```js{9-10,29-34}
-const lightBulbMachine = Machine({
-  id: 'lightBulb',
-  initial: 'unlit',
-  states: {
-    lit: {
-      on: {
-        BREAK: {
-          target: 'broken',
-          // 2. 정의된 액션을 사용
-          actions: ['logBroken']
+```js {9-10,29-34}
+const lightBulbMachine = Machine(
+  {
+    id: "lightBulb",
+    initial: "unlit",
+    states: {
+      lit: {
+        on: {
+          BREAK: {
+            target: "broken",
+            // 2. 정의된 액션을 사용
+            actions: ["logBroken"],
+          },
+          TOGGLE: "unlit",
         },
-        TOGGLE: 'unlit',
       },
-    },
-    unlit: {
-      on: {
-        BREAK: {
-          target: 'broken',
-          actions: ['logBroken']
+      unlit: {
+        on: {
+          BREAK: {
+            target: "broken",
+            actions: ["logBroken"],
+          },
+          TOGGLE: "lit",
         },
-        TOGGLE: 'lit',
       },
-    },
-    broken: {
-      type: 'final',
+      broken: {
+        type: "final",
+      },
     },
   },
-}, {
-  // 1. 여기서 따로 액션 정의
-  actions: {
-    logBroken: (context, event) => {
-      console.log(`Yo I'm broke in the ${event.location}`)
-    }
+  {
+    // 1. 여기서 따로 액션 정의
+    actions: {
+      logBroken: (context, event) => {
+        console.log(`Yo I'm broke in the ${event.location}`);
+      },
+    },
   }
-})
+);
 // ...
-service.send({type: 'BREAK', location: 'Home'}) // => 'Yo I'm broke in the Home'
+service.send({ type: "BREAK", location: "Home" }); // => 'Yo I'm broke in the Home'
 ```
 
 ## 상태를 빠져나가거나 벗어날 때 액션을 실행하기
 
 위에서 `lit`, `unlit` 상태 모두 `BREAK` 상태가 될 때 특정 액션을 수행하도록 지정했다만, 코드가 불필요하게 복잡해지는 느낌이 들 것이다. 실제로는 `broken` 상태로 진입할 때 액션이 수행되면 될텐데 말이다. 이를 위해 상태 정의 시 `entry` 라는 속성을 부여하고 위와 같은 방식의 시그니쳐로 액션 이름 혹은 액션 함수를 전달해줄 수 있다. 반대로 `exit` 이라는 속성도 활용가능하다.
 
-```js{6-11,15-16,23-24}
+```js {6-11,15-16,23-24}
 const lightBulbMachine = Machine(
   {
     // ...
@@ -294,28 +297,28 @@ const lightBulbMachine = Machine(
         // 1. lit 상태를 빠져나올 때 실행됨
         exit: [
           () => {
-            console.log('It is so dark and cold...')
+            console.log("It is so dark and cold...");
           },
         ],
         on: {
           BREAK: {
-            target: 'broken',
+            target: "broken",
             // 2. broken 상태로 전환되면서 실행됨
-            actions: ['doSomething'],
+            actions: ["doSomething"],
           },
-          TOGGLE: 'unlit',
+          TOGGLE: "unlit",
         },
       },
       // ...
       broken: {
         // 3. broken 상태에 진입할 때 실행됨
-        entry: ['logBroken'],
-        type: 'final',
+        entry: ["logBroken"],
+        type: "final",
       },
     },
-  },
+  }
   // ...
-)
+);
 ```
 
 실제로 이 액션들은 아래의 순서를 지켜 실행된다.
@@ -331,32 +334,32 @@ XState 의 트랜지션에는 두 종류가 있다. "외부" 와 "내부" 트랜
 - 외부 트랜지션: 트랜지션 시 현재 상태 노드에서 "빠져나오고" 다음 상태 노드에 "진입하는" 루프가 일어난다. 이는 위에서 살펴봤던 `exit`, `entry` 액션이 발동한다는 뜻이다.
 - 내부 트랜지션: `.idle` 같이 상태 타겟 이름 맨 앞에 `.` 점을 붙여서 지정할 수 있다. 내부 트랜지션은 상태 변화는 일어나지만 `exit/transition/entry` 루프가 일어나지 않는다.
 
-```js{12}
+```js {12}
 const idleMachine = Machine(
   {
-    id: 'idle',
-    initial: 'idle',
+    id: "idle",
+    initial: "idle",
     states: {
       idle: {
-        entry: 'logEntry',
-        exit: 'logExit',
+        entry: "logEntry",
+        exit: "logExit",
       },
     },
     on: {
-      DO_NOTHING: '.idle' // 문자열 맨 앞의 .(콤마) 에 주목
-    }
+      DO_NOTHING: ".idle", // 문자열 맨 앞의 .(콤마) 에 주목
+    },
   },
   {
     actions: {
-      logEntry: () => console.log('entered'),
-      logExit: () => console.log('exited'),
+      logEntry: () => console.log("entered"),
+      logExit: () => console.log("exited"),
     },
   }
-)
+);
 
-const services = interpret(idleMachine).start()
+const services = interpret(idleMachine).start();
 
-services.send('DO_NOTHING') // => 콘솔에 찍히는 것 없음
+services.send("DO_NOTHING"); // => 콘솔에 찍히는 것 없음
 ```
 
 ## Send 액션 크리에이터를 이용하여 이벤트를 머신에 전달하기
@@ -365,29 +368,29 @@ services.send('DO_NOTHING') // => 콘솔에 찍히는 것 없음
 
 아래의 코드는 `SPEAK` 이벤트를 일으켰을 때 덩달아 `ECHO` 이벤트도 일으켜서 부수효과가 연달아 일어나도록 하는 예이다.
 
-```js{10}
-import {Machine, interpret, send} from 'xstate'
+```js {10}
+import { Machine, interpret, send } from "xstate";
 
 const echoMachine = Machine({
-  id: 'echo',
-  initial: 'listening',
+  id: "echo",
+  initial: "listening",
   states: {
     listening: {
       on: {
         SPEAK: {
-          actions: send('ECHO'), // send({type: 'ECHO'}) 같은 형태도 가능
+          actions: send("ECHO"), // send({type: 'ECHO'}) 같은 형태도 가능
         },
         ECHO: {
-          actions: () => console.log('echo, echo ...'),
+          actions: () => console.log("echo, echo ..."),
         },
       },
     },
   },
-})
+});
 
-const services = interpret(echoMachine).start()
+const services = interpret(echoMachine).start();
 
-services.send('SPEAK') // echo, echo ....
+services.send("SPEAK"); // echo, echo ....
 ```
 
 ## 무한 상태를 Context 로 관리하기
@@ -396,31 +399,31 @@ XState 는 기본적으로 유한 상태 머신 라이브러리지만, 별도로
 
 `context` 를 다룰 때는 머신 선언 시 해당되는 속성값을 표현해주고, 특정 이벤트 발생 시 `assign` 을 통해 변경을 가해주면 된다. `assign` 을 호출할 때 함수를 넘겨줄 수도 있고, 객체를 넘겨줄 수도 있고 방법은 다양한데, 이는 [문서를 참고해보기 바란다](https://xstate.js.org/docs/guides/context.html#assign-action). 아래의 예제는 사전에 정의된 액션을 `assign` 으로 호출하는 예이다.
 
-```js{7-10,32-35}
-import {Machine, interpret, assign} from 'xstate'
+```js {7-10,32-35}
+import { Machine, interpret, assign } from "xstate";
 
 const multiColorBulbMachine = Machine(
   {
-    id: 'multiColorBulb',
-    initial: 'unlit',
+    id: "multiColorBulb",
+    initial: "unlit",
     // context 속성 선언
     context: {
-      color: 'white',
+      color: "white",
     },
     states: {
       lit: {
         on: {
-          BREAK: 'broken',
-          TOGGLE: 'unlit',
+          BREAK: "broken",
+          TOGGLE: "unlit",
           CHANGE_COLOR: {
-            actions: ['changeColor'],
+            actions: ["changeColor"],
           },
         },
       },
       unlit: {
         on: {
-          BREAK: 'broken',
-          TOGGLE: 'lit',
+          BREAK: "broken",
+          TOGGLE: "lit",
         },
       },
       broken: {},
@@ -434,13 +437,13 @@ const multiColorBulbMachine = Machine(
       })),
     },
   }
-)
+);
 
-const services = interpret(multiColorBulbMachine).start()
+const services = interpret(multiColorBulbMachine).start();
 
-services.send('TOGGLE')
-services.send({type: 'CHANGE_COLOR', color: 'red'})
-console.log(services.state.context.color) // red
+services.send("TOGGLE");
+services.send({ type: "CHANGE_COLOR", color: "red" });
+console.log(services.state.context.color); // red
 ```
 
 ## 액션의 순서가 Context 의 값을 바꾸는 원리
@@ -489,7 +492,7 @@ services.send("INC_COUNT_TWICE");
 
 구현대로라면 `before: 0` 이 나오기를 기대했을 것이다. 이는 XState 의 트랜지션이 순수 함수로 이루어져 있고, 순수성을 유지하기 위해 assign 이 일어나는 액션을 먼저 반영해두는 특징을 가지고있기 때문이다. 의사 코드로 표시하자면 아래와 같다.
 
-```js{10-13}
+```js {10-13}
 Machine.transition(state, event)
 
 {
@@ -510,11 +513,11 @@ Machine.transition(state, event)
 
 따라서 액션이 일어날때마다 이전 상태를 기억하지 않기 때문에, 이전 상태를 기록해두기 위한 별도의 상태를 선언해야한다. 여기서는 `previousCount` 라는 값을 활용해보기로 한다.
 
-```js{13-20}
+```js {13-20}
 const doubleCounterMachine = Machine(
   {
-    id: 'doubleCounter',
-    initial: 'idle',
+    id: "doubleCounter",
+    initial: "idle",
     context: {
       count: 0,
       previousCount: undefined,
@@ -526,9 +529,9 @@ const doubleCounterMachine = Machine(
             actions: [
               // undefined 가 뜰 것 같지만, 위에 설명한대로 assign 액션이 먼저 수행된다.
               ctx => console.log(`before: ${ctx.previousCount}`),
-              'setPreviousCount',
-              'incCount',
-              'incCount',
+              "setPreviousCount",
+              "incCount",
+              "incCount",
               ctx => console.log(`after: ${ctx.count}`),
             ],
           },
@@ -546,7 +549,7 @@ const doubleCounterMachine = Machine(
       })),
     },
   }
-)
+);
 // INC_COUNT_TWICE 를 실행하면 ...
 // before: 0
 // after: 2
@@ -558,42 +561,42 @@ const doubleCounterMachine = Machine(
 
 아래는 알람 시계와 비슷하게 동작하여 `alraming` 상태일 때 알람을 멈출 때까지 계속 `beep` 이 표시되도록 구현한 예이다. `setInterval` 을 사용하였으며, 다른 상태로 변화할 때 `clearInterval` 이 실행될 것이다.
 
-```js{12,22}
+```js {12,22}
 const alarmClockMachine = Machine(
   {
-    id: 'alarmClock',
-    initial: 'idle',
+    id: "alarmClock",
+    initial: "idle",
     states: {
       idle: {
         on: {
-          ALARM: 'alarming',
+          ALARM: "alarming",
         },
       },
       alarming: {
-        activities: ['beeping'], // actions 가 아니라 activities 로 바뀐데 주목
-        on: {STOP: 'idle'},
+        activities: ["beeping"], // actions 가 아니라 activities 로 바뀐데 주목
+        on: { STOP: "idle" },
       },
     },
   },
   {
     activities: {
       beeping: () => {
-        const beep = () => console.log('beep')
-        const intervalId = setInterval(beep, 1000)
-        return () => clearInterval(intervalId) // 클리어해주지 않으면 매모리 누수가 발생한다.
+        const beep = () => console.log("beep");
+        const intervalId = setInterval(beep, 1000);
+        return () => clearInterval(intervalId); // 클리어해주지 않으면 매모리 누수가 발생한다.
       },
     },
   }
-)
+);
 
-const services = interpret(alarmClockMachine).start()
+const services = interpret(alarmClockMachine).start();
 
-services.send('ALARM')
+services.send("ALARM");
 
 setTimeout(() => {
-  console.log('stopping')
-  services.send('STOP')
-}, 5000)
+  console.log("stopping");
+  services.send("STOP");
+}, 5000);
 // 대강 5번정도 beep 가 출력되고 멈춘다.
 ```
 
@@ -605,11 +608,11 @@ setTimeout(() => {
 
 아래는 자판기 로직을 `cond`, `guards` 를 활용하여 구현한 예이다. XState Visualizer 를 통해 살펴보면 조건에 만족하지 않은 액션은 실행되지 않는 모습을 볼 수 있다.
 
-```js{13,29-31}
+```js {13,29-31}
 const vendingMachine = Machine(
   {
-    id: 'vending',
-    initial: 'idle',
+    id: "vending",
+    initial: "idle",
     context: {
       deposited: 0,
     },
@@ -617,11 +620,11 @@ const vendingMachine = Machine(
       idle: {
         on: {
           SELECT_ITEM: {
-            target: 'vending',
-            cond: 'isDepostedEnough',
+            target: "vending",
+            cond: "isDepostedEnough",
           },
           DEPOSIT_QUARTER: {
-            actions: ['addQuarter'],
+            actions: ["addQuarter"],
           },
         },
       },
@@ -638,7 +641,7 @@ const vendingMachine = Machine(
       isDepostedEnough: ctx => ctx.deposited >= 100,
     },
   }
-)
+);
 ```
 
 ![isDepositedEnough 조건을 충족하지 않은 상태](@assets/images/2020-05-05_01.png)
@@ -650,32 +653,32 @@ const vendingMachine = Machine(
 
 이 하위 계층에서 상위 계층의 상태로 전환하는 모양새가 조금 흥미로운데, 상태 머신을 만들 때 반드시 넣어주는 값인 `id` 를 이용하여 `#id.state` 방식으로 파고들 수 있다. 상태 머신 최상위에 `id` 를 써 주는 것 말고도, 특정 계층의 상태에도 `id` 값을 지정해줄 수 있다.
 
-```js{12,15}
+```js {12,15}
 const doorMachine = Machine({
-  id: 'door',
-  initial: 'locked',
+  id: "door",
+  initial: "locked",
   states: {
     locked: {
-      id: 'locked',
-      on: {UNLOCK: 'unlocked'},
+      id: "locked",
+      on: { UNLOCK: "unlocked" },
     },
     unlocked: {
-      initial: 'closed',
+      initial: "closed",
       // 이 아래에도 states 가 선언된 것을 주목
       states: {
         closed: {
           on: {
-            LOCK: '#locked', // states.locked.id 에 있는 값
-            OPEN: 'opened',
+            LOCK: "#locked", // states.locked.id 에 있는 값
+            OPEN: "opened",
           },
         },
         opened: {
-          on: {CLOSE: 'closed'},
+          on: { CLOSE: "closed" },
         },
       },
     },
   },
-})
+});
 ```
 
 ## 동시에 존재해야하는 상태를 관리하기
@@ -712,45 +715,45 @@ const spaceHeater = Machine({
 
 만약 여기에 '회전' 이라는 기능이 들어가면 어떻게 될 것인가? 회전 기능은 온도가 높은 상태인지 낮은 상태인지 전혀 분간할 필요가 없다. 그냥 본체가 좌우로 회전하면서 전체 공간을 더 데워줄 뿐이다. 이 상태(영어로 oscillating)가 동시에 적용될 수 있도록 만들어본다.
 
-```js{10}
+```js {10}
 const spaceHeater = Machine({
-  id: 'spaceHeater',
-  initial: 'poweredOff',
+  id: "spaceHeater",
+  initial: "poweredOff",
   states: {
     poweredOff: {
-      on: {TOGGLE_POWER: 'poweredOn'},
+      on: { TOGGLE_POWER: "poweredOn" },
     },
     poweredOn: {
-      on: {TOGGLE_POWER: 'poweredOff'},
-      type: 'parallel', // parallel 타입으로 선언
+      on: { TOGGLE_POWER: "poweredOff" },
+      type: "parallel", // parallel 타입으로 선언
       states: {
         heated: {
-          initial: 'lowHeat',
+          initial: "lowHeat",
           // 계층 상태 구성 시 `states` 입력에 주의
           states: {
             lowHeat: {
-              on: {TOGGLE_HEAT: 'highHeat'},
+              on: { TOGGLE_HEAT: "highHeat" },
             },
             highHeat: {
-              on: {TOGGLE_HEAT: 'lowHeat'},
+              on: { TOGGLE_HEAT: "lowHeat" },
             },
           },
         },
         oscillation: {
-          initial: 'disabled',
+          initial: "disabled",
           states: {
             enabled: {
-              on: {TOGGLE_OSC: 'disabled'},
+              on: { TOGGLE_OSC: "disabled" },
             },
             disabled: {
-              on: {TOGGLE_OSC: 'enabled'},
+              on: { TOGGLE_OSC: "enabled" },
             },
           },
         },
       },
     },
   },
-})
+});
 ```
 
 위와 같이 상태 머신을 만들어 시각화 도구에서 확인해보면, `TOGGLE_HEAT` 이벤트와 `TOGGLE_OSC` 이벤트가 서로 연관없는 상태에 영향을 주지 않는 것을 확인할 수 있다.
@@ -761,31 +764,31 @@ const spaceHeater = Machine({
 
 먼저 아까 만들었던 `spaceHeater` 머신을 떠올려보고, 여기에 히스토리 타입의 상태를 지정해본다. `hist` 라는 상태를 지정했고, 이 상태를 가져다 쓰기 위해 타겟 상태 이름은 `poweredOn.hist` 처럼 문자열인데 객체 탐색 형테로 지정해주면 된다.
 
-```js{6,18-20}
+```js {6,18-20}
 const spaceHeater = Machine({
-  id: 'spaceHeater',
-  initial: 'poweredOff',
+  id: "spaceHeater",
+  initial: "poweredOff",
   states: {
     poweredOff: {
-      on: {TOGGLE_POWER: 'poweredOn.hist'},
+      on: { TOGGLE_POWER: "poweredOn.hist" },
     },
     poweredOn: {
-      on: {TOGGLE_POWER: 'poweredOff'},
-      initial: 'low',
+      on: { TOGGLE_POWER: "poweredOff" },
+      initial: "low",
       states: {
         low: {
-          on: {TOGGLE_HEAT: 'high'},
+          on: { TOGGLE_HEAT: "high" },
         },
         high: {
-          on: {TOGGLE_HEAT: 'low'},
+          on: { TOGGLE_HEAT: "low" },
         },
         hist: {
-          type: 'history',
+          type: "history",
         },
       },
     },
   },
-})
+});
 ```
 
 ![History 상태가 연결된 모습](@assets/images/2020-05-05_03.png)
@@ -805,24 +808,24 @@ const spaceHeater = Machine({
 
 Null 이벤트는 이벤트 이름에 빈 문자열(`''`) 을 지정하는 것으로 만들 수 있다. 조건에 만족하지 않는다면 바로 지정된 상태로 트랜지션 시켜버리는 것도 가능할 것이다. 아래의 예를 보면, `idle` 상태에서 `trying` 상태로 전환될 때 `success` 로 갈 조건이 맞지 않으면 `idle` 로 돌려보내는 모습을 볼 수 있다.
 
-```js{17}
+```js {17}
 const tryTryAgainMachine = Machine(
   {
-    id: 'tryTryAgain',
-    initial: 'idle',
+    id: "tryTryAgain",
+    initial: "idle",
     context: {
       tries: 0,
     },
     states: {
       idle: {
-        on: {TRY: 'trying'},
+        on: { TRY: "trying" },
       },
       trying: {
-        entry: ['incTries'],
+        entry: ["incTries"],
         on: {
           // triedEnough 조건에 만족하지 않는다면 자동으로 'idle' 상태로 되돌아간다.
           // 조건에 만족한다면 자동으로 'success' 상태로 전환된다.
-          '': [{target: 'success', cond: 'triedEnough'}, {target: 'idle'}],
+          "": [{ target: "success", cond: "triedEnough" }, { target: "idle" }],
         },
       },
       success: {},
@@ -838,7 +841,7 @@ const tryTryAgainMachine = Machine(
       triedEnough: ctx => ctx.tries > 3,
     },
   }
-)
+);
 ```
 
 ## 이벤트와 트랜지션에 딜레이 주기
@@ -849,26 +852,26 @@ const tryTryAgainMachine = Machine(
 
 아래의 예는 위에 설명한 내용대로 신호등 머신을 구현한 것이다.
 
-```js{8-10,24-30}
+```js {8-10,24-30}
 const stoplightMachine = Machine(
   {
-    id: 'stoplight',
-    initial: 'red',
+    id: "stoplight",
+    initial: "red",
     states: {
       green: {
         // 'on' 이 사용되지 않은 것을 주목
         after: {
-          GREEN_TIMER: 'yellow',
+          GREEN_TIMER: "yellow",
         },
       },
       yellow: {
         after: {
-          YELLO_TIMER: 'red',
+          YELLO_TIMER: "red",
         },
       },
       red: {
         after: {
-          RED_TIMER: 'green',
+          RED_TIMER: "green",
         },
       },
     },
@@ -880,7 +883,7 @@ const stoplightMachine = Machine(
       RED_TIMER: 4000,
     },
   }
-)
+);
 ```
 
 물론 `delays` 를 활용하는 이유는 이것 뿐만이 아니다. 값을 상수로만 넣는 것이 아니라 함수를 적용할 수 있다. `context` 에 따라 타이머 값이 일정한 크기로 늘거나 줄어들게 할 수 있다는 뜻이다.
@@ -912,38 +915,38 @@ const stoplightMachine = Machine(
 
 이번에는 `invoke` 라는 속성을 선언하여 비동기 상태를 다룰 수 있다. 먼저 가장 기본적인 형태로 reddit 의 공개 API 를 활용한 `cuteAnimalsMachine` 의 껍데기를 구현해본다.
 
-```js{18}
+```js {18}
 // 임의로 데이터를 가져오기 위한 함수. 다른 어느 공개 API 를 가져다 써도 상관 없다.
 const fetchCuteAnimals = () =>
-  fetch('https://www.reddit.com/r/aww.json')
+  fetch("https://www.reddit.com/r/aww.json")
     .then(res => res.json())
-    .then(data => data.data.children.map(child => child.data))
+    .then(data => data.data.children.map(child => child.data));
 
 const cuteAnimalMachine = Machine({
-  id: 'cuteAnimals',
-  initial: 'idle',
+  id: "cuteAnimals",
+  initial: "idle",
   context: {
     cuteAnimals: null,
     error: null,
   },
   states: {
     idle: {
-      on: {FETCH: 'loading'},
+      on: { FETCH: "loading" },
     },
     loading: {}, // 여기에 비동기 로직이 작성될 예정
     success: {
-      type: 'final',
+      type: "final",
     },
     failure: {
-      on: {RETRY: 'loading'},
+      on: { RETRY: "loading" },
     },
   },
-})
+});
 ```
 
 `loading` 부분에 다음과 같이 `invoke` 속성과 그에 따른 동작을 구현해준다. `invoke` 사용 시 `id` 속성과 `src` 를 활용해야 한다는 것을 잊지 말아야 한다.
 
-```js{5,7,13}
+```js {5,7,13}
 // ...
     loading: {
       invoke: {
@@ -977,83 +980,83 @@ const cuteAnimalMachine = Machine({
 1. `SPEAK` 가 수행될 때마다 `ECHO` 의 액션도 같이 수행되어야 한다.
 2. 추가로, `HEAR` 라는 타입의 이벤트가 전달될 때만 `ECHO` 가 수행되었으면 좋겠다.
 
-```js{6}
+```js {6}
 const echoMachine = Machine({
-  id: 'echo',
-  initial: 'listening',
+  id: "echo",
+  initial: "listening",
   states: {
     listening: {
       invoke: {}, // 여기에 있는 invoke 는 어떻게 채워질까?
       on: {
         SPEAK: {},
         ECHO: {
-          actions: () => console.log('echo, echo'),
+          actions: () => console.log("echo, echo"),
         },
       },
     },
   },
-})
+});
 ```
 
 이제 콜백 핸들러를 선언해본다. 콜백 핸들러는 `(context, event) => (callback, onReceive) => void | Function` 같은 형태로 선언할 수 있는데, 처음 패러매터 둘은 실제로 이벤트가 실행될 당시의 맥락이고, 리턴되는 함수의 인자인 `callback` 은 부모 머신에 다시 이벤트를 전달해주기 위한 수단, `onReceive` 는 핸들러로 이벤트가 수신되었을 때의 로직을 수행하기 위해 사용된다.
 
-```js{4-7,17-19,22}
+```js {4-7,17-19,22}
 const echoCallbackHandler = (ctx, event) => (callback, onReceive) => {
   // 이벤트를 수신하면 'ECHO' 를 타겟 부모 머신에 호출한다.
   onReceive(e => {
     // 'HEAR' 라는 타입의 이벤트를 수신할 때만 'ECHO' 한다.
-    if (e.type === 'HEAR') {
-      callback('ECHO')
+    if (e.type === "HEAR") {
+      callback("ECHO");
     }
-  })
-}
+  });
+};
 
 const echoMachine = Machine({
-  id: 'echo',
-  initial: 'listening',
+  id: "echo",
+  initial: "listening",
   states: {
     listening: {
       invoke: {
         // id 를 지정해두어야 한다.
-        id: 'echoCallback',
+        id: "echoCallback",
         src: echoCallbackHandler,
       },
       on: {
         SPEAK: {}, // 이제 다음은 여기에 코드가 작성될 예정이다.
         ECHO: {
-          actions: () => console.log('echo, echo'),
+          actions: () => console.log("echo, echo"),
         },
       },
     },
   },
-})
+});
 ```
 
 이제 `SPEAK` 이벤트가 수행 될 때의 동작을 정의한다. 간단히 `send('HEAR')` 를 할 수 있겠지만, 여기서 `send` 함수가 두 번째 인자를 받는다.
 
-```js{14}
+```js {14}
 const echoMachine = Machine({
-  id: 'echo',
-  initial: 'listening',
+  id: "echo",
+  initial: "listening",
   states: {
     listening: {
       invoke: {
         // id 를 지정해두어야 한다.
-        id: 'echoCallback',
+        id: "echoCallback",
         src: echoCallbackHandler,
       },
       on: {
         SPEAK: {
           // to 옵션에 타겟 id 를 지정해주면 된다.
-          actions: send('HEAR', {to: 'echoCallback'}),
+          actions: send("HEAR", { to: "echoCallback" }),
         },
         ECHO: {
-          actions: () => console.log('echo, echo'),
+          actions: () => console.log("echo, echo"),
         },
       },
     },
   },
-})
+});
 ```
 
 이렇게 구현된 머신에 `send('HEAR', ...)` 대신에 다른 이벤트명을 넣어보면 에코가 출력되지 않는 것을 알 수 있다.
@@ -1098,57 +1101,57 @@ const parentMachine = Machine({
 
 콜백 핸들러를 다룰 때처럼 머신을 다룰 때도 `id` 를 활용한다. 동작 원리 자체는 거의 유사하다. `invoke` 속성을 선언하고, `src` 속성에 `childMachine` 을 할당한다. 그리고 `send` 로 이벤트를 보낼 때 `{to: 'child'}` 와 같이 타겟의 아이디를 전달해주면 된다.
 
-```js{11,15}
+```js {11,15}
 const parentMachine = Machine({
-  id: 'parent',
-  initial: 'idle',
+  id: "parent",
+  initial: "idle",
   states: {
     idle: {
-      on: {ACTIVATE: 'active'},
+      on: { ACTIVATE: "active" },
     },
     active: {
       invoke: {
-        id: 'child',
+        id: "child",
         src: childMachine,
       },
       on: {
         STEP: {
-          actions: send('STEP', {to: 'child'}), // id 가 child 인 머신에게 'STEP' 이벤트를 전달한다.
+          actions: send("STEP", { to: "child" }), // id 가 child 인 머신에게 'STEP' 이벤트를 전달한다.
         },
       },
     },
     done: {},
   },
-})
+});
 ```
 
 ![child의 종료 상태와 parent 가 연결되지 않은 모습](@assets/images/2020-05-05_04.png)
 
 앞서 언급한 `onDone` 속성은 `invoke` 의 옵션으로 작성해주면 된다. 여기서는 `onDone: 'done'` 으로 자식 머신이 최종 상태에 도달할 때 부모의 상태도 `done` 으로 변경해보겠다.
 
-```js{12}
+```js {12}
 const parentMachine = Machine({
-  id: 'parent',
-  initial: 'idle',
+  id: "parent",
+  initial: "idle",
   states: {
     idle: {
-      on: {ACTIVATE: 'active'},
+      on: { ACTIVATE: "active" },
     },
     active: {
       invoke: {
-        id: 'child',
+        id: "child",
         src: childMachine,
-        onDone: 'done', // 새로 추가된 부분
+        onDone: "done", // 새로 추가된 부분
       },
       on: {
         STEP: {
-          actions: send('STEP', {to: 'child'}),
+          actions: send("STEP", { to: "child" }),
         },
       },
     },
     done: {},
   },
-})
+});
 ```
 
 ![child의 종료 상태와 parent 가 연결된 모습](@assets/images/2020-05-05_05.png)

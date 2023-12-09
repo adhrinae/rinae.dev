@@ -113,16 +113,14 @@ description: "Dan Abramov의 'A Complete Guide to useEffect' 번역"
 
 여기 카운터 컴포넌트가 있습니다. 하이라이트된 줄을 자세히 봐 주세요.
 
-```jsx{6}
+```jsx {6}
 function Counter() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
 }
@@ -141,12 +139,12 @@ const count = 42;
 
 처음으로 컴포넌트가 랜더링될 때, `useState` 로부터 가져온 `count` 변수는 `0` 입니다. `setCount(1)` 을 호출하면, 다시 컴포넌트를 호출하고. 이 때 `count` 는 `1` 이 되는 식입니다.
 
-```jsx{3,11,19}
+```jsx {3,11,19}
 // 처음 랜더링 시
 function Counter() {
   const count = 0; // useState() 로부터 리턴
   // ...
-  <p>You clicked {count} times</p>
+  <p>You clicked {count} times</p>;
   // ...
 }
 
@@ -154,7 +152,7 @@ function Counter() {
 function Counter() {
   const count = 1; // useState() 로부터 리턴
   // ...
-  <p>You clicked {count} times</p>
+  <p>You clicked {count} times</p>;
   // ...
 }
 
@@ -162,7 +160,7 @@ function Counter() {
 function Counter() {
   const count = 2; // useState() 로부터 리턴
   // ...
-  <p>You clicked {count} times</p>
+  <p>You clicked {count} times</p>;
   // ...
 }
 ```
@@ -187,24 +185,20 @@ function Counter() {
 
 아래의 예제를 봐 주세요. 이 컴포넌트는 3초 뒤에 `count` 값과 함께 얼럿(alert)을 띄워줍니다.
 
-```jsx{4-8,16-18}
+```jsx {4-8,16-18}
 function Counter() {
   const [count, setCount] = useState(0);
 
   function handleAlertClick() {
     setTimeout(() => {
-      alert('You clicked on: ' + count);
+      alert("You clicked on: " + count);
     }, 3000);
   }
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-      <button onClick={handleAlertClick}>
-        Show alert
-      </button>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+      <button onClick={handleAlertClick}>Show alert</button>
     </div>
   );
 }
@@ -242,21 +236,21 @@ _(다른 방식으로 동작할 수 있도록 구현하는 방법도 있습니�
 
 리액트만 특별이 이렇게 동작하는게 아닙니다. 보통의 함수도 같은 방식으로 동작합니다.
 
-```jsx{2}
+```jsx {2}
 function sayHi(person) {
   const name = person.name;
   setTimeout(() => {
-    alert('Hello, ' + name);
+    alert("Hello, " + name);
   }, 3000);
 }
 
-let someone = {name: 'Dan'};
+let someone = { name: "Dan" };
 sayHi(someone);
 
-someone = {name: 'Yuzhi'};
+someone = { name: "Yuzhi" };
 sayHi(someone);
 
-someone = {name: 'Dominic'};
+someone = { name: "Dominic" };
 sayHi(someone);
 ```
 
@@ -264,14 +258,14 @@ sayHi(someone);
 
 이 설명을 통해 클릭 시 우리의 이벤트 핸들러가 `count` 값을 잡아두었는지 알 수 있게 되었습니다. 또 한번 아래와 같이 치환해보면, 매 랜더링 마다 각각의 `count` 값을 "보는" 것입니다.
 
-```jsx{3,15,27}
+```jsx {3,15,27}
 // 처음 랜더링 시
 function Counter() {
   const count = 0; // useState() 로부터 리턴
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert('You clicked on: ' + count);
+      alert("You clicked on: " + count);
     }, 3000);
   }
   // ...
@@ -283,7 +277,7 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert('You clicked on: ' + count);
+      alert("You clicked on: " + count);
     }, 3000);
   }
   // ...
@@ -295,7 +289,7 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert('You clicked on: ' + count);
+      alert("You clicked on: " + count);
     }, 3000);
   }
   // ...
@@ -304,17 +298,17 @@ function Counter() {
 
 따라서 효과적으로, 각각의 랜더링은 고유한 "버전"의 `handleAlertClick` 을 리턴합니다. 그리고 각각의 버전은 고유의 `count` 를 "기억합니다".
 
-```js{6,10,19,23,32,36}
+```js {6,10,19,23,32,36}
 // 처음 랜더링 시
 function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert('You clicked on: ' + 0);
+      alert("You clicked on: " + 0);
     }, 3000);
   }
   // ...
-  <button onClick={handleAlertClick} /> // 0이 안에 들어있음
+  <button onClick={handleAlertClick} />; // 0이 안에 들어있음
   // ...
 }
 
@@ -323,11 +317,11 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert('You clicked on: ' + 1);
+      alert("You clicked on: " + 1);
     }, 3000);
   }
   // ...
-  <button onClick={handleAlertClick} /> // 1이 안에 들어있음
+  <button onClick={handleAlertClick} />; // 1이 안에 들어있음
   // ...
 }
 
@@ -336,11 +330,11 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert('You clicked on: ' + 2);
+      alert("You clicked on: " + 2);
     }, 3000);
   }
   // ...
-  <button onClick={handleAlertClick} /> // 2가 안에 들어있음
+  <button onClick={handleAlertClick} />; // 2가 안에 들어있음
   // ...
 }
 ```
@@ -357,7 +351,7 @@ _참고 노트: 저는 위의 예제에서 `handleAlertClick` 함수 안에 직�
 
 [이 문서](https://reactjs.org/docs/hooks-effect.html)에 있는 예제로 돌아가 보겠습니다.
 
-```jsx{4-6}
+```jsx {4-6}
 function Counter() {
   const [count, setCount] = useState(0);
 
@@ -367,9 +361,7 @@ function Counter() {
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
 }
@@ -387,7 +379,7 @@ function Counter() {
 
 각각의 이펙트 버전은 매번 랜더링에 "속한" `count` 값을 "봅니다".
 
-```jsx{5-8,17-20,29-32}
+```jsx {5-8,17-20,29-32}
 // 최초 랜더링 시
 function Counter() {
   // ...
@@ -468,7 +460,7 @@ function Counter() {
 
 생각이 맞는지 실험을 해 보겠습니다. 아래의 코드를 보시죠.
 
-```jsx{4-8}
+```jsx {4-8}
 function Counter() {
   const [count, setCount] = useState(0);
 
@@ -480,9 +472,7 @@ function Counter() {
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
 }
@@ -526,7 +516,7 @@ componentDidUpdate() {
 
 따라서 아래의 두 예제는 같습니다.
 
-```jsx{4}
+```jsx {4}
 function Example(props) {
   useEffect(() => {
     setTimeout(() => {
@@ -537,7 +527,7 @@ function Example(props) {
 }
 ```
 
-```jsx{2,5}
+```jsx {2,5}
 function Example(props) {
   const counter = props.counter;
   useEffect(() => {
@@ -557,7 +547,7 @@ function Example(props) {
 
 여기 클래스 컴포넌트로 일으켰던 동작을 따라해본 버전의 [카운터 예제](https://codesandbox.io/s/rm7z22qnlp)가 있습니다.
 
-```jsx{3,6-7,9-10}
+```jsx {3,6-7,9-10}
 function Example() {
   const [count, setCount] = useState(0);
   const latestCount = useRef(count);
@@ -620,7 +610,7 @@ useEffect(() => {
 
 이제 답이 명확해졌네요! 어찌되었건 이펙트의 클린업은 "최신" prop을 읽지 않습니다. 클린업이 정의된 시점의 랜더링에 있던 값을 읽는 것입니다.
 
-```jsx{8-11}
+```jsx {8-11}
 // 첫 번째 랜더링, props는 {id: 10}
 function Example() {
   // ...
@@ -678,16 +668,12 @@ function Greeting({ name }) {
 
 이펙트도 같은 방식으로 생각하셔야 합니다. **`useEffect` 는 리액트 트리 바깥에 있는 것들을 props와 state에 따라 _동기화_ 할 수 있게 합니다.**
 
-```jsx{2-4}
+```jsx {2-4}
 function Greeting({ name }) {
   useEffect(() => {
-    document.title = 'Hello, ' + name;
+    document.title = "Hello, " + name;
   });
-  return (
-    <h1 className="Greeting">
-      Hello, {name}
-    </h1>
-  );
+  return <h1 className="Greeting">Hello, {name}</h1>;
 }
 ```
 
@@ -733,20 +719,18 @@ domNode.innerText = "Hello, Yuzhi";
 
 예를 들어 아마 아래의 컴포넌트는 상태 변화 때문에 다시 랜더링 될 것입니다.
 
-```jsx{11-13}
+```jsx {11-13}
 function Greeting({ name }) {
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
-    document.title = 'Hello, ' + name;
+    document.title = "Hello, " + name;
   });
 
   return (
     <h1 className="Greeting">
       Hello, {name}
-      <button onClick={() => setCounter(count + 1)}>
-        Increment
-      </button>
+      <button onClick={() => setCounter(count + 1)}>Increment</button>
     </h1>
   );
 }
@@ -770,9 +754,9 @@ let newEffect = () => {
 
 그래서 특정한 이펙트가 불필요하게 다시 실행되는 것을 방지하고 싶다면 의존성 배열을("deps" 라고 알려진 녀석이죠) `useEffect` 의 인자로 전달할 수 있는 것입니다.
 
-```jsx{3}
+```jsx {3}
 useEffect(() => {
-  document.title = 'Hello, ' + name;
+  document.title = "Hello, " + name;
 }, [name]); // 우리의 의존성
 ```
 
@@ -827,9 +811,9 @@ _([Hooks FAQ](https://reactjs.org/docs/hooks-faq.html#is-it-safe-to-omit-functio
 
 만약 deps가 이펙트에 사용하는 모든 값을 가지고 있다면, 리액트는 언제 다시 이펙트를 실행해야 할 지 알고 있습니다.
 
-```jsx{3}
+```jsx {3}
 useEffect(() => {
-  document.title = 'Hello, ' + name;
+  document.title = "Hello, " + name;
 }, [name]);
 ```
 
@@ -838,9 +822,9 @@ _(의존성이 다르기 때문에 이펙트를 다시 실행한다.)_
 
 하지만 만약 이펙트에 `[]` 를 넘겨주었다면, 새 이펙트 함수는 실행되지 않을 것입니다.
 
-```jsx{3}
+```jsx {3}
 useEffect(() => {
-  document.title = 'Hello, ' + name;
+  document.title = "Hello, " + name;
 }, []); // 틀렸음: deps에 name이 없다
 ```
 
@@ -851,7 +835,7 @@ _(의존성이 같으므로 이펙트는 스킵한다.)_
 
 예를 들어 매 초마다 숫자가 올라가는 카운터를 작성한다고 해 보겠습니다. 클래스 컴포넌트의 개념을 적용했을 때 우리의 직관은 "인터벌을 한 번만 설정하고, 한 번만 제거하자" 가 됩니다. 그 생각을 코드로 옮기면 [이런 예제](https://codesandbox.io/s/n5mjzjy9kl)가 됩니다. 이 멘탈 모델을 가지고 `useEffect` 를 사용한 코드로 변환하게 되면, 직관적으로 deps에 `[]` 를 넣게 됩니다. "이게 한번만 실행됐으면 좋겠어." 라고요. 그렇죠?
 
-```jsx{9}
+```jsx {9}
 function Counter() {
   const [count, setCount] = useState(0);
 
@@ -873,7 +857,7 @@ function Counter() {
 
 첫 번째 랜더링에서 `count` 는 `0` 입니다. 따라서 첫 번째 랜더링의 이펙트에서 `setCount(count + 1)` 는 `setCount(0 + 1)` 이라는 뜻이 됩니다. **deps 를 `[]` 라고 정의했기 때문에 이펙트를 절대 다시 실행하지 않고, 결국 그로 인해 매 초마다 `setCount(0 + 1)` 을 호출하는 것입니다.**
 
-```jsx{8,12,21-22}
+```jsx {8,12,21-22}
 // 첫 번째 랜더링, state는 0
 function Counter() {
   // ...
@@ -912,15 +896,14 @@ function Counter() {
 
 이펙트는 컴포넌트 안에 있는 값인(하지만 이펙트 바깥에 있는) `count` 값을 쓰고 있습니다.
 
-```js{1,5}
+```js {1,5}
 const count = // ...
-
-useEffect(() => {
-  const id = setInterval(() => {
-    setCount(count + 1);
-  }, 1000);
-  return () => clearInterval(id);
-}, []);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount(count + 1);
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
 ```
 
 따라서 `[]` 을 의존성 배열로 지정하는 것은 버그를 만들 것입니다. 리액트는 배열을 비교하고, 이 이펙트를 업데이트 하지 않을 것입니다.
@@ -936,7 +919,7 @@ _(의존성이 같으므로 이펙트는 스킵한다.)_
 
 **첫 번째 방법은 컴포넌트 안에 있으면서 이펙트에서 사용되는 _모든_ 값이 의존성 배열 안에 포함되도록 고치는 것입니다.** `count` 를 deps에 추가해 보겠습니다.
 
-```jsx{3,6}
+```jsx {3,6}
 useEffect(() => {
   const id = setInterval(() => {
     setCount(count + 1);
@@ -947,7 +930,7 @@ useEffect(() => {
 
 이렇게 의존성 배열을 올바르게 만들었습니다. _이상적이지_ 않을 수 있지만 우리가 고쳐야 하는 첫 번째 문제를 해결한 것입니다. 이제 `count` 값은 이펙트를 다시 실행하고 매번 다음 인터벌에서 `setCount(count + 1)` 부분은 해당 랜더링 시점의 `count` 값을 사용할 겁니다.
 
-```jsx{8,12,24,28}
+```jsx {8,12,24,28}
 // 첫 번째 랜더링, state는 0
 function Counter() {
   // ...
@@ -998,7 +981,7 @@ _(의존성이 다르기 때문에 이펙트를 다시 실행한다)_
 
 우리는 이펙트의 의존성에서 `count` 를 제거하도록 만들고 싶습니다.
 
-```jsx{3,6}
+```jsx {3,6}
 useEffect(() => {
   const id = setInterval(() => {
     setCount(count + 1);
@@ -1009,7 +992,7 @@ useEffect(() => {
 
 문제를 해결하기 위해 먼저 자신에게 질문을 해 봅시다. **무엇 때문에 `count` 를 쓰고 있나요?** 오로지 `setCount` 를 위해 사용하고 있는 것으로 보입니다. 이 경우에 스코프 안에서 `count` 를 쓸 필요가 전혀 없습니다. 이전 상태를 기준으로 상태 값을 업데이트 하고 싶을 때는, `setState` 에 [함수 형태의 업데이터를](https://reactjs.org/docs/hooks-reference.html#functional-updates) 사용하면 됩니다.
 
-```jsx{3}
+```jsx {3}
 useEffect(() => {
   const id = setInterval(() => {
     setCount(c => c + 1);
@@ -1045,7 +1028,7 @@ _(의존성은 같으므로 이펙트는 스킵한다.)_
 
 이전의 예제를 `count` 와 `step` 두 가지 상태 변수를 가지는 것으로 바꿔보겠습니다. 인터벌은 `step` 입력값에 따라 `count` 값을 더할 것입니다.
 
-```jsx{7,10}
+```jsx {7,10}
 function Counter() {
   const [count, setCount] = useState(0);
   const [step, setStep] = useState(1);
@@ -1079,13 +1062,13 @@ function Counter() {
 
 이펙트 안에서 `step` 의존성을 `dispatch` 로 바꾸어 보겠습니다.
 
-```jsx{1,6,9}
+```jsx {1,6,9}
 const [state, dispatch] = useReducer(reducer, initialState);
 const { count, step } = state;
 
 useEffect(() => {
   const id = setInterval(() => {
-    dispatch({ type: 'tick' }); // setCount(c => c + step) 대신에
+    dispatch({ type: "tick" }); // setCount(c => c + step) 대신에
   }, 1000);
   return () => clearInterval(id);
 }, [dispatch]);
@@ -1101,7 +1084,7 @@ _(리액트가 `dispatch`, `setState`, `useRef` 컨테이너 값이 항상 고�
 
 이펙트 안에서 상태를 읽는 대신 _무슨 일이 일어났는지_ 알려주는 정보를 인코딩하는 _액션을_ 디스패치합니다. 이렇게 하여 이펙트는 `step` 상태로부터 분리되어 있게 됩니다. 이펙트는 _어떻게_ 상태를 업데이트 할지 신경쓰지 않고, 단지 _무슨 일이 일어났는지_ 알려줍니다. 그리고 리듀서가 업데이트 로직을 모아둡니다.
 
-```jsx{8,9}
+```jsx {8,9}
 const initialState = {
   count: 0,
   step: 1,
@@ -1109,9 +1092,9 @@ const initialState = {
 
 function reducer(state, action) {
   const { count, step } = state;
-  if (action.type === 'tick') {
+  if (action.type === "tick") {
     return { count: count + step, step };
-  } else if (action.type === 'step') {
+  } else if (action.type === "step") {
     return { count, step: action.step };
   } else {
     throw new Error();
@@ -1127,12 +1110,12 @@ function reducer(state, action) {
 
 사실은 피할 수 있어요! _리듀서 그 자체를_ 컴포넌트 안에 정의하여 props를 읽도록 하면 됩니다.
 
-```jsx{1,6}
+```jsx {1,6}
 function Counter({ step }) {
   const [count, dispatch] = useReducer(reducer, 0);
 
   function reducer(state, action) {
-    if (action.type === 'tick') {
+    if (action.type === "tick") {
       return state + step;
     } else {
       throw new Error();
@@ -1141,7 +1124,7 @@ function Counter({ step }) {
 
   useEffect(() => {
     const id = setInterval(() => {
-      dispatch({ type: 'tick' });
+      dispatch({ type: "tick" });
     }, 1000);
     return () => clearInterval(id);
   }, [dispatch]);
@@ -1162,7 +1145,7 @@ function Counter({ step }) {
 
 흔한 실수 중 하나가 함수는 의존성에 포함되면 안된다는 것입니다. 예를 들어 이 코드는 동작하는 것 처럼 보입니다.
 
-```jsx{13}
+```jsx {13}
 function SearchResults() {
   const [data, setData] = useState({ hits: [] });
 
@@ -1208,13 +1191,13 @@ function SearchResults() {
 
 이제 나중에 이 함수들 중에 하나가 state나 prop을 사용한다고 생각해 봅시다.
 
-```jsx{6}
+```jsx {6}
 function SearchResults() {
-  const [query, setQuery] = useState('react');
+  const [query, setQuery] = useState("react");
 
   // 이 함수가 길다고 상상해 봅시다
   function getFetchUrl() {
-    return 'https://hn.algolia.com/api/v1/search?query=' + query;
+    return "https://hn.algolia.com/api/v1/search?query=" + query;
   }
 
   // 이 함수가 길다고 상상해 봅시다
@@ -1235,13 +1218,13 @@ function SearchResults() {
 
 다행히도, 이 문제를 해결할 쉬운 방법이 있습니다. **어떠한 함수를 이펙트 _안에서만_ 쓴다면, 그 함수를 직접 이펙트 _안으로_ 옮기세요.**
 
-```jsx{4-12}
+```jsx {4-12}
 function SearchResults() {
   // ...
   useEffect(() => {
     // 아까의 함수들을 안으로 옮겼어요!
     function getFetchUrl() {
-      return 'https://hn.algolia.com/api/v1/search?query=react';
+      return "https://hn.algolia.com/api/v1/search?query=react";
     }
 
     async function fetchData() {
@@ -1260,13 +1243,13 @@ function SearchResults() {
 
 나중에 `getFetchUrl` 을 수정하고 `query` state를 써야한다고 하면, 이펙트 _안에 있는_ 함수만 고치면 된다는 것을 쉬이 발견할 수 있습니다. 거기에 더해 `query` 를 이펙트의 의존성으로 추가해야겠지요.
 
-```jsx{6,15}
+```jsx {6,15}
 function SearchResults() {
-  const [query, setQuery] = useState('react');
+  const [query, setQuery] = useState("react");
 
   useEffect(() => {
     function getFetchUrl() {
-      return 'https://hn.algolia.com/api/v1/search?query=' + query;
+      return "https://hn.algolia.com/api/v1/search?query=" + query;
     }
 
     async function fetchData() {
@@ -1320,19 +1303,19 @@ function SearchResults() {
 
 이 경우 `getFetchUrl` 을 각각의 이펙트 안으로 옮기게 되면 로직을 공유할 수 없으니 그다지 달갑지 않습니다. 두 이펙트 모두 **(매 랜더링마다 바뀌는)** `getFetchUrl` 에 기대고 있으니, 의존성 배열도 쓸모가 없습니다.
 
-```jsx{2-5}
+```jsx {2-5}
 function SearchResults() {
   // 🔴 매번 랜더링마다 모든 이펙트를 다시 실행한다
   function getFetchUrl(query) {
-    return 'https://hn.algolia.com/api/v1/search?query=' + query;
+    return "https://hn.algolia.com/api/v1/search?query=" + query;
   }
   useEffect(() => {
-    const url = getFetchUrl('react');
+    const url = getFetchUrl("react");
     // ... 데이터를 불러와서 무언가를 한다 ...
   }, [getFetchUrl]); // 🚧 Deps는 맞지만 너무 자주 바뀐다
 
   useEffect(() => {
-    const url = getFetchUrl('redux');
+    const url = getFetchUrl("redux");
     // ... 데이터를 불러와서 무언가를 한다 ...
   }, [getFetchUrl]); // 🚧 Deps는 맞지만 너무 자주 바뀐다
 
@@ -1346,19 +1329,19 @@ function SearchResults() {
 
 **먼저, 함수가 컴포넌트 스코프 안의 어떠한 것도 사용하지 않는다면, 컴포넌트 외부로 끌어올려두고 이펙트 안에서 자유롭게 사용하면 됩니다.**
 
-```jsx{1-4}
+```jsx {1-4}
 // ✅ 데이터 흐름에 영향을 받지 않는다
 function getFetchUrl(query) {
-  return 'https://hn.algolia.com/api/v1/search?query=' + query;
+  return "https://hn.algolia.com/api/v1/search?query=" + query;
 }
 function SearchResults() {
   useEffect(() => {
-    const url = getFetchUrl('react');
+    const url = getFetchUrl("react");
     // ... 데이터를 불러와서 무언가를 한다 ...
   }, []); // ✅ Deps는 OK
 
   useEffect(() => {
-    const url = getFetchUrl('redux');
+    const url = getFetchUrl("redux");
     // ... 데이터를 불러와서 무언가를 한다 ...
   }, []); // ✅ Deps는 OK
 
@@ -1370,19 +1353,19 @@ function SearchResults() {
 
 혹은 [`useCallback` 훅](https://reactjs.org/docs/hooks-reference.html#usecallback)으로 감쌀 수 있습니다.
 
-```jsx{2-5}
+```jsx {2-5}
 function SearchResults() {
   // ✅ 여기 정의된 deps가 같다면 항등성을 유지한다
-  const getFetchUrl = useCallback((query) => {
-    return 'https://hn.algolia.com/api/v1/search?query=' + query;
-  }, []);  // ✅ 콜백의 deps는 OK
+  const getFetchUrl = useCallback(query => {
+    return "https://hn.algolia.com/api/v1/search?query=" + query;
+  }, []); // ✅ 콜백의 deps는 OK
   useEffect(() => {
-    const url = getFetchUrl('react');
+    const url = getFetchUrl("react");
     // ... 데이터를 불러와서 무언가를 한다 ...
   }, [getFetchUrl]); // ✅ 이펙트의 deps는 OK
 
   useEffect(() => {
-    const url = getFetchUrl('redux');
+    const url = getFetchUrl("redux");
     // ... 데이터를 불러와서 무언가를 한다 ...
   }, [getFetchUrl]); // ✅ 이펙트의 deps는 OK
 
@@ -1396,11 +1379,12 @@ function SearchResults() {
 
 그렇게 수정하면 즉시 `query` 의존성이 빠져있다는 사실을 파악하게 됩니다.
 
-```jsx{5}
+```jsx {5}
 function SearchResults() {
-  const [query, setQuery] = useState('react');
-  const getFetchUrl = useCallback(() => { // No query argument
-    return 'https://hn.algolia.com/api/v1/search?query=' + query;
+  const [query, setQuery] = useState("react");
+  const getFetchUrl = useCallback(() => {
+    // No query argument
+    return "https://hn.algolia.com/api/v1/search?query=" + query;
   }, []); // 🔴 빠진 의존성: query
   // ...
 }
@@ -1408,14 +1392,14 @@ function SearchResults() {
 
 제가 `useCallback` 의 deps에 `query` 를 포함하도록 고치면, `getFetchUrl` 을 사용하는 어떠한 이펙트라도 `query` 가 바뀔 때마다 다시 실행될 것입니다.
 
-```jsx{4-7}
+```jsx {4-7}
 function SearchResults() {
-  const [query, setQuery] = useState('react');
+  const [query, setQuery] = useState("react");
 
   // ✅ query가 바뀔 때까지 항등성을 유지한다
   const getFetchUrl = useCallback(() => {
-    return 'https://hn.algolia.com/api/v1/search?query=' + query;
-  }, [query]);  // ✅ 콜백 deps는 OK
+    return "https://hn.algolia.com/api/v1/search?query=" + query;
+  }, [query]); // ✅ 콜백 deps는 OK
   useEffect(() => {
     const url = getFetchUrl();
     // ... 데이터를 불러와서 무언가를 한다 ...
@@ -1429,16 +1413,16 @@ function SearchResults() {
 
 이것은 그저 데이터 흐름과 동기화에 대한 개념을 받아들인 결과입니다. **부모로부터 함수 prop을 내려보내는 것 또한 같은 해결책이 적용됩니다.**
 
-```jsx{4-8}
+```jsx {4-8}
 function Parent() {
-  const [query, setQuery] = useState('react');
+  const [query, setQuery] = useState("react");
 
   // ✅ query가 바뀔 때까지 항등성을 유지한다
   const fetchData = useCallback(() => {
-    const url = 'https://hn.algolia.com/api/v1/search?query=' + query;
+    const url = "https://hn.algolia.com/api/v1/search?query=" + query;
     // ... 데이터를 불러와서 리턴한다 ...
-  }, [query]);  // ✅ 콜백 deps는 OK
-  return <Child fetchData={fetchData} />
+  }, [query]); // ✅ 콜백 deps는 OK
+  return <Child fetchData={fetchData} />;
 }
 
 function Child({ fetchData }) {
@@ -1458,13 +1442,14 @@ function Child({ fetchData }) {
 
 흥미롭게도 이 패턴은 클래스 컴포넌트에서 사용하면 제대로 동작하지 않는데, 이게 이펙트와 라이프사이클 패러다임의 결정적인 차이를 보여줍니다. 위의 코드를 클래스 컴포넌트로 치환해봤다고 칩시다.
 
-```jsx{5-8,18-20}
+```jsx {5-8,18-20}
 class Parent extends Component {
   state = {
-    query: 'react'
+    query: "react",
   };
   fetchData = () => {
-    const url = 'https://hn.algolia.com/api/v1/search?query=' + this.state.query;
+    const url =
+      "https://hn.algolia.com/api/v1/search?query=" + this.state.query;
     // ... 데이터를 불러와서 무언가를 한다 ...
   };
   render() {
@@ -1474,7 +1459,7 @@ class Parent extends Component {
 
 class Child extends Component {
   state = {
-    data: null
+    data: null,
   };
   componentDidMount() {
     this.props.fetchData();
@@ -1487,10 +1472,10 @@ class Child extends Component {
 
 아마도 이런 생각을 하실겁니다. "이봐요 댄, 이제 우리 모두 `useEffect` 는 `componentDidMount` 와 `componentDidUpdate` 가 섞인 것이라는 것을 알고 있어요. 이렇게 계속 뒷북을 칠 필요는 없다구요!" **하지만 이 로직은 `componentDidUpdate` 에선 동작하지 않습니다.**
 
-```jsx{8-13}
+```jsx {8-13}
 class Child extends Component {
   state = {
-    data: null
+    data: null,
   };
   componentDidMount() {
     this.props.fetchData();
@@ -1527,13 +1512,14 @@ render() {
 
 진짜 클래스 컴포넌트로 이 수수께끼를 해결하는 방법은 이 꽉 깨물고 `query` 자체를 `Child` 컴포넌트에 넘기는 것 뿐입니다. `Child` 컴포넌트가 `query` 를 직접 사용하지 않음에도 불구하고 `query` 가 바뀔 때 다시 데이터를 불러오는 로직은 해결할 수 있습니다.
 
-```jsx{10,22-24}
+```jsx {10,22-24}
 class Parent extends Component {
   state = {
-    query: 'react'
+    query: "react",
   };
   fetchData = () => {
-    const url = 'https://hn.algolia.com/api/v1/search?query=' + this.state.query;
+    const url =
+      "https://hn.algolia.com/api/v1/search?query=" + this.state.query;
     // ... 데이터를 불러와서 무언가를 한다 ...
   };
   render() {
@@ -1543,7 +1529,7 @@ class Parent extends Component {
 
 class Child extends Component {
   state = {
-    data: null
+    data: null,
   };
   componentDidMount() {
     this.props.fetchData();
@@ -1603,10 +1589,10 @@ class Article extends Component {
 
 아마 아시겠지만, 이 코드는 버그가 있습니다. 컴포넌트가 업데이트되는 상황을 다루지 않지요. 그래서 두 번째 클래스 컴포넌트 예제를 온라인에서 찾아보면 이렇게 생겼을 겁니다.
 
-```jsx{8-12}
+```jsx {8-12}
 class Article extends Component {
   state = {
-    article: null
+    article: null,
   };
   componentDidMount() {
     this.fetchData(this.props.id);
@@ -1634,7 +1620,7 @@ class Article extends Component {
 
 또는 제일 쉽게 불린(boolean) 값으로 흐름이 멈춰야 하는 타이밍을 조절할 수 있습니다.
 
-```jsx{5,9,16-18}
+```jsx {5,9,16-18}
 function Article({ id }) {
   const [article, setArticle] = useState(null);
 
