@@ -5,7 +5,6 @@ export const SITE: Site = {
   author: "Dohyung Ahn (안도형)",
   desc: "평범한 개발자가 배우고 느낀 것을 기록하는 공간입니다.",
   title: "리내로그",
-  ogImage: "og-image.jpg",
   lightAndDarkMode: true,
   postPerPage: 7,
 };

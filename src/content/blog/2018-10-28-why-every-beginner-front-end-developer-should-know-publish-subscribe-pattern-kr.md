@@ -5,7 +5,6 @@ title: "[번역] 초보 프론트엔드 개발자들을 위한 Pub-Sub(Publish-S
 tags:
   - Translation
   - JavaScript
-ogImage: "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=64a7f5e870e2c0286c20c3f8e5572927&auto=format&fit=crop&w=1953&q=80"
 description: "비동기 자바스크립트 코드를 덜 괴롭게 이해하는 방법"
 ---
 

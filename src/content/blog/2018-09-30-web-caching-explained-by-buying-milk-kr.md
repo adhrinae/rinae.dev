@@ -5,7 +5,6 @@ title: "[번역] 슈퍼마켓에서 우유를 사면서 웹 캐싱(Web Caching)�
 tags:
   - Web Fundamental
   - Translation
-ogImage: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7d50be9f2155f55c280b89ad55e66585&auto=format&fit=crop&w=1953&q=80"
 description: "웹 개발을 할 때 기본 중의 기본이지만 대충 알고 넘어갔던 캐싱을 아주 깔끔하게 설명한 글"
 ---
 

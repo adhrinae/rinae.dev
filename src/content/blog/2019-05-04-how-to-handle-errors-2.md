@@ -7,7 +7,6 @@ tags:
   - JavaScript
   - TypeScript
   - Functional Programming
-ogImage: "https://images.unsplash.com/photo-1506702315536-dd8b83e2dcf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
 description: "에러 처리를 일관된 형태로 하기 위한 고민 이야기, 두 번째"
 ---
 

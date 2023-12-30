@@ -6,7 +6,6 @@ tags:
   - Translation
   - OOP
   - Programming
-ogImage: "https://images.unsplash.com/photo-1514880448122-7e417213b996?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1953&q=80"
 description: "OOP를 향한 신랄한 비판(?) 번역 (not about functional programming) - 비판적으로 읽어주세요"
 ---
 

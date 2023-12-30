@@ -7,7 +7,6 @@ tags:
   - TypeScript
   - React
   - MobX
-ogImage: "https://images.unsplash.com/photo-1515674447568-09bbb507b96c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
 description: "React + Hooks + MST(mobx-state-tree) 사용 시 데이터와 UI 결합 에 대한 고민 및 아이디어"
 ---
 
