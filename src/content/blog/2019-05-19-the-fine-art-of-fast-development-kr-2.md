@@ -75,13 +75,13 @@ CSS는 특히 문제가 많은 부분인데요. 왜냐면 사람들이 문서도
 
 (‘세 배’ 라는 말은 지어낸 겁니다. 인터넷에서 보는 모든 정보를 믿지 마세요.)
 
-![사진과 따옴표가 있다고 해서 인터넷에 있는 모든 것을 그대로 믿지 마라](/images/2019-05-19_01.jpg)
+![사진과 따옴표가 있다고 해서 인터넷에 있는 모든 것을 그대로 믿지 마라](@assets/images/2019-05-19_01.jpg)
 
 시간을 많이 낭비한다고 의심되는 부분을 찾았다면, 이렇게 되물을 수 있습니다. “내가 앞으로 몇 년이나 이 분야의 일을 더 하면서 이 부분의 개념을 깊이 이해하는게 (금전적으로/시간적으로) 도움이 될까?”
 
 아마 답은 “그렇다” 겠죠. 그러니 입술 꽉 깨물고 빌어먹을 문서를 읽으세요(bite the bullet and RTFM-Read the fucking manual).
 
-![플러그인 사용 전과 후](/images/2019-05-19_02.png)
+![플러그인 사용 전과 후](@assets/images/2019-05-19_02.png)
 [뻔뻔한 플러그인 추천: 대부분의 웹 스펙 문서(w3c, csswg, ecma-262 등)는 끔찍한 모양으로 보이기 때문에 저는 이 문서들이 읽기 좋게 보이는 [크롬 확장을 만들었습니다.](https://chrome.google.com/webstore/detail/readable-web-specs/eibjmadbfeploomlljmgdkglmidgbpin?hl=en-GB)]\
 [페이지마다 스크롤 위치를 기억하는 [다른 확장도](https://chrome.google.com/webstore/detail/scroll-memory/iidnpfiaeiohlkmaehhjoiffcmjclpap?hl=en-GB) 만들었습니다. 하루에 30분정도씩 기나긴 웹 스펙을 읽을 때 유용합니다.]
 
