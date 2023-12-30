@@ -1,17 +1,23 @@
 module.exports = {
   env: {
+    node: true,
+    es2022: true,
     browser: true,
-    es6: true,
   },
-  plugins: ['react'],
-  globals: {
-    graphql: false,
-  },
+  extends: ["eslint:recommended", "plugin:astro/recommended"],
   parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
-}
+  overrides: [
+    {
+      files: ["*.astro"],
+      parser: "astro-eslint-parser",
+      parserOptions: {
+        parser: "@typescript-eslint/parser",
+        extraFileExtensions: [".astro"],
+      },
+      rules: {},
+    },
+  ],
+};
