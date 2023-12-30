@@ -15,7 +15,18 @@ const { noMarginTop = false } = Astro.props;
   <Hr noPadding />
   <div class="footer-wrapper">
     <Socials centered />
-    <div class="copyright-wrapper"></div>
+    <div class="copyright-wrapper">
+      <a
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+        target="_blank"
+        rel="noreferrer"
+        class="underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-700 dark:decoration-zinc-500 hover:dark:text-zinc-100 hover:dark:decoration-zinc-300"
+      >
+        CC BY-NC-SA 4.0
+      </a>
+      <span>&#169; {currentYear}</span>
+      <span>Dohyung Ahn</span>
+    </div>
   </div>
 </footer>
 
@@ -33,9 +44,7 @@ const { noMarginTop = false } = Astro.props;
     @apply scale-125;
   }
   .copyright-wrapper {
-    @apply my-2 flex flex-col items-center whitespace-nowrap sm:flex-row;
+    @apply my-2 flex flex-col items-center whitespace-nowrap sm:flex-row gap-2;
   }
-  .separator {
-    @apply hidden sm:inline;
-  }
+  
 </style>
