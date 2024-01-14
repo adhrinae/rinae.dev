@@ -1,5 +1,5 @@
 ---
-postSlug: "how-do-you-take-an-app-from-no-tests-to-tdd-kor"
+slug: "how-do-you-take-an-app-from-no-tests-to-tdd-kor"
 pubDatetime: 2017-01-16
 title: "[번역] 테스트가 없는 앱을 이용하여 TDD를 배우는 방법"
 tags:

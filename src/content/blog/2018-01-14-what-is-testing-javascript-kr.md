@@ -1,5 +1,5 @@
 ---
-postSlug: "what-is-testing-javascript-kr"
+slug: "what-is-testing-javascript-kr"
 pubDatetime: 2018-01-14
 title: "[번역] 그래서, 자바스크립트 테스트가 뭔가요?"
 tags:

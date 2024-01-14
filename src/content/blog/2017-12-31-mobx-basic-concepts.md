@@ -1,5 +1,5 @@
 ---
-postSlug: "mobx-basic-concepts"
+slug: "mobx-basic-concepts"
 pubDatetime: 2017-12-31
 title: "MobX로 상태 관리하기"
 tags:

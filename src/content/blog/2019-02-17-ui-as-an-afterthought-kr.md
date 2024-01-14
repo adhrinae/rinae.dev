@@ -1,5 +1,5 @@
 ---
-postSlug: "ui-as-an-afterthought-kr"
+slug: "ui-as-an-afterthought-kr"
 pubDatetime: 2019-02-17
 title: "[번역] UI는 좀 이따 생각해봅시다"
 tags:

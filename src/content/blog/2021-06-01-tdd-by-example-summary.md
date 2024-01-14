@@ -1,6 +1,6 @@
 ---
 title: "'Test Driven Development: By Example' 책 내용 정리"
-postSlug: "tdd-by-example-summary"
+slug: "tdd-by-example-summary"
 pubDatetime: 2021-06-01
 tags:
   - Reading

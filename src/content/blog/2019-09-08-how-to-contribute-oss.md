@@ -1,6 +1,6 @@
 ---
 title: "차근차근 오픈소스에 기여해보기 (동기부여 편)"
-postSlug: "how-to-contribute-oss"
+slug: "how-to-contribute-oss"
 pubDatetime: 2019-09-08
 tags:
   - OSS

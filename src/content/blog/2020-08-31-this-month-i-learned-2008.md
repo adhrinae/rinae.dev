@@ -1,6 +1,6 @@
 ---
 title: "This month I Learned - 2020년 8월"
-postSlug: "this-month-i-learned-2008"
+slug: "this-month-i-learned-2008"
 description: "2020년 8월동안 익혔던 / 읽었던 것들 정리"
 pubDatetime: 2020-08-31
 tags:

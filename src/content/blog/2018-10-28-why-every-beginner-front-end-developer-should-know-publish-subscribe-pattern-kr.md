@@ -1,5 +1,5 @@
 ---
-postSlug: "why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr"
+slug: "why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr"
 pubDatetime: 2018-10-28
 title: "[번역] 초보 프론트엔드 개발자들을 위한 Pub-Sub(Publish-Subscribe) 패턴을 알아보기"
 tags:

@@ -1,5 +1,5 @@
 ---
-postSlug: "the-faster-you-unlearn-oop-the-better-for-you-and-your-software-kr"
+slug: "the-faster-you-unlearn-oop-the-better-for-you-and-your-software-kr"
 pubDatetime: 2018-12-25
 title: "[번역] OOP를 빨리 잊을 수록 여러분과 여러분의 소프트웨어에 좋습니다"
 tags:

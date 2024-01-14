@@ -1,5 +1,5 @@
 ---
-postSlug: "how-i-use-stackoverflow-kor"
+slug: "how-i-use-stackoverflow-kor"
 pubDatetime: 2017-04-15
 title: "[번역] 내가 StackOverflow를 사용하는 방법"
 tags:

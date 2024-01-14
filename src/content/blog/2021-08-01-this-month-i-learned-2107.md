@@ -1,6 +1,6 @@
 ---
 title: "This month I Learned - 2021년 7월"
-postSlug: "this-month-i-learned-2107"
+slug: "this-month-i-learned-2107"
 description: "2021년 7월동안 익혔던 / 읽었던 것들 정리"
 pubDatetime: 2021-08-01
 tags:

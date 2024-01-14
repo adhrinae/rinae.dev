@@ -1,5 +1,5 @@
 ---
-postSlug: "typestyle-basic"
+slug: "typestyle-basic"
 pubDatetime: 2018-01-16
 title: "TypeStyle 사용하기"
 tags:

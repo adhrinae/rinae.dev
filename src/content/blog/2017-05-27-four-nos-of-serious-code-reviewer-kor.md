@@ -1,5 +1,5 @@
 ---
-postSlug: "four-nos-of-serious-code-reviewer-kor"
+slug: "four-nos-of-serious-code-reviewer-kor"
 pubDatetime: 2017-05-27
 title: "[번역] 진짜배기 코드 평가자라면 하지 말아야 할 네 가지"
 tags:

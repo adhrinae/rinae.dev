@@ -1,6 +1,6 @@
 ---
 title: "'Getting Closure on React Hooks' 정리"
-postSlug: "getting-closure-on-react-hooks-summary"
+slug: "getting-closure-on-react-hooks-summary"
 pubDatetime: 2019-08-24
 tags:
   - React

@@ -1,6 +1,6 @@
 ---
 title: "This month I Learned - 2021년 3월"
-postSlug: "this-month-i-learned-2103"
+slug: "this-month-i-learned-2103"
 description: "2021년 3월동안 익혔던 / 읽었던 것들 정리"
 pubDatetime: 2021-03-30
 tags:

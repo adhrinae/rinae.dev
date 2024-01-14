@@ -1,6 +1,6 @@
 ---
 title: "This month I Learned - 2020년 5월"
-postSlug: "this-month-i-learned-2005"
+slug: "this-month-i-learned-2005"
 description: "2020년 5월동안 익혔던 / 읽었던 것들 정리"
 pubDatetime: 2020-05-31
 tags:

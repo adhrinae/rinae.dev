@@ -1,5 +1,5 @@
 ---
-postSlug: "retrospective-2019"
+slug: "retrospective-2019"
 pubDatetime: 2020-01-02
 title: "2019년 회고"
 tags:

@@ -1,5 +1,5 @@
 ---
-postSlug: "helper-types-in-typescript"
+slug: "helper-types-in-typescript"
 pubDatetime: 2018-07-08
 title: "타입스크립트에서 헬퍼 타입을 정의하고 활용하기"
 tags:

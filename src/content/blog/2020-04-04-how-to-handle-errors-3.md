@@ -1,7 +1,7 @@
 ---
 title: "에러 처리를 어떻게 하면 좋을까? - 3"
 pubDatetime: 2020-04-04
-postSlug: "how-to-handle-errors-3"
+slug: "how-to-handle-errors-3"
 tags:
   - Programming
   - TypeScript

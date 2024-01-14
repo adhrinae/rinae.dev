@@ -1,5 +1,5 @@
 ---
-postSlug: "the-easiest-way-to-get-into-open-source-kor"
+slug: "the-easiest-way-to-get-into-open-source-kor"
 pubDatetime: 2016-12-09
 title: "[번역] 오픈 소스에 참여하는 가장 쉬운 방법"
 tags:

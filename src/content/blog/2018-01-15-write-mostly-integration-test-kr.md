@@ -1,5 +1,5 @@
 ---
-postSlug: "write-mostly-integration-test-kr"
+slug: "write-mostly-integration-test-kr"
 pubDatetime: 2018-01-15
 title: "[번역] 테스트를 작성하라. 너무 많이는 말고. 통합 테스트를 많이 써라."
 tags:

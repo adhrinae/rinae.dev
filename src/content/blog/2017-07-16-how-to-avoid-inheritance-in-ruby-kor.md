@@ -1,5 +1,5 @@
 ---
-postSlug: "how-to-avoid-inheritance-in-ruby-kor"
+slug: "how-to-avoid-inheritance-in-ruby-kor"
 pubDatetime: 2017-07-16
 title: "[번역] 루비에서 상속을 피하는 방법"
 tags:

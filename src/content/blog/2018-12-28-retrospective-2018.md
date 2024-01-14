@@ -1,5 +1,5 @@
 ---
-postSlug: "retrospective-2018"
+slug: "retrospective-2018"
 pubDatetime: 2018-12-28
 title: "2018년 회고"
 tags:

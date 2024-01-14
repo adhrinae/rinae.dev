@@ -1,5 +1,5 @@
 ---
-postSlug: "understanding-taming-the-meta-language-kor"
+slug: "understanding-taming-the-meta-language-kor"
 pubDatetime: 2017-04-04
 title: "[번역] 메타언어 길들이기"
 tags:

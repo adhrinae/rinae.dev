@@ -1,5 +1,5 @@
 ---
-postSlug: "functional-js-tutorial"
+slug: "functional-js-tutorial"
 pubDatetime: 2018-02-19
 title: "자바스크립트로 함수형 프로그래밍 아주 살짝 맛보기"
 tags:

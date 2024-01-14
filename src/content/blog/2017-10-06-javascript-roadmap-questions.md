@@ -1,5 +1,5 @@
 ---
-postSlug: "javascript-roadmap-questions"
+slug: "javascript-roadmap-questions"
 pubDatetime: 2017-10-06
 title: "Javascript Roadmap Questions"
 tags:

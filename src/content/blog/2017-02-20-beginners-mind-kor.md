@@ -1,5 +1,5 @@
 ---
-postSlug: "beginners-mind-kor"
+slug: "beginners-mind-kor"
 pubDatetime: 2017-02-20
 title: "[번역] 초심자의 마음가짐"
 tags:

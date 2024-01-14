@@ -1,5 +1,5 @@
 ---
-postSlug: "today-i-learned-best-2018"
+slug: "today-i-learned-best-2018"
 pubDatetime: 2018-12-30
 title: "Today I Learned - 2018년 Best of Best"
 tags:
