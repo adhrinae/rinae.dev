@@ -9,7 +9,10 @@ export const SITE: Site = {
   postPerPage: 7,
 };
 
-export const LOCALE = ["ko-KR"]; // set to [] to use the environment default
+export const LOCALE = {
+  lang: "ko", // html lang code. Set this empty and default will be "en"
+  langTag: ["ko-KR"], // BCP 47 Language Tags. Set this empty [] to use the environment default
+} as const;
 
 export const LOGO_IMAGE = {
   enable: false,
