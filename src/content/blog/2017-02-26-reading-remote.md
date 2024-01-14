@@ -1,5 +1,5 @@
 ---
-postSlug: "remote-the-book-review"
+slug: "remote-the-book-review"
 pubDatetime: 2017-02-26
 title: ‘Remote - 사무실 따윈 필요 없어!’ 를 읽고
 tags:

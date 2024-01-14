@@ -1,5 +1,5 @@
 ---
-postSlug: "jsr-questions-answers"
+slug: "jsr-questions-answers"
 pubDatetime: 2017-10-09
 title: "Javascript Roadmap Questions - 답안"
 tags:

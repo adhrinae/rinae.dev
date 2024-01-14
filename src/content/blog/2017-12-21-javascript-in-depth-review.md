@@ -1,5 +1,5 @@
 ---
-postSlug: "javascript-in-depth-review"
+slug: "javascript-in-depth-review"
 pubDatetime: 2017-12-21
 title: "'속깊은 Javascript' 감상평 및 추천사"
 tags:

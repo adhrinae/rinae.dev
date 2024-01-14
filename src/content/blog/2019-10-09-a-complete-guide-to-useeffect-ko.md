@@ -1,6 +1,6 @@
 ---
 title: "[번역] useEffect 완벽 가이드"
-postSlug: "a-complete-guide-to-useeffect-ko"
+slug: "a-complete-guide-to-useeffect-ko"
 pubDatetime: 2019-10-09
 tags:
   - Translation

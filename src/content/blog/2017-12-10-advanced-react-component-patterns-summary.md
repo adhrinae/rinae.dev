@@ -1,5 +1,5 @@
 ---
-postSlug: "advanced-react-component-patterns-summary"
+slug: "advanced-react-component-patterns-summary"
 pubDatetime: 2017-12-10
 title: "Advanced React Component Patterns 내용 정리"
 tags:

@@ -1,5 +1,5 @@
 ---
-postSlug: "learning-by-helping-kor"
+slug: "learning-by-helping-kor"
 pubDatetime: 2017-02-13
 title: "[번역] 도우면서 배우기"
 tags:

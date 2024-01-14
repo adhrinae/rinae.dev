@@ -1,5 +1,5 @@
 ---
-postSlug: "this-month-i-learned-1901"
+slug: "this-month-i-learned-1901"
 pubDatetime: 2019-01-27
 title: "This Month I Learned - 2019년 1월"
 tags:

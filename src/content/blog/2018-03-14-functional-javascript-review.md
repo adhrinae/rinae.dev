@@ -1,5 +1,5 @@
 ---
-postSlug: "functional-javascript-review"
+slug: "functional-javascript-review"
 pubDatetime: 2018-03-14
 title: "함수형 자바스크립트(루이스 아텐시오 저) 리뷰"
 tags:

@@ -1,5 +1,5 @@
 ---
-postSlug: "nodejs-textbook-review"
+slug: "nodejs-textbook-review"
 pubDatetime: 2018-08-28
 title: "'Node.js 교과서' 감상평"
 tags:

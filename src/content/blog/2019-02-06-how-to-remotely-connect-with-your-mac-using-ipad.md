@@ -1,5 +1,5 @@
 ---
-postSlug: "how-to-remotely-connect-with-your-mac-using-ipad"
+slug: "how-to-remotely-connect-with-your-mac-using-ipad"
 pubDatetime: 2019-02-06
 title: "아이패드로 맥에 원격 접속하여 (프론트엔드) 개발하기"
 tags:

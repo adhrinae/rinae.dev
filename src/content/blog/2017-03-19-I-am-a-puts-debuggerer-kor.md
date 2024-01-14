@@ -1,5 +1,5 @@
 ---
-postSlug: "i-am-a-puts-debuggerer-kor"
+slug: "i-am-a-puts-debuggerer-kor"
 pubDatetime: 2017-03-19
 title: "[번역] 나는 'puts' 디버거다"
 tags:

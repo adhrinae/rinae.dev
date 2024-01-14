@@ -1,5 +1,5 @@
 ---
-postSlug: "how-i-became-a-better-programmer-kr"
+slug: "how-i-became-a-better-programmer-kr"
 pubDatetime: 2018-06-09
 title: "[번역] 나는 어떻게 더 나은 프로그래머가 되었는가"
 tags:

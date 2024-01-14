@@ -1,6 +1,6 @@
 ---
 title: "XState 의 기본 익혀보기"
-postSlug: "learning-xstate"
+slug: "learning-xstate"
 pubDatetime: 2020-05-05
 tags:
   - XState

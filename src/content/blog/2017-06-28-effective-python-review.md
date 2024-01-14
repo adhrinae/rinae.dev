@@ -1,5 +1,5 @@
 ---
-postSlug: "effective-python-review"
+slug: "effective-python-review"
 pubDatetime: 2017-06-28
 title: "파이썬 코딩의 기술(Effective Python) 리뷰"
 tags:

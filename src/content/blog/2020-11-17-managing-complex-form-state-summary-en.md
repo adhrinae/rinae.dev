@@ -1,6 +1,6 @@
 ---
 title: "[Summary] Handling React Form states in complex back-office application"
-postSlug: "managing-complex-form-state-summary-en"
+slug: "managing-complex-form-state-summary-en"
 description: "A summary from the talk 'Handling React Form State in complex back-office application' in FEConf KR 2020"
 pubDatetime: 2020-11-17
 tags:

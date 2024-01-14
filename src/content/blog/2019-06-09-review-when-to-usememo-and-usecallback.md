@@ -1,6 +1,6 @@
 ---
 title: "'When to useMemo and useCallback' 를 읽고"
-postSlug: "review-when-to-usememo-and-usecallback"
+slug: "review-when-to-usememo-and-usecallback"
 description: "Kent C. Dodds의 'When to useMemo and useCallback' 을 읽고 복습한 개념 정리"
 pubDatetime: 2019-06-09
 tags:

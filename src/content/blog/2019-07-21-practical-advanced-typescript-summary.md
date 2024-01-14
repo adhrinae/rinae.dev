@@ -1,6 +1,6 @@
 ---
 title: "'Practical Advanced TypeScript' 정리"
-postSlug: "practical-advanced-typescript-summary"
+slug: "practical-advanced-typescript-summary"
 pubDatetime: 2019-07-21
 tags:
   - TypeScript
@@ -652,8 +652,8 @@ type SomeObjectFlattened = FlattenObject<typeof someObject>; // -> number | stri
 type Flatten<T> = T extends any[]
   ? T[number]
   : T extends object
-  ? T[keyof T]
-  : T;
+    ? T[keyof T]
+    : T;
 
 type NumbersArrayFlattened = Flatten<typeof someNumbers>; // -> number
 type SomeObjectFlattened = Flatten<typeof someObject>; // -> number | string
@@ -732,8 +732,8 @@ export type Handler<S, P> = (state: S, payload: P) => S;
 type Payload<H> = H extends (s: any) => any
   ? undefined // 페이로드가 인자에 포함되지 않은 경우
   : H extends Handler<any, infer Payload> // `H` 타입이 `Handler` 타입이 아닌 경우 에러를 표시한다
-  ? Payload
-  : never;
+    ? Payload
+    : never;
 ```
 
 ## 중첩된 객체의 모든 속성을 read-only 타입으로 만들기
@@ -827,8 +827,8 @@ type DeepReadonlyObject<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> };
 type DeepReadonly<T> = T extends (infer E)[]
   ? ReadonlyArray<DeepReadonlyObject<E>>
   : T extends object
-  ? DeepReadonlyObject<T>
-  : T;
+    ? DeepReadonlyObject<T>
+    : T;
 type ReadonlyRootState = DeepReadonlyObject<RootState>;
 
 let state: ReadonlyRootState;

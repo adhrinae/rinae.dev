@@ -1,5 +1,5 @@
 ---
-postSlug: "how-to-handle-errors-1"
+slug: "how-to-handle-errors-1"
 title: "에러 처리를 어떻게 하면 좋을까? - 1"
 pubDatetime: 2019-05-01
 tags:

@@ -1,5 +1,5 @@
 ---
-postSlug: "react-testing-tutorial-kr"
+slug: "react-testing-tutorial-kr"
 pubDatetime: 2018-05-15
 title: "[번역] 리액트 테스팅 튜토리얼: 테스트 프레임워크와 컴포넌트 테스트 방법"
 tags:

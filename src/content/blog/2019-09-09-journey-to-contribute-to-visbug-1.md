@@ -1,6 +1,6 @@
 ---
 title: "VisBug 기여 이야기 - 1"
-postSlug: "journey-to-contribute-to-visbug-1"
+slug: "journey-to-contribute-to-visbug-1"
 pubDatetime: 2019-09-09
 tags:
   - OSS

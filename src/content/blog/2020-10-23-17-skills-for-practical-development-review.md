@@ -1,6 +1,6 @@
 ---
 title: "'학교에서 알려주지 않는 17가지 실무 개발 기술' 감상평"
-postSlug: "17-skills-for-practical-development-review"
+slug: "17-skills-for-practical-development-review"
 pubDatetime: 2020-10-23
 tags:
   - Reading

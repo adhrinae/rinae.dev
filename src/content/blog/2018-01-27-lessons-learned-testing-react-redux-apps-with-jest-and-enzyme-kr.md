@@ -1,5 +1,5 @@
 ---
-postSlug: "lessons-learned-testing-react-redux-apps-with-jest-and-enzyme-kr"
+slug: "lessons-learned-testing-react-redux-apps-with-jest-and-enzyme-kr"
 pubDatetime: 2018-01-27
 title: "[번역] 리액트 + 리덕스 앱을 Jest와 Enzyme으로 테스트 하며 얻은 교훈"
 tags:

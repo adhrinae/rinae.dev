@@ -1,5 +1,5 @@
 ---
-postSlug: "the-penguin-that-cannot-fly-kor"
+slug: "the-penguin-that-cannot-fly-kor"
 pubDatetime: 2016-12-31
 title: "[번역] 펭귄은 날 수 없다(The Penguin That Can't Fly)"
 tags:

@@ -1,6 +1,6 @@
 ---
 title: "[발표 정리] 복잡한 백오피스에서 Form의 상태 다루기"
-postSlug: "managing-complex-form-state-summary"
+slug: "managing-complex-form-state-summary"
 description: "김성현님의 FEConf 2020 발표 정리입니다."
 pubDatetime: 2020-11-07
 tags:

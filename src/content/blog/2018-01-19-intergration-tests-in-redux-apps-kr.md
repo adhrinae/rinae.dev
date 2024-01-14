@@ -1,5 +1,5 @@
 ---
-postSlug: "integration-tests-in-redux-apps-kr"
+slug: "integration-tests-in-redux-apps-kr"
 pubDatetime: 2018-01-19
 title: "[번역] 리덕스 앱을 저비용 고효율로 통합 테스트 하기"
 tags:

@@ -1,6 +1,6 @@
 ---
 title: "This Month I Learned - 2020년 04월"
-postSlug: "this-month-i-learned-2004"
+slug: "this-month-i-learned-2004"
 pubDatetime: 2020-04-30
 tags:
   - TIL

@@ -1,5 +1,5 @@
 ---
-postSlug: "fear-trust-and-javascript-kr"
+slug: "fear-trust-and-javascript-kr"
 pubDatetime: 2018-03-04
 title: "[번역] 두려움, 믿음, 그리고 자바스크립트 - 언제 타입 시스템과 함수형 프로그래밍이 먹히지 않는가"
 tags:

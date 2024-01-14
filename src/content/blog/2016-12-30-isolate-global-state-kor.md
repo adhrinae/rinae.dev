@@ -1,5 +1,5 @@
 ---
-postSlug: "isolate-global-state-kor"
+slug: "isolate-global-state-kor"
 pubDatetime: 2016-12-30
 title: "[번역] 전역 상태를 격리하라"
 tags:

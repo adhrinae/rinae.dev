@@ -1,6 +1,6 @@
 ---
 title: "This Month I Learned - 2019년 6월"
-postSlug: "this-month-i-learned-06"
+slug: "this-month-i-learned-06"
 pubDatetime: 2019-06-30
 tags:
   - TIL

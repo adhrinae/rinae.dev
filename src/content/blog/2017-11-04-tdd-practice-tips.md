@@ -1,5 +1,5 @@
 ---
-postSlug: "tdd-practice-tips"
+slug: "tdd-practice-tips"
 pubDatetime: 2017-11-04
 title: "TDD(Test Driven Development) 를 연습하면서 참고하기 좋은 팁 10가지"
 tags:

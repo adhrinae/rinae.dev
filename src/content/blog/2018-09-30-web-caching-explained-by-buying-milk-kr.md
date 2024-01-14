@@ -1,5 +1,5 @@
 ---
-postSlug: "web-caching-explained-by-buying-milk-kr"
+slug: "web-caching-explained-by-buying-milk-kr"
 pubDatetime: 2018-09-30
 title: "[번역] 슈퍼마켓에서 우유를 사면서 웹 캐싱(Web Caching)을 알아봅시다"
 tags:

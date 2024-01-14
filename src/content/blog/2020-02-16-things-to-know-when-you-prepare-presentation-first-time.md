@@ -1,6 +1,6 @@
 ---
 title: "처음 발표를 준비하는 개발자들이 알아두면 좋을 것들"
-postSlug: "things-to-know-when-you-prepare-presentation-first-time"
+slug: "things-to-know-when-you-prepare-presentation-first-time"
 pubDatetime: 2020-02-16
 tags:
   - Learning

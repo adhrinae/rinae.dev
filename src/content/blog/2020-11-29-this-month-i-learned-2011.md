@@ -1,6 +1,6 @@
 ---
 title: "This month I Learned - 2020년 11월"
-postSlug: "this-month-i-learned-2011"
+slug: "this-month-i-learned-2011"
 description: "2020년 11월동안 익혔던 / 읽었던 것들 정리"
 pubDatetime: 2020-11-29
 tags:
