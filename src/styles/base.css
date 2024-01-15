@@ -136,5 +136,5 @@
 }
 
 .expressive-code button.copy-code {
-  @apply absolute right-3 -top-3 rounded bg-skin-card px-2 py-1 text-xs leading-4 text-skin-base font-medium;
+  @apply absolute right-3 -top-3 rounded bg-skin-card px-2 py-1 text-xs leading-4 text-skin-base font-medium z-10;
 }
