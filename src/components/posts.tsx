@@ -22,9 +22,10 @@ export async function Posts({posts, tags, excludeByTitle, first, showViewAllButt
 
                         <div className="w-[calc(100%-100px)]">
                             <div className="font-bold">
-                                <Link href={post.route} className="hover:underline">
-                                    {post.title}
-                                </Link>
+                <Link href={post.frontMatter?.slug ? `/posts/${post.frontMatter.slug}` : post.route}
+                      className="hover:underline">
+                    {post.title}
+                </Link>
                             </div>
                             <div className="flex gap-1 text-sm">
                                 <IconTags className="w-4 min-w-4 -translate-y-0.5 text-muted-foreground"/>

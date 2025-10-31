@@ -19,6 +19,7 @@ export type PostItem = {
         enableComment: boolean;
         filePath: string;
         timestamp: number;
+        slug?: string;
     }
 }
 
