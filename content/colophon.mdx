@@ -1,0 +1,24 @@
+---
+title: 콜로폰
+description: 이 블로그를 구성하는 기술과 환경에 대한 짧은 기록입니다.
+date: "2025-02-15"
+enableComment: false
+---
+
+# Colophon
+
+## 기술 스택
+
+이 블로그는 **Next.js 16** 위에서 동작하는 **Nextra Blog** 테마를 사용합니다. UI 구성은 Tailwind CSS와 약간의 커스텀 컴포넌트로 이루어져 있으며, 글은 모두 `/content` 디렉터리에 있는 **MDX** 파일로 관리합니다.
+
+정적 검색은 **Pagefind** 를 활용했고, 댓글이 필요한 글은 GitHub Discussions 기반의 **Giscus** 를 사용할 계획입니다.
+
+## 배포
+
+코드는 GitHub에서 관리하고, 배포는 **Vercel** 을 사용할 예정입니다. 커밋이 푸시되면 자동으로 프리뷰를 확인할 수 있어 콘텐츠 수정이 한결 편해졌습니다.
+
+## 작업 메모
+
+- 기존 Astro 기반 프로젝트를 전면 정리한 뒤 Nextra 구조에 맞춰 다시 구성했습니다.
+- 마크다운과 이미지 자산은 `content/posts` 와 `public/images` 로 재배치하여 관리가 쉬워졌습니다.
+- 스타일링과 컴포넌트 구조는 [phucbm/nextra-blog-starter](https://github.com/phucbm/nextra-blog-starter) 저장소를 참고했습니다.
