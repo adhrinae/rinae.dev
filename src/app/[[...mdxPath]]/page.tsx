@@ -45,7 +45,7 @@ export default async function Page(props: PageProps) {
         <Wrapper toc={toc} metadata={metadata}>
             {
                 isPostPage &&
-                <PostDetail metadata={metadata}>
+                <PostDetail metadata={metadata} toc={toc}>
                     <MDXContent {...props} params={params}/>
                 </PostDetail>
             }
