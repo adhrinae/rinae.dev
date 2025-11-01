@@ -1,4 +1,6 @@
 .next
 node_modules
+.vercel
 public/_pagefind
 pnpm-lock.yaml
+out/

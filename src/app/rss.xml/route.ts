@@ -1,5 +1,7 @@
 import { getPosts } from '@/lib/get-posts'
 
+export const dynamic = 'force-static'
+
 const CONFIG = {
   title: 'rinae.dev',
   siteUrl: 'https://rinae.dev',
