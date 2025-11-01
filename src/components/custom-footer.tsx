@@ -14,7 +14,8 @@ const CustomFooter = async () => {
             <ThemeSwitch />
             <div>© {new Date().getFullYear()} rinae</div>
           </div>
-          <Search placeholder="글 검색..." />
+          {/*FIXME: Pagefind is not working on production env*/}
+          {/*<Search placeholder="글 검색..." />*/}
         </div>
       </div>
     </div>
