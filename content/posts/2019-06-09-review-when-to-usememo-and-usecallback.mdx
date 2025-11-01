@@ -1,8 +1,8 @@
 ---
 title: "'When to useMemo and useCallback' 를 읽고"
-slug: "review-when-to-usememo-and-usecallback"
+slug: 'review-when-to-usememo-and-usecallback'
 description: "Kent C. Dodds의 'When to useMemo and useCallback' 을 읽고 복습한 개념 정리"
-date: "2019-06-09"
+date: '2019-06-09'
 tags:
   - React
   - Programming
@@ -26,11 +26,11 @@ enableComment: false
 
 ```jsx
 function CandyDispenser() {
-  const initialCandies = ["snickers", "skittles", "twix", "milky way"];
-  const [candies, setCandies] = React.useState(initialCandies);
-  const dispense = candy => {
-    setCandies(allCandies => allCandies.filter(c => c !== candy));
-  };
+  const initialCandies = ['snickers', 'skittles', 'twix', 'milky way']
+  const [candies, setCandies] = React.useState(initialCandies)
+  const dispense = (candy) => {
+    setCandies((allCandies) => allCandies.filter((c) => c !== candy))
+  }
   return (
     <div>
       <h1>Candy Dispenser</h1>
@@ -40,7 +40,7 @@ function CandyDispenser() {
           <button onClick={() => setCandies(initialCandies)}>refill</button>
         ) : (
           <ul>
-            {candies.map(candy => (
+            {candies.map((candy) => (
               <li key={candy}>
                 <button onClick={() => dispense(candy)}>grab</button> {candy}
               </li>
@@ -49,7 +49,7 @@ function CandyDispenser() {
         )}
       </div>
     </div>
-  );
+  )
 }
 ```
 
@@ -90,18 +90,18 @@ function CandyDispenser() {
 
 ```jsx
 function DualCounter() {
-  const [count1, setCount1] = React.useState(0);
-  const increment1 = () => setCount1(c => c + 1);
+  const [count1, setCount1] = React.useState(0)
+  const increment1 = () => setCount1((c) => c + 1)
 
-  const [count2, setCount2] = React.useState(0);
-  const increment2 = () => setCount2(c => c + 1);
+  const [count2, setCount2] = React.useState(0)
+  const increment2 = () => setCount2((c) => c + 1)
 
   return (
     <>
       <CountButton count={count1} onClick={increment1} />
       <CountButton count={count2} onClick={increment2} />
     </>
-  );
+  )
 }
 ```
 
@@ -115,22 +115,22 @@ function DualCounter() {
 
 ```jsx
 const CountButton = React.memo(function CountButton({ onClick, count }) {
-  return <button onClick={onClick}>{count}</button>;
-});
+  return <button onClick={onClick}>{count}</button>
+})
 
 function DualCounter() {
-  const [count1, setCount1] = React.useState(0);
-  const increment1 = React.useCallback(() => setCount1(c => c + 1), []);
+  const [count1, setCount1] = React.useState(0)
+  const increment1 = React.useCallback(() => setCount1((c) => c + 1), [])
 
-  const [count2, setCount2] = React.useState(0);
-  const increment2 = React.useCallback(() => setCount2(c => c + 1), []);
+  const [count2, setCount2] = React.useState(0)
+  const increment2 = React.useCallback(() => setCount2((c) => c + 1), [])
 
   return (
     <>
       <CountButton count={count1} onClick={increment1} />
       <CountButton count={count2} onClick={increment2} />
     </>
-  );
+  )
 }
 ```
 

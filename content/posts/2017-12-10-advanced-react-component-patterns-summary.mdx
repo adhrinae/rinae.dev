@@ -1,7 +1,7 @@
 ---
-slug: "advanced-react-component-patterns-summary"
-date: "2017-12-10"
-title: "Advanced React Component Patterns 내용 정리"
+slug: 'advanced-react-component-patterns-summary'
+date: '2017-12-10'
+title: 'Advanced React Component Patterns 내용 정리'
 tags:
   - React
 enableComment: false
@@ -24,52 +24,52 @@ enableComment: false
 
 ```jsx
 function ToggleOn({ on, children }) {
-  return on ? children : null;
+  return on ? children : null
 }
 
 function ToggleOff({ on, children }) {
-  return on ? null : children;
+  return on ? null : children
 }
 
 function ToggleButton({ on, toggle, ...props }) {
-  return <Switch on={on} onClick={toggle} {...props} />;
+  return <Switch on={on} onClick={toggle} {...props} />
 }
 
 class Toggle extends React.Component {
-  static On = ToggleOn;
-  static Off = ToggleOff;
-  static Button = ToggleButton;
-  static defaultProps = { onToggle: () => {} };
-  state = { on: false };
+  static On = ToggleOn
+  static Off = ToggleOff
+  static Button = ToggleButton
+  static defaultProps = { onToggle: () => {} }
+  state = { on: false }
 
   toggle = () =>
     this.setState(
       ({ on }) => ({ on: !on }),
       () => {
-        this.props.onToggle(this.state.on);
+        this.props.onToggle(this.state.on)
       }
-    );
+    )
 
   render() {
-    const children = React.Children.map(this.props.children, child =>
+    const children = React.Children.map(this.props.children, (child) =>
       React.cloneElement(child, {
         on: this.state.on,
         toggle: this.toggle,
       })
-    );
+    )
 
-    return <div>{children}</div>;
+    return <div>{children}</div>
   }
 }
 
 function App() {
   return (
-    <Toggle onToggle={on => console.log("toggle", on)}>
+    <Toggle onToggle={(on) => console.log('toggle', on)}>
       <Toggle.On>The Button is on</Toggle.On>
       <Toggle.Button />
       <Toggle.Off>The Button is off</Toggle.Off>
     </Toggle>
-  );
+  )
 }
 ```
 
@@ -82,14 +82,14 @@ function App() {
 ```jsx
 function App() {
   return (
-    <Toggle onToggle={on => console.log("toggle", on)}>
+    <Toggle onToggle={(on) => console.log('toggle', on)}>
       <div>
         <Toggle.On>The Button is on</Toggle.On>
       </div>
       <Toggle.Button />
       <Toggle.Off>The Button is off</Toggle.Off>
     </Toggle>
-  );
+  )
 }
 ```
 
@@ -132,19 +132,19 @@ getChildContext() {
 // Higher order component
 function withToggle(Component) {
   function Wrapper(props, context) {
-    const toggleContext = context[TOGGLE_CONTEXT];
-    return <Component {...toggleContext} {...props} />;
+    const toggleContext = context[TOGGLE_CONTEXT]
+    return <Component {...toggleContext} {...props} />
   }
   Wrapper.contextTypes = {
     [TOGGLE_CONTEXT]: PropTypes.object.isRequired,
-  };
+  }
 
-  return Wrapper;
+  return Wrapper
 }
 
 const MyToggle = withToggle(({ on, toggle }) => (
-  <button onClick={toggle}>{on ? "on" : "off"}</button>
-));
+  <button onClick={toggle}>{on ? 'on' : 'off'}</button>
+))
 ```
 
 `withToggle` 함수가 컴포넌트를 인자로 받은 뒤 이를 `toggleContext` 속성이 추가된 컴포넌트로 돌려주고 있다. 결과적으로 toggleContext가 필요한 컴포넌트는 모두 `withToggle` 함수로 감싸면 되도록 만들었다.
@@ -192,25 +192,23 @@ HOC를 쓰게 되는 경우 브라우저의 리액트 개발자 도구로 디버
 // displayName 속성 추가
 function withToggle(Component) {
   function Wrapper(props, context) {
-    const toggleContext = context[TOGGLE_CONTEXT];
-    return <Component toggle={toggleContext} {...props} />;
+    const toggleContext = context[TOGGLE_CONTEXT]
+    return <Component toggle={toggleContext} {...props} />
   }
   Wrapper.contextTypes = {
     [TOGGLE_CONTEXT]: PropTypes.object.isRequired,
-  };
+  }
   // displayName이 지정되지 않은 컴포넌트는 각자 함수의 이름을 name 속성으로 가진다
-  Wrapper.displayName = `withToggle(${
-    Component.displayName || Component.name
-  })`;
+  Wrapper.displayName = `withToggle(${Component.displayName || Component.name})`
 
-  return Wrapper;
+  return Wrapper
 }
 
 const MyToggle = ({ toggle: { on, toggle } }) => (
-  <button onClick={toggle}>{on ? "on" : "off"}</button>
-);
+  <button onClick={toggle}>{on ? 'on' : 'off'}</button>
+)
 
-const MyToggleWrapper = withToggle(MyToggle);
+const MyToggleWrapper = withToggle(MyToggle)
 ```
 
 ### ref 속성 제어
@@ -223,51 +221,49 @@ const MyToggleWrapper = withToggle(MyToggle);
 // handle innerRef
 function withToggle(Component) {
   function Wrapper({ innerRef, ...props }, context) {
-    const toggleContext = context[TOGGLE_CONTEXT];
-    return <Component {...props} ref={innerRef} toggle={toggleContext} />;
+    const toggleContext = context[TOGGLE_CONTEXT]
+    return <Component {...props} ref={innerRef} toggle={toggleContext} />
   }
   Wrapper.contextTypes = {
     [TOGGLE_CONTEXT]: PropTypes.object.isRequired,
-  };
-  Wrapper.displayName = `withToggle(${
-    Component.displayName || Component.name
-  })`;
+  }
+  Wrapper.displayName = `withToggle(${Component.displayName || Component.name})`
 
-  return Wrapper;
+  return Wrapper
 }
 
 class MyToggle extends React.Component {
-  focus = () => this.button.focus();
+  focus = () => this.button.focus()
 
   render() {
     const {
       toggle: { on, toggle },
-    } = this.props;
+    } = this.props
     return (
-      <button onClick={toggle} ref={button => (this.button = button)}>
-        {on ? "on" : "off"}
+      <button onClick={toggle} ref={(button) => (this.button = button)}>
+        {on ? 'on' : 'off'}
       </button>
-    );
+    )
   }
 }
 
-const MyToggleWrapper = withToggle(MyToggle);
+const MyToggleWrapper = withToggle(MyToggle)
 
 // ...
 class App extends React.Component {
   render() {
     return (
-      <Toggle onToggle={on => (on ? this.myToggle.focus() : null)}>
+      <Toggle onToggle={(on) => (on ? this.myToggle.focus() : null)}>
         <div>
           <Toggle.On>The Button is on</Toggle.On>
           <Toggle.Off>The Button is off</Toggle.Off>
           <Toggle.Button />
           <hr />
           {/* inject ref */}
-          <MyToggleWrapper innerRef={myToggle => (this.myToggle = myToggle)} />
+          <MyToggleWrapper innerRef={(myToggle) => (this.myToggle = myToggle)} />
         </div>
       </Toggle>
-    );
+    )
   }
 }
 ```
@@ -279,19 +275,17 @@ class App extends React.Component {
 ```jsx
 function withToggle(Component) {
   function Wrapper({ innerRef, ...props }, context) {
-    const toggleContext = context[TOGGLE_CONTEXT];
-    return <Component {...props} ref={innerRef} toggle={toggleContext} />;
+    const toggleContext = context[TOGGLE_CONTEXT]
+    return <Component {...props} ref={innerRef} toggle={toggleContext} />
   }
   Wrapper.contextTypes = {
     [TOGGLE_CONTEXT]: PropTypes.object.isRequired,
-  };
-  Wrapper.displayName = `withToggle(${
-    Component.displayName || Component.name
-  })`;
+  }
+  Wrapper.displayName = `withToggle(${Component.displayName || Component.name})`
   // Set wrapped component so that can be easily tested.
-  Wrapper.WrappedComponnet = Component;
+  Wrapper.WrappedComponnet = Component
 
-  return Wrapper;
+  return Wrapper
 }
 ```
 
@@ -302,31 +296,29 @@ function withToggle(Component) {
 ```jsx
 function withToggle(Component) {
   function Wrapper({ innerRef, ...props }, context) {
-    const toggleContext = context[TOGGLE_CONTEXT];
-    return <Component {...props} ref={innerRef} toggle={toggleContext} />;
+    const toggleContext = context[TOGGLE_CONTEXT]
+    return <Component {...props} ref={innerRef} toggle={toggleContext} />
   }
   Wrapper.contextTypes = {
     [TOGGLE_CONTEXT]: PropTypes.object.isRequired,
-  };
-  Wrapper.displayName = `withToggle(${
-    Component.displayName || Component.name
-  })`;
-  Wrapper.WrappedComponnet = Component;
+  }
+  Wrapper.displayName = `withToggle(${Component.displayName || Component.name})`
+  Wrapper.WrappedComponnet = Component
 
   // use host-non-react-static library
-  return hoistNonReactStatics(Wrapper, Component);
+  return hoistNonReactStatics(Wrapper, Component)
 }
 
 class MyToggle extends React.Component {
   static ToggleMessage = withToggle(({ toggle: { on } }) =>
-    on ? "Warning: The button is toggled on" : null
-  );
+    on ? 'Warning: The button is toggled on' : null
+  )
 
   render() {
     const {
       toggle: { on, toggle },
-    } = this.props;
-    return <button onClick={toggle}>{on ? "on" : "off"}</button>;
+    } = this.props
+    return <button onClick={toggle}>{on ? 'on' : 'off'}</button>
   }
 }
 ```
@@ -354,15 +346,15 @@ Render props 안의 여러 컴포넌트에게 같은 속성을 주입해주고�
 
 ```jsx
 class Toggle extends React.Component {
-  state = { on: false };
+  state = { on: false }
 
   toggle = () =>
     this.setState(
       ({ on }) => ({ on: !on }),
       () => {
-        this.props.onToggle(this.state.on);
+        this.props.onToggle(this.state.on)
       }
-    );
+    )
 
   render() {
     return this.props.render({
@@ -370,26 +362,26 @@ class Toggle extends React.Component {
       toggle: this.toggle,
       // 여러 하위 컴포넌트에 공통되는 속성을 한꺼번에 넘겨주기 위해 사용
       togglerProps: {
-        "aria-expanded": this.state.on,
+        'aria-expanded': this.state.on,
         onClick: this.toggle,
       },
-    });
+    })
   }
 }
 
 function App() {
   return (
     <Toggle
-      onToggle={on => console.log("toggle", on)}
+      onToggle={(on) => console.log('toggle', on)}
       render={({ on, toggle, togglerProps }) => (
         <div>
           <Switch on={on} {...togglerProps} />
           <hr />
-          <button {...togglerProps}>{on ? "on" : "off"}</button>
+          <button {...togglerProps}>{on ? 'on' : 'off'}</button>
         </div>
       )}
     />
-  );
+  )
 }
 ```
 
@@ -444,15 +436,15 @@ function App() {
 const compose =
   (...fns) =>
   (...args) =>
-    fns.forEach(fn => fn && fn(...args));
+    fns.forEach((fn) => fn && fn(...args))
 
 // ...
 getTogglerProps = ({ onClick, ...props } = {}) => {
   return {
     // ...
     onClick: compose(onClick, this.toggle),
-  };
-};
+  }
+}
 ```
 
 ### 초기 상태 설정하기
@@ -539,53 +531,49 @@ class App extends React.Component {
 // ...
 // Provider 정의
 class ToggleProvider extends React.Component {
-  static contextName = "__toggle__";
+  static contextName = '__toggle__'
   static Renderer = class extends React.Component {
     static childContextTypes = {
       [ToggleProvider.contextName]: PropTypes.object.isRequired,
-    };
+    }
     getChildContext() {
       return {
         [ToggleProvider.contextName]: this.props.toggle,
-      };
+      }
     }
     render() {
-      return this.props.children;
+      return this.props.children
     }
-  };
+  }
   render() {
-    const { children, ...remainingProps } = this.props;
+    const { children, ...remainingProps } = this.props
     return (
       <Toggle
         {...remainingProps}
-        render={toggle => (
-          <ToggleProvider.Renderer toggle={toggle} children={children} />
-        )}
+        render={(toggle) => <ToggleProvider.Renderer toggle={toggle} children={children} />}
       />
-    );
+    )
   }
 }
 
 // Toggle 속성과 연결
 function ConnectedToggle(props, context) {
-  return props.render(context[ToggleProvider.contextName]);
+  return props.render(context[ToggleProvider.contextName])
 }
 ConnectedToggle.contextTypes = {
   [ToggleProvider.contextName]: PropTypes.object.isRequired,
-};
+}
 // ...
 // 컴포넌트와 연결하는 방법
 function Title() {
   return (
     <div>
       <h1>
-        <ConnectedToggle
-          render={toggle => `Who is ${toggle.on ? "🕶❓" : "awesome?"}`}
-        />
+        <ConnectedToggle render={(toggle) => `Who is ${toggle.on ? '🕶❓' : 'awesome?'}`} />
       </h1>
       <Subtitle />
     </div>
-  );
+  )
 }
 ```
 

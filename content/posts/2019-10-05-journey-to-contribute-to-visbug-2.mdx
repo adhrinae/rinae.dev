@@ -1,11 +1,11 @@
 ---
-title: "VisBug 기여 이야기 - 2"
-slug: "journey-to-contribute-to-visbug-2"
-date: "2019-10-05"
+title: 'VisBug 기여 이야기 - 2'
+slug: 'journey-to-contribute-to-visbug-2'
+date: '2019-10-05'
 tags:
   - OSS
   - JavaScript
-description: "작은 버그 하나를 해결하면서 겪어본 소통, 테스팅 이야기"
+description: '작은 버그 하나를 해결하면서 겪어본 소통, 테스팅 이야기'
 enableComment: false
 ---
 
@@ -17,24 +17,24 @@ enableComment: false
 먼저 얼마나 어려울까 싶어서 한번 코드를 살펴보았다. `accessibility.js` 파일 안에 `determineColorContrast` 라는 함수가 실질적으로 접근성 수치를 계산하는 역할을 맡고 있는데, 이 안에서 콘트라스트를 구하기 위해 비교하는 대상은 `color` 속성과 부모 엘리먼트의 배경 색상이다. `color` 속성은 오로지 텍스트 컬러만을 이야기하는 것이라서 당연히 SVG의 컬러를 구해낼 수 없다.
 
 ```js
-const determineColorContrast = el => {
+const determineColorContrast = (el) => {
   // question: how to know if the current node is actually a black background?
   // question: is there an api for composited values?
-  const text = getStyle(el, "color");
-  const textSize = getWCAG2TextSize(el);
+  const text = getStyle(el, 'color')
+  const textSize = getWCAG2TextSize(el)
 
-  let background = getComputedBackgroundColor(el);
+  let background = getComputedBackgroundColor(el)
 
   const [aa_contrast, aaa_contrast] = [
-    isReadable(background, text, { level: "AA", size: textSize.toLowerCase() }),
+    isReadable(background, text, { level: 'AA', size: textSize.toLowerCase() }),
     isReadable(background, text, {
-      level: "AAA",
+      level: 'AAA',
       size: textSize.toLowerCase(),
     }),
-  ];
+  ]
 
   // ...
-};
+}
 ```
 
 그런데 언뜻 보면서 든 의문이 'SVG가 아이콘 스타일로 되어있다면 단일 컬러라서 콘트라스트를 구하기 쉽겠지만, 여러 컬러로 이루어진 이미지 형태의 SVG의 콘트라스트는 어떻게 구하는가?' 였다. 조금 고민을 해 보다 딱히 답이 떠오르지 않아서 Gitter 채팅방에 들어가 문의를 해 보았다.
@@ -53,10 +53,9 @@ const determineColorContrast = el => {
 
 ```js
 // before
-const text = getStyle(el, "color");
+const text = getStyle(el, 'color')
 // after
-const color =
-  getStyle(el, "fill") || getStyle(el, "stroke") || getStyle(el, "color");
+const color = getStyle(el, 'fill') || getStyle(el, 'stroke') || getStyle(el, 'color')
 ```
 
 깔끔하게 한방에 함수 하나 호출하는 방식으로 하려 해도 어차피 `window.getComputedStyle` 을 써야 하기 때문에 그냥 이런 방식으로 해결하기로 했다.
@@ -66,9 +65,9 @@ const color =
 ```js
 if (
   isOffBounds(target) ||
-  target.nodeName.toUpperCase() === "SVG" ||
-  target.nodeName === "VISBUG-ALLYTIP" ||
-  target.hasAttribute("data-allytip")
+  target.nodeName.toUpperCase() === 'SVG' ||
+  target.nodeName === 'VISBUG-ALLYTIP' ||
+  target.hasAttribute('data-allytip')
 ) {
   // ...
 }
@@ -86,9 +85,7 @@ PR을 올리고 몇일 뒤 피드백을 받았다. 다 잘 동작하긴 하는�
 
 ```js
 const color =
-  el instanceof SVGElement
-    ? getStyle(el, "fill") || getStyle(el, "stroke")
-    : getStyle(el, "color");
+  el instanceof SVGElement ? getStyle(el, 'fill') || getStyle(el, 'stroke') : getStyle(el, 'color')
 ```
 
 설마하고 저렇게 `||` 를 써 봤는데, 콘솔에서 비슷한 다른 로직으로 체크해보니 동작하는 것으로 보인다. 혹시 몰라 다른 SVG 엘리먼트로도 체크해보니 되는 것 같고, 처음 예상한대로 `h2` 같은 엘리먼트에 `fill` 같은 속성을 넣어도 체크하지 않았다. 몇줄의 코드를 작성하고, 영어로 코멘트를 작성하는 일이 생각보다 오래 걸리는데도 즐겁다.
@@ -116,23 +113,23 @@ VisBug의 테스트 구성은 생각보다 그리 나쁘진 않은 상태였다.
 그리고 테스트가 실패했다는 피드백이 있어 다시 코드를 확인해봤다. 로컬에서도 테스트가 실패하기 시작하는데 원인을 도저히 파악할 수 없었다. 내가 시뮬레이션 한 대로 마우스가 특정 위치로 움직이면 `visbug-ally` 라는 엘리먼트가 나와야 하는게 의도된 동작이었지만 도저히 나오지 않았다. 그런데 실제로 어떻게 보이지 않는 것인지 파악하기 힘들었다. 왜냐면 `puppeteer` 는 기본적으로 Headless 모드(실제 UI 창 없이 동작)로 동작하기 때문이다. 그래서 실제로 테스트가 수행되는 상황을 눈으로 확인하기 위해 간단한 스크립트를 사용하여 테스트 케이스를 옮겨보았다.
 
 ```js
-(async () => {
-  const puppeteer = require("puppeteer");
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.goto("http://localhost:3000");
+;(async () => {
+  const puppeteer = require('puppeteer')
+  const browser = await puppeteer.launch({ headless: false })
+  const page = await browser.newPage()
+  await page.goto('http://localhost:3000')
 
-  await page.evaluateHandle(`document.body.setAttribute('testing', true)`);
+  await page.evaluateHandle(`document.body.setAttribute('testing', true)`)
   await page.evaluateHandle(
     `document.querySelector('vis-bug').$shadow.querySelector('li[data-tool=accessibility]').click()`
-  );
+  )
 
-  const svgEl = await page.$("svg");
-  const { x, y, width, height } = await svgEl.boundingBox();
-  const centerX = x + width / 2;
-  const centerY = y + height / 2;
-  await page.mouse.move(centerX, centerY);
-})();
+  const svgEl = await page.$('svg')
+  const { x, y, width, height } = await svgEl.boundingBox()
+  const centerX = x + width / 2
+  const centerY = y + height / 2
+  await page.mouse.move(centerX, centerY)
+})()
 ```
 
 저 부분까지 수행되었다면 접근성 정보 툴팁이 나와있어야 했지만 보이지 않았다. 이제 크로미움 브라우저가 떠 있는 상태니까 내가 원하던대로 동작하지 않았다는 것은 명확하게 파악할 수 있었다. 거기다 혹시나 싶은 마음에 콘솔까지 열어볼 수 있으니 금상첨화다.
@@ -147,14 +144,14 @@ VisBug의 테스트 구성은 생각보다 그리 나쁘진 않은 상태였다.
 // puppeteer 환경을 초기화했다 가정하고
 // =============================
 // 특정 선택자에 맞는 엘리먼트를 선택한다. `document.querySelector` 와 같은 기능을 한다.
-const el = await page.$(".class-selector");
+const el = await page.$('.class-selector')
 // 해당 엘리먼트 박스 정보를 가져올 수 있다. 패딩, 마진 등을 가져오려면 boxModel()을 호출하면 된다.
-const { x, y, width, height } = await el.boundingBox();
+const { x, y, width, height } = await el.boundingBox()
 // 해당 엘리먼트의 중심점을 좌표로 삼고자 한다면
-const centerX = x + width / 2;
-const centerY = y + height / 2;
+const centerX = x + width / 2
+const centerY = y + height / 2
 // 이제 마우스를 이 엘리먼트의 중심으로 이동시켜보자
-await page.mouse.move(centerX, centerY);
+await page.mouse.move(centerX, centerY)
 ```
 
 아담은 이 프로젝트에 기여하면서 처음으로 테스트를 작성하는 나에게 경험이 어땠는지 물었다. 위의 흐름을 따라 가면서 몇 가지 생각을 정리해봤다.

@@ -1,6 +1,6 @@
 ---
-slug: "javascript-in-depth-review"
-date: "2017-12-21"
+slug: 'javascript-in-depth-review'
+date: '2017-12-21'
 title: "'속깊은 Javascript' 감상평 및 추천사"
 tags:
   - Reading
@@ -15,15 +15,15 @@ enableComment: false
 - 아래의 코드는 무엇이 잘못되었는가? 문제가 있다면 어떻게 해결할 수 있는가?
 
 ```javascript
-var len = 3;
+var len = 3
 for (var i = 0; i < len; i++) {
-  document.getElementById("div" + i).addEventListener(
-    "click",
+  document.getElementById('div' + i).addEventListener(
+    'click',
     function () {
-      alert("You clicked div #" + i);
+      alert('You clicked div #' + i)
     },
     false
-  );
+  )
 }
 ```
 

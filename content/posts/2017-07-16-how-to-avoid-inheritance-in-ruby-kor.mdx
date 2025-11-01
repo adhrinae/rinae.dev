@@ -1,7 +1,7 @@
 ---
-slug: "how-to-avoid-inheritance-in-ruby-kor"
-date: "2017-07-16"
-title: "[번역] 루비에서 상속을 피하는 방법"
+slug: 'how-to-avoid-inheritance-in-ruby-kor'
+date: '2017-07-16'
+title: '[번역] 루비에서 상속을 피하는 방법'
 tags:
   - Ruby
   - OOP
@@ -156,7 +156,14 @@ end
 믹스인은 확실히 좋은 사용처가 있기 때문에 그렇게 나쁜 방법은 아닙니다. 제 의견으로는 로깅, 인증, 유효성 검사 등 클래스의
 메타행위(meta behavior)를 정의할 때는 아주 잘 동작한다고 생각합니다. 믹스인은 코드를 깔끔하고 작은 규모로 유지할 수 있다는 명확한 장점이 있습니다. 여러분이 모듈에 정의되어 있는 구현을 믿고 있고, 서로 다른 로직을 무너뜨리지 않는 지점을 파악하고 있는 한 괜찮습니다. 기억하셔야 할 점은 이는 단지 **루비가 은연중에 다중 상속을 구현하는 방법**에 불과하다는 점입니다.
 
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">In OOP there’s this thing to prefer composition over inheritance. And in Ruby people constantly forget that modules == multiple inheritance</p>&mdash; Piotr Solnica (@_solnic_) <a href="https://twitter.com/_solnic_/status/623224611212251136">July 20, 2015</a></blockquote>
+<blockquote class="twitter-tweet" data-lang="en">
+  <p lang="en" dir="ltr">
+    In OOP there’s this thing to prefer composition over inheritance. And in Ruby people constantly
+    forget that modules == multiple inheritance
+  </p>
+  &mdash; Piotr Solnica (@_solnic_){' '}
+  <a href="https://twitter.com/_solnic_/status/623224611212251136">July 20, 2015</a>
+</blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 이 문제를 개선할 수 있을까요? Yes, we can!

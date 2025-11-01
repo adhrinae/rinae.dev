@@ -1,7 +1,7 @@
 ---
-slug: "lessons-learned-testing-react-redux-apps-with-jest-and-enzyme-kr"
-date: "2018-01-27"
-title: "[번역] 리액트 + 리덕스 앱을 Jest와 Enzyme으로 테스트 하며 얻은 교훈"
+slug: 'lessons-learned-testing-react-redux-apps-with-jest-and-enzyme-kr'
+date: '2018-01-27'
+title: '[번역] 리액트 + 리덕스 앱을 Jest와 Enzyme으로 테스트 하며 얻은 교훈'
 tags:
   - Testing
   - React
@@ -54,9 +54,9 @@ enableComment: false
 스냅샷은 아주 좋습니다 😃. 하지만 이런 코드를 실행하면
 
 ```js
-test("Match previous snapshot", () => {
-  expect(wrapper).toMatchSnapshot();
-});
+test('Match previous snapshot', () => {
+  expect(wrapper).toMatchSnapshot()
+})
 ```
 
 그냥 enzyme이 사용하는 자체 객체를 뱉어버립니다😦. 저는 [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json) 같은 패키지를 써서 가독성을 높이길 추천합니다. 스냅샷이 변경되었을 때 아주 유용합니다.
@@ -70,10 +70,10 @@ test("Match previous snapshot", () => {
 ## test() 문의 괄호가 제대로 놓여있는지 확인하세요
 
 ```js
-test("Test"),
+;(test('Test'),
   () => {
-    expect(test).toEqual(test);
-  };
+    expect(test).toEqual(test)
+  })
 ```
 
 위의 코드는 지극히 정상적인 자바스크립트 코드지만 테스트를 실행하면 모두 잘 작동한다면서 아무 일도 일어나지 않을 겁니다.
@@ -81,9 +81,9 @@ test("Test"),
 올바른 코드는 이렇게 작성합니다.
 
 ```js
-test("Test", () => {
-  expect(test).toEqual(test);
-});
+test('Test', () => {
+  expect(test).toEqual(test)
+})
 ```
 
 이런 실수는 쉽게 저지를 수 있는데다 테스트에 문제가 있는데도 통과하기 때문에 특히 무섭습니다. 저는 특정 단위 테스트를 잘못 썼는데(역주: 문법적 실패가 아니라 fail이 뜨는 코드) 실패가 뜨지 않았습니다. 비슷한 코드를 복사하고 붙여넣다가 간신히 이 실수를 발견했지요.
@@ -191,7 +191,16 @@ describe('Testing TextComponent', () => {
 
 이런 방식의 테스트는 통합 테스트와 단위 테스트와의 경계를 흐리게 하지만, Guillermo Rauch는 이렇게 말했습니다.
 
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Write tests. Not too many. Mostly integration.</p>&mdash; Guillermo Rauch (@rauchg) <a href="https://twitter.com/rauchg/status/807626710350839808?ref_src=twsrc%5Etfw">December 10, 2016</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-lang="en">
+  <p lang="en" dir="ltr">
+    Write tests. Not too many. Mostly integration.
+  </p>
+  &mdash; Guillermo Rauch (@rauchg){' '}
+  <a href="https://twitter.com/rauchg/status/807626710350839808?ref_src=twsrc%5Etfw">
+    December 10, 2016
+  </a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 Kent C. Dodds도 이 트윗에 대해 [글을 썼는데](https://emaren84.github.io/posts/write-mostly-integration-test-kr) 꽤 설득력 있습니다.
 

@@ -1,7 +1,7 @@
-import { ThemeSwitch } from "nextra-theme-blog";
-import { getPageMap } from "nextra/page-map";
-import { Navbar } from "@/components/navbar";
-import { Search } from "nextra/components";
+import { ThemeSwitch } from 'nextra-theme-blog'
+import { getPageMap } from 'nextra/page-map'
+import { Navbar } from '@/components/navbar'
+import { Search } from 'nextra/components'
 
 const CustomFooter = async () => {
   return (
@@ -18,7 +18,7 @@ const CustomFooter = async () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CustomFooter;
+export default CustomFooter

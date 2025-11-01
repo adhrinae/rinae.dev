@@ -1,8 +1,8 @@
 ---
-title: "This month I Learned - 2021년 7월"
-slug: "this-month-i-learned-2107"
-description: "2021년 7월동안 익혔던 / 읽었던 것들 정리"
-date: "2021-08-01"
+title: 'This month I Learned - 2021년 7월'
+slug: 'this-month-i-learned-2107'
+description: '2021년 7월동안 익혔던 / 읽었던 것들 정리'
+date: '2021-08-01'
 tags:
   - TIL
 enableComment: false
@@ -166,11 +166,9 @@ enableComment: false
   24. `+0 === -0`: **답은 true이다.** `Object.is` 로 비교하면 `true` 값이 나온다.
   25. `- "" + + "1" * null - [,]`: **답은 0이다.** 표현식을 치환하자면 `-0 + 1 * 0 - 0` 이 된다.
 - [`export default thing` is different to `export { thing as default }` - JakeArchibald.com](https://jakearchibald.com/2021/export-default-thing-vs-thing-as-default/) - default export, named + default 의 차이
-
   - `import { thing } from './module.js'` 형식으로 파일을 가져올 때 `thing` 은 레퍼런스를 가져오는 것이기 때문에 원래 파일에서 재할당 등의 변경을 일으키면 가져오는 쪽에서도 변경이 일어난다.
   - `let { thing } = await import('./module.js');` 형식의 import는 일반적인 객체 분해처럼 가져온 값을 새로운 식별자에 할당한다.
   - 하지만 `export default` 는 몇 가지 다르고 특이한 동작이 있다.
-
     - `export default` 는 값을 직접 전달한다. 이는 `export default` 가 선언문이 아니라 표현식으로 동작하기 때문이다. 그래서 `export default thing` 을 하면 `thing` 이 export 되기 전에 어딘가 숨겨진 변수에 할당되는 것처럼 동작한다.
     - `export { thing as default }` 는 레퍼런스를 전달한다.
     - `export default function` 도 해당 함수의 레퍼런스를 전달한다. 만약 `export default` 에 함수가 전달되는 것도 표현식처럼 동작하게 된다면 가져다 쓰는 쪽에서는 아직 할당되지 않은 함수라서 `undefined` 를 맛보게 될 것이다.
@@ -252,7 +250,6 @@ enableComment: false
 ## Frontend
 
 - [Simple CSS Hack to Reduce Page Load Time | by Mayank Gupta | Jun, 2021 | JavaScript in Plain English](https://javascript.plainenglish.io/simple-css-hack-to-reduce-page-load-time-366f7aaaa3be) - 페이지 로딩 시간을 줄이는 간단한 CSS 핵
-
   - CSS는 페이지 로딩 시간에 영향을 미치는 주요한 요소 중 하나다.
     - 애플리케이션이 CSS 파일을 맞닥뜨리면 CSS를 우선적으로 읽어들이고, CSS Object Model(CSSOM)을 생성한다. 그리고 DOM 트리와 결합하여 "렌더 트리"를 만든다. 렌더 트리는 DOM 트리가 CSSOM이 합쳐져 생성되며, 페이지의 모든 요소에 정확한 스타일링을 제공한다.
     - CSS 규모가 클 수록 CSSOM을 생성하여 DOM에 결합하고 렌더 트리를 생성하는데 시간이 오래 걸린다.
@@ -261,12 +258,7 @@ enableComment: false
   - 중요하지 않은 CSS 리소스는 CSSOM 생성이 늦춰지도록 만들 수 있다.
 
   ```html
-  <link
-    rel="stylesheet"
-    href="/path/to/my.css"
-    media="print"
-    onload="this.media='all'"
-  />
+  <link rel="stylesheet" href="/path/to/my.css" media="print" onload="this.media='all'" />
   ```
 
   - 위의 스니펫은 사용자가 프린트를 시도할 때만 적용되도록 만든다. 그러나 `onload` 속성에서 보다시피 **페이지가 로딩되자마자 미디어 속성을 다시 "all" 로 바꾼다.** **하지만 이러한 방법은 최초 로딩에 영향을 미치지 않는 스타일에만 적용해야 한다.**
@@ -274,7 +266,6 @@ enableComment: false
 ## React
 
 - [preact-portal/preact-portal.js at master · developit/preact-portal · GitHub](https://github.com/developit/preact-portal/blob/master/src/preact-portal.js) - Preact용 Portal API 구현하기
-
   - Preact로 Portal을 이용하려면 `preact/compat` 을 사용해야 한다. 번들 사이즈를 줄이기 위해 가능하면 `compat` 을 쓰지 않으려다보니 비슷한 걸 구현해야 하는데, 이미 몇년 전에 만들어져있는 `preact-portal` 패키지를 참고하여 간단한 형태로 한번 만들어보았다.
     - [preact portal component - CodeSandbox](https://codesandbox.io/s/preact-portal-component-xt7q0?file=/src/index.js)
     - 너무 간단히 만든거라 나중에 퍼포먼스 문제가 일어나지 않을까 살짝 걱정되긴 하지만 적당히 제 역할은 할 수 있는 것으로 보인다.
@@ -282,21 +273,20 @@ enableComment: false
 
     ```jsx
     function Portal({ children, into }) {
-      const renderRef = useRef(null);
+      const renderRef = useRef(null)
 
       useEffect(() => {
-        const container =
-          typeof into === "string" ? document.querySelector(into) : into;
+        const container = typeof into === 'string' ? document.querySelector(into) : into
         if (!renderRef.current && container && hasChildren(children)) {
-          renderRef.current = render(children, container);
+          renderRef.current = render(children, container)
         }
 
         return () => {
-          renderRef.current = null;
-        };
-      }, [into, children]);
+          renderRef.current = null
+        }
+      }, [into, children])
 
-      return null;
+      return null
     }
     ```
 

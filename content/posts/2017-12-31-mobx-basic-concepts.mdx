@@ -1,7 +1,7 @@
 ---
-slug: "mobx-basic-concepts"
-date: "2017-12-31"
-title: "MobX로 상태 관리하기"
+slug: 'mobx-basic-concepts'
+date: '2017-12-31'
+title: 'MobX로 상태 관리하기'
 tags:
   - JavaScript
   - MobX
@@ -18,23 +18,23 @@ MobX를 리액트에 쓰기 위해 필요한 기본 구성은 `mobx`, `mobx-reac
 ```js
 const appState = observable({
   count: 0,
-});
+})
 appState.increment = function () {
-  this.count++;
-};
+  this.count++
+}
 appState.decrement = function () {
-  this.count--;
-};
+  this.count--
+}
 
 @observer
 class Counter extends Component {
   handleInc = () => {
-    this.props.store.increment();
-  };
+    this.props.store.increment()
+  }
 
   handleDec = () => {
-    this.props.store.decrement();
-  };
+    this.props.store.decrement()
+  }
 
   render() {
     return (
@@ -43,7 +43,7 @@ class Counter extends Component {
         <button onClick={this.handleInc}> + </button>
         <button onClick={this.handleDec}> - </button>
       </div>
-    );
+    )
   }
 }
 ```
@@ -71,23 +71,23 @@ Observable 상태를 `map` 함수로 순회하며 하위 컴포넌트를 생성�
 ```js
 const App = observer(({ temperatures }) => (
   <ul>
-    {temperatures.map(t => (
+    {temperatures.map((t) => (
       <TView Key={t.id} temperature={t} />
     ))}
     <DevTools />
   </ul>
-));
+))
 
 @observer
 class TView extends React.Component {
   render() {
-    const t = this.props.temperature;
-    return <li onClick={this.onTempClick}>{t.temperature}</li>;
+    const t = this.props.temperature
+    return <li onClick={this.onTempClick}>{t.temperature}</li>
   }
 
   @action onTempClick = () => {
-    this.props.temperature.inc();
-  };
+    this.props.temperature.inc()
+  }
 }
 ```
 
@@ -97,31 +97,31 @@ class TView extends React.Component {
 
 ```js
 // 스토어 선언 및 Provider 감싸기
-const temps = observable([]);
+const temps = observable([])
 
 ReactDOM.render(
   <Provider temperatures={temps}>
     <App />
   </Provider>,
-  document.getElementById("app")
-);
+  document.getElementById('app')
+)
 
 // App 컴포넌트
-const App = observer(["temperatures"], ({ temperatures }) => (
+const App = observer(['temperatures'], ({ temperatures }) => (
   <ul>
     <TemperatureInput />
-    {temperatures.map(t => (
+    {temperatures.map((t) => (
       <TView key={t.id} temperature={t} />
     ))}
     <DevTools />
   </ul>
-));
+))
 
 // temperatures를 사용하는 컴포넌트
 // 위의 App 컴포넌트를 보면 알겠지만 따로 props 선언이 없었음에도 바로 사용 가능하다.
-@observer(["temperatures"])
+@observer(['temperatures'])
 class TemperatureInput extends React.Component {
-  @observable input = "";
+  @observable input = ''
 
   render() {
     return (
@@ -130,7 +130,7 @@ class TemperatureInput extends React.Component {
         <input onChange={this.onChange} value={this.input} />
         <button onClick={this.onSubmit}>Add</button>
       </li>
-    );
+    )
   }
 }
 ```
@@ -142,24 +142,24 @@ class TemperatureInput extends React.Component {
 ```js
 // when의 사용 예
 function isNice(t) {
-  return t.temperatureCelsius > 25;
+  return t.temperatureCelsius > 25
 }
 
 when(
   () => temps.some(isNice),
   () => {
-    const t = temps.find(isNice);
-    alert("Book now! " + t.location);
+    const t = temps.find(isNice)
+    alert('Book now! ' + t.location)
   }
-);
+)
 
 // autorun의 사용 예
-const numbers = observable([1, 2, 3]);
-const sum = computed(() => numbers.reduce((a, b) => a + b, 0));
+const numbers = observable([1, 2, 3])
+const sum = computed(() => numbers.reduce((a, b) => a + b, 0))
 
-autorun(() => console.log(sum.get()));
+autorun(() => console.log(sum.get()))
 // prints '6'
-numbers.push(4);
+numbers.push(4)
 // prints '10'
 ```
 

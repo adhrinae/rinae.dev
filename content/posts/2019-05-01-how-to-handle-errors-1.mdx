@@ -1,13 +1,13 @@
 ---
-slug: "how-to-handle-errors-1"
-title: "에러 처리를 어떻게 하면 좋을까? - 1"
-date: "2019-05-01"
+slug: 'how-to-handle-errors-1'
+title: '에러 처리를 어떻게 하면 좋을까? - 1'
+date: '2019-05-01'
 tags:
   - Programming
   - JavaScript
   - TypeScript
   - Debugging
-description: "에러 처리를 일관된 형태로 하기 위한 고민 이야기, 첫 번째"
+description: '에러 처리를 일관된 형태로 하기 위한 고민 이야기, 첫 번째'
 enableComment: false
 ---
 
@@ -50,33 +50,33 @@ enableComment: false
 class HTTPError extends Error {}
 
 // Promise
-fetch("/api/posts" /* options */)
-  .then(response => {
+fetch('/api/posts' /* options */)
+  .then((response) => {
     if (response.ok) {
       // 요청이 성공(200~299) 하면
-      return response.json();
+      return response.json()
     } else {
       // 아니면 일단 에러 던지고 보자
-      throw new HTTPError(`Response: ${response.statusText}`);
+      throw new HTTPError(`Response: ${response.statusText}`)
     }
   })
-  .then(json => doSomething(json))
-  .catch(error => handleError(error));
+  .then((json) => doSomething(json))
+  .catch((error) => handleError(error))
 
 // async/await
 const fetchPosts = async () => {
   try {
-    const response = await fetch("/api/posts");
+    const response = await fetch('/api/posts')
     if (response.ok) {
-      const posts = await response.json();
-      doSomething(posts);
+      const posts = await response.json()
+      doSomething(posts)
     } else {
-      throw new HTTPError(`Response: ${response.statusText}`);
+      throw new HTTPError(`Response: ${response.statusText}`)
     }
   } catch (e) {
-    handleError(e);
+    handleError(e)
   }
-};
+}
 ```
 
 `catch` 체인에서 별도의 처리를 하지 않았다면 네트워크 에러 정도에만 에러가 잡힐 겁니다. 그러므로 우리가 `catch` 체인에서 에러를 받아 처리를 하고 싶다면 반드시 직접 `throw` 를 해야 합니다.
@@ -92,34 +92,34 @@ const fetchPosts = async () => {
 
 ```typescript
 interface HTTPResponse<T> {
-  isError: boolean;
+  isError: boolean
   errorData?: {
-    message: string;
-    statusCode: number;
-  };
-  data?: T;
+    message: string
+    statusCode: number
+  }
+  data?: T
 }
 
 // API 서버에서 ok에 해당하는 응답이 아닐 경우
 // 응답값에 에러에 대한 정보를 보내주기로 했다고 가정합니다.
 const fetchPosts: () => Promise<HTTPResponse<{ posts: any[] }>> = async () => {
   try {
-    const response = await fetch("/api/posts");
+    const response = await fetch('/api/posts')
     if (response.ok) {
-      const posts = await response.json();
+      const posts = await response.json()
       return {
         isError: false,
         data: posts,
-      };
+      }
     } else {
-      const errorData = await response.json();
+      const errorData = await response.json()
       return {
         isError: true,
         errorData: {
           message: errorData.message,
           statusCode: response.status,
         },
-      };
+      }
     }
   } catch (e) {
     return {
@@ -128,16 +128,16 @@ const fetchPosts: () => Promise<HTTPResponse<{ posts: any[] }>> = async () => {
         message: e.message, // 아니면 'Unknown Error' 같은 문자열을 쓸 수도
         statusCode: e.statusCode, // statusCode가 없을 수도 있겠죠
       },
-    };
+    }
   }
-};
+}
 
 // 받아 쓰는 쪽에서는
 async function showPosts() {
-  const fetchPostsResult = await fetchPosts();
+  const fetchPostsResult = await fetchPosts()
   if (fetchPostsResult.isError) {
     // Handle Error
-    handleError(fetchPostResult.errorData);
+    handleError(fetchPostResult.errorData)
   } else {
     // Show posts
   }
@@ -150,27 +150,27 @@ async function showPosts() {
 
 ```typescript
 type ErrorResp = {
-  message: string;
-  statusCode: number;
-};
-type FetchResponse<R> = [ErrorResp, null] | [null, R];
+  message: string
+  statusCode: number
+}
+type FetchResponse<R> = [ErrorResp, null] | [null, R]
 
 const fetchPosts: () => Promise<FetchResponse<{ posts: any[] }>> = async () => {
   // try/catch 블록은 생략
-  const response = await fetch("/api/posts");
+  const response = await fetch('/api/posts')
   if (response.ok) {
-    const posts = await response.json();
-    return [null, posts];
+    const posts = await response.json()
+    return [null, posts]
   } else {
-    const errorData = await response.json();
-    return [{ message: errorData.message, statusCode: response.status }, null];
+    const errorData = await response.json()
+    return [{ message: errorData.message, statusCode: response.status }, null]
   }
-};
+}
 
 async function showPosts() {
-  const [error, posts] = await fetchPosts();
+  const [error, posts] = await fetchPosts()
   if (error) {
-    handleError(error);
+    handleError(error)
   } else {
     // Show posts
   }

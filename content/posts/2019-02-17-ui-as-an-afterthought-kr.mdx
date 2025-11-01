@@ -1,12 +1,12 @@
 ---
-slug: "ui-as-an-afterthought-kr"
-date: "2019-02-17"
-title: "[번역] UI는 좀 이따 생각해봅시다"
+slug: 'ui-as-an-afterthought-kr'
+date: '2019-02-17'
+title: '[번역] UI는 좀 이따 생각해봅시다'
 tags:
   - Translation
   - Programming
   - React
-description: "유명 상태 관리 라이브러리 MobX의 작성자가 도메인 모델과 UI의 직접적인 결합을 최대한 막아야 한다고 주장하는 글을 번역했습니다."
+description: '유명 상태 관리 라이브러리 MobX의 작성자가 도메인 모델과 UI의 직접적인 결합을 최대한 막아야 한다고 주장하는 글을 번역했습니다.'
 enableComment: false
 ---
 
@@ -38,7 +38,20 @@ enableComment: false
 
 이런 문제를 해결하는데 코드를 작성하는 일은 굳이 UI 라이브러리를 사용하지 않고서도 할 수 있습니다. 비지니스 로직을 수행하는데 필요한 동작을 추상적인 형태로 만들 수 있습니다. 그리고 단위 테스트를 하세요. 모든 비지니스 과정에서 어떻게 각기 다른 상태가 들어갈 수 있을지 깊이 이해하세요.
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">💡 Model and develop your app&39;t be.<br /><br />This will force you to avoid coupling logic with presentation, which mainstream frameworks (React, Angular, Vue) unintentionally encourage.</p>&mdash; David K. 🎹 (@DavidKPiano) <a href="https://twitter.com/DavidKPiano/status/1092424711655567360?ref_src=twsrc%5Etfw">February 4, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr">
+    💡 Model and develop your app&39;t be.
+    <br />
+    <br />
+    This will force you to avoid coupling logic with presentation, which mainstream frameworks
+    (React, Angular, Vue) unintentionally encourage.
+  </p>
+  &mdash; David K. 🎹 (@DavidKPiano){' '}
+  <a href="https://twitter.com/DavidKPiano/status/1092424711655567360?ref_src=twsrc%5Etfw">
+    February 4, 2019
+  </a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 [트윗 번역]  
 애플리케이션의 (비지니스)로직을 다양한 UI에서 사용될 수 있도록 설계하고 개발하세요. 그럴 일이 없다 하더라도요. 메인스트림 프레임워크(리액트, 앵귤러, 뷰 등)가 의도치 않게 로직과 표현 계층이 결합되도록 유도하고 있는데, 이를 피할 수 있도록 강제합니다.

@@ -1,0 +1,4 @@
+.next
+node_modules
+public/_pagefind
+pnpm-lock.yaml

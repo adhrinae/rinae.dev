@@ -1,7 +1,7 @@
 ---
-slug: "integration-tests-in-redux-apps-kr"
-date: "2018-01-19"
-title: "[번역] 리덕스 앱을 저비용 고효율로 통합 테스트 하기"
+slug: 'integration-tests-in-redux-apps-kr'
+date: '2018-01-19'
+title: '[번역] 리덕스 앱을 저비용 고효율로 통합 테스트 하기'
 tags:
   - Testing
   - React
@@ -66,31 +66,31 @@ enableComment: false
 Enzyme은 `mount` 라는 함수를 제공하는데, 이 함수로 어떠한 리액트 컴포넌트라도 그려내고 동작을 확인해볼 수 있습니다. 리덕스를 쓰는 앱도 마찬가지로 테스트 가능합니다. 매번 테스트할 때 같은 코드를 반복하지 않기 위해 간단한 유틸리티 함수를 작성해두면 도움이 됩니다. 이 함수는 주어진 상태(Redux 스토어)와 Enzyme의 래퍼 객체(역주: Enzyme을 통해 그려진 컴포넌트를 객체화 한 것. 이후 다양한 메서드를 통해 하위 DOM 탐색 및 다양한 동작을 확인해볼 수 있습니다)를 리턴합니다. 이렇게 만들어둔 함수는 나중에 단언 작성을 꽤 편하게 해줍니다.
 
 ```js
-import { Provider } from "react-redux";
-import { mount } from "enzyme";
-import MyApp from "./containers/MyApp";
-import createStore from "./createStore";
+import { Provider } from 'react-redux'
+import { mount } from 'enzyme'
+import MyApp from './containers/MyApp'
+import createStore from './createStore'
 export default function renderAppWithState(state) {
-  const store = createStore(state);
+  const store = createStore(state)
   const wrapper = mount(
     <Provider store={store}>
       <MyApp />
     </Provider>
-  );
-  return [store, wrapper];
+  )
+  return [store, wrapper]
 }
 ```
 
 ```js
-const [, wrapper] = renderAppWithState({ foo: "bar" });
-wrapper.find("input").simulate("change", { target: { value: "hello" } });
+const [, wrapper] = renderAppWithState({ foo: 'bar' })
+wrapper.find('input').simulate('change', { target: { value: 'hello' } })
 ```
 
 노드 환경에서 테스트를 실행할 때 네트워크 계층을 깔끔하게 모킹하는 방법이 있습니다. 예를 들어 [nock](https://github.com/node-nock/nock) 같은 라이브러리가 있지요. nock은 테스트를 실행하기 전에 네트워크 요청에 따른 응답 데이터나 에러를 쉽게 선언할 수 있도록 만들어줍니다. 성공적인 GET 요청을 모킹하는 예는 다음과 같습니다.
 
 ```js
-import nock from "nock";
-nock("https://example.com/api").get("/12345").reply(200, { foo: "bar" });
+import nock from 'nock'
+nock('https://example.com/api').get('/12345').reply(200, { foo: 'bar' })
 // 이후 코드 어디에서나 https://example.com/api/1234 로 요청을 하면
 // 성공했다는 응답과 함께 { foo: 'bar' } 를 응답값으로 리턴하게 됩니다.
 ```
@@ -106,15 +106,15 @@ nock("https://example.com/api").get("/12345").reply(200, { foo: "bar" });
 간단한 폼을 제출한다는 시나리오를 생각해 보겠습니다. 데이터가 폼에 들어있는 상태로 랜더링 한 뒤에 사용자가 ‘제출’ 버튼을 누르는 행위를 흉내를 내 보겠습니다(simulate). 그리고 지정된 API 엔드포인트로 요청을 제대로 보내는지 확인해보겠습니다.
 
 ```js
-describe("Submitting the form", () => {
-  const [, wrapper] = renderAppWithState({ name: "John Doe" });
-  const submitButton = wrapper.find('[type="submit"]');
-  it("sends the data and shows the confirmation page", () => {
-    nock("https://myapp.com/api").post("/12345").reply(200);
-    submitButton.simulate("click");
+describe('Submitting the form', () => {
+  const [, wrapper] = renderAppWithState({ name: 'John Doe' })
+  const submitButton = wrapper.find('[type="submit"]')
+  it('sends the data and shows the confirmation page', () => {
+    nock('https://myapp.com/api').post('/12345').reply(200)
+    submitButton.simulate('click')
     // 이제 무슨 일이 일어나는지 확인합니다
-  });
-});
+  })
+})
 ```
 
 ## 언제 테스트하나?
@@ -126,14 +126,14 @@ Jest는 여러가지로 비동기 코드를 다루는 방법을 제공하지만,
 하지만 이 문제를 멋지게 해결하기 위해 한 줄짜리 보조 함수를 사용하면 됩니다. 이 함수는 성공한 Promise를 이벤트 루프의 바로 다음 차례로 넘기는 일을 합니다. Jest에서 기본적으로 지원하는 Promise 리턴과 같이 사용하면 됩니다.
 
 ```js
-const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
+const flushAllPromises = () => new Promise((resolve) => setImmediate(resolve))
 
-it("runs some promise based code", () => {
-  triggerSomethingPromiseBased(); // Promise 기반의 동작 실행
+it('runs some promise based code', () => {
+  triggerSomethingPromiseBased() // Promise 기반의 동작 실행
   return flushAllPromises().then(() => {
     // 무슨 일이 일어나는지 확인하기
-  });
-});
+  })
+})
 ```
 
 ## 어떻게 테스트하나?
@@ -144,11 +144,11 @@ it("runs some promise based code", () => {
 
 ```js
 // ...
-expect(wrapper).toMatchSnapshot();
-submitButton.simulate("click");
+expect(wrapper).toMatchSnapshot()
+submitButton.simulate('click')
 return flushAllPromises().then(() => {
-  expect(wrapper).toMatchSnapshot();
-});
+  expect(wrapper).toMatchSnapshot()
+})
 // ...
 ```
 
@@ -158,19 +158,19 @@ return flushAllPromises().then(() => {
 
 ```js
 // ...
-const [store, wrapper] = renderAppWithState({ name: "John Doe" });
+const [store, wrapper] = renderAppWithState({ name: 'John Doe' })
 // ...
 expect(store.getState()).toEqual({
-  name: "John Doe",
+  name: 'John Doe',
   confirmationVisible: false,
-});
-submitButton.simulate("click");
+})
+submitButton.simulate('click')
 return flushAllPromises().then(() => {
   expect(store.getState()).toEqual({
-    name: "John Doe",
+    name: 'John Doe',
     confirmationVisible: true,
-  });
-});
+  })
+})
 // ...
 ```
 
@@ -183,19 +183,19 @@ return flushAllPromises().then(() => {
 ```js
 // ...
 // 이제 renderAppWithState는 redux-mock-state를 사용해서 스토어를 생성합니다.
-const [store, wrapper] = renderAppWithState({ name: "John Doe" });
+const [store, wrapper] = renderAppWithState({ name: 'John Doe' })
 // ...
 expect(store.getState()).toEqual({
-  name: "John Doe",
+  name: 'John Doe',
   confirmationVisible: false,
-});
-submitButton.simulate("click");
+})
+submitButton.simulate('click')
 return flushAllPromises().then(() => {
   expect(store.getActions()).toEqual([
-    { type: "SUBMIT_FORM_START" },
-    { type: "SUBMIT_FORM_SUCCESS" },
-  ]);
-});
+    { type: 'SUBMIT_FORM_START' },
+    { type: 'SUBMIT_FORM_SUCCESS' },
+  ])
+})
 // ...
 ```
 

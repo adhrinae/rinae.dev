@@ -1,7 +1,7 @@
 ---
-slug: "react-testing-tutorial-kr"
-date: "2018-05-15"
-title: "[번역] 리액트 테스팅 튜토리얼: 테스트 프레임워크와 컴포넌트 테스트 방법"
+slug: 'react-testing-tutorial-kr'
+date: '2018-05-15'
+title: '[번역] 리액트 테스팅 튜토리얼: 테스트 프레임워크와 컴포넌트 테스트 방법'
 tags:
   - JavaScript
   - React
@@ -56,45 +56,45 @@ enableComment: false
 그럼 `src/index.js` 파일부터 시작해보겠습니다. 아직 `App` 컴포넌트는 구현되지 않았지만 불러와서(import) render 함수를 실행해두겠습니다.
 
 ```jsx
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import App from "./App";
+import App from './App'
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'))
 ```
 
 App 컴포넌트는 자신의 고유 상태를 가지고 있는 ES6 클래스입니다. 그리고 더하기 버튼과 빼기 버튼을 누를때마다 숫자를 하나씩 더하거나 빼는게 가능하지요. `src/App.js` 파일에 작성합니다.
 
 ```jsx
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
 
     this.state = {
       counter: 0,
-    };
+    }
 
-    this.onIncrement = this.onIncrement.bind(this);
-    this.onDecrement = this.onDecrement.bind(this);
+    this.onIncrement = this.onIncrement.bind(this)
+    this.onDecrement = this.onDecrement.bind(this)
   }
 
   onIncrement() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       counter: prevState.counter + 1,
-    }));
+    }))
   }
 
   onDecrement() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       counter: prevState.counter - 1,
-    }));
+    }))
   }
 
   render() {
-    const { counter } = this.state;
+    const { counter } = this.state
 
     return (
       <div>
@@ -109,11 +109,11 @@ class App extends Component {
           Decrement
         </button>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
 ```
 
 여러분들에게 이 컴포넌트가 어떻게 작동하는지 전부 명료하게 보이리라 생각합니다. (만약 그렇지 않다면 아까 말씀드린대로 리액트 도움닫기 책을 먼저 읽어주세요)
@@ -121,15 +121,15 @@ export default App;
 하지만 사용자 경험을 반영한 애플리케이션은 아니네요. 나중애 부분적으로 분리된 부분을 테스트해보기 위해 몇 가지 기능을 추가해보겠습니다. `this.setState()` 메서드가 실제로는 비동기적으로 작동하기 때문에 [객체를 인자로 넘기는 대신에 함수를 인자로 넘기고 있습니다](https://www.robinwieruch.de/learn-react-before-using-redux/). 이 때 객체로 인자를 넘길때에 비해 유일한 장점은 콜백 함수 안에서 현재의 상태에 접근할 수 있다는 겁니다. 이에 더해서 컴포넌트와 완전히 별개로 함수 자체를 테스트 할 수 있게 만듭니다.
 
 ```jsx
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-const doIncrement = prevState => ({
+const doIncrement = (prevState) => ({
   counter: prevState.counter + 1,
-});
+})
 
-const doDecrement = prevState => ({
+const doDecrement = (prevState) => ({
   counter: prevState.counter - 1,
-});
+})
 
 class App extends Component {
   constructor() {
@@ -137,11 +137,11 @@ class App extends Component {
   }
 
   onIncrement() {
-    this.setState(doIncrement);
+    this.setState(doIncrement)
   }
 
   onDecrement() {
-    this.setState(doDecrement);
+    this.setState(doDecrement)
   }
 
   render() {
@@ -149,27 +149,27 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
 ```
 
 나중에 테스트 파일에서 이 함수들을 불러오기 위해 컴포넌트에서 내보내기(export)를 설정하겠습니다.
 
 ```jsx
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-export const doIncrement = prevState => ({
+export const doIncrement = (prevState) => ({
   counter: prevState.counter + 1,
-});
+})
 
-export const doDecrement = prevState => ({
+export const doDecrement = (prevState) => ({
   counter: prevState.counter - 1,
-});
+})
 
 class App extends Component {
   //...
 }
 
-export default App;
+export default App
 ```
 
 이제 컴포넌트의 고유 상태를 변경하기 위해 사용되는 함수들이 컴포넌트와 분리되었기 때문에 별도로 테스트할 수 있게 되었습니다. 나중에 이런 개별 함수를 테스트하는 일을 단위 테스트라고 부르게 됩니다. 이 함수들을 테스트할 때는 함수에 입력값을 넣고 테스트는 기대되는 결과값을 단언(asserts)합니다. 순수 함수(입력 값에 따른 출력값이 동일하며 함수 외부의 환경에 영향을 주고받지 않는 함수)이기 때문에 부수 효과도 없습니다.
@@ -183,7 +183,7 @@ class App extends Component {
   // ...
 
   render() {
-    const { counter } = this.state;
+    const { counter } = this.state
 
     return (
       <div>
@@ -198,13 +198,13 @@ class App extends Component {
           Decrement
         </button>
       </div>
-    );
+    )
   }
 }
 
-export const Counter = ({ counter }) => <p>{counter}</p>;
+export const Counter = ({ counter }) => <p>{counter}</p>
 
-export default App;
+export default App
 ```
 
 보시다시피 컴포넌트가 잘 내보내졌습니다. 이렇게 하면 강좌 뒷부분에서 테스트 파일을 작성할 때 원하는 컴포넌트를 불러올 수 있습니다. 아무리 `Counter` 컴포넌트가 애플리케이션 전체에 걸쳐 재사용되는 일이 없다 하더라도, 테스트를 위해서 컴포넌트나 함수를 내보내는 게 좋습니다. 이제 다음 장에서 테스트를 설명하기 위한 애플리케이션 준비가 끝났습니다.
@@ -238,9 +238,9 @@ touch helpers.js dom.js
 위의 파일은 커맨드 라인에서 테스트 스크립트를 실행할 때 환경 설정하는데 사용됩니다. 먼저 `test/helpers.js` 파일부터 보겠습니다.
 
 ```javascript
-import { expect } from "chai";
+import { expect } from 'chai'
 
-global.expect = expect;
+global.expect = expect
 ```
 
 기껏 한거라곤 `expect` 함수를 Chai에서 가져와서 할당해둔겁니다. 이 함수는 나중에 테스트 할 때 "X는 Y와 같아야 한다" 는 단언을 작성할 때 사용합니다. 더 나아가 `expect` 함수는 이 파일을 사용하는 모든 테스트 파일의 전역 함수로 할당됩니다. 그러면 매번 `expect` 함수를 직접 가져오지 않고도 바로 사용할 수 있게 됩니다. 조금 뒤에는 더 많은 함수를 테스트용 전역 함수로 추가하게 됩니다. 어쨌든 거의 모든 테스트에 사용하는 함수들이니까요.
@@ -248,30 +248,30 @@ global.expect = expect;
 `test/dom.js` 파일에는 가짜 브라우저 환경을 설정해서 리액트 컴포넌트가 HTML로 그려지도록 설정합니다.
 
 ```javascript
-import { JSDOM } from "jsdom";
+import { JSDOM } from 'jsdom'
 
-const { window } = new JSDOM("<!doctype html><html><body></body></html>");
+const { window } = new JSDOM('<!doctype html><html><body></body></html>')
 
 function copyProps(src, target) {
   const props = Object.getOwnPropertyNames(src)
-    .filter(prop => typeof target[prop] === "undefined")
+    .filter((prop) => typeof target[prop] === 'undefined')
     .reduce(
       (result, prop) => ({
         ...result,
         [prop]: Object.getOwnPropertyDescriptor(src, prop),
       }),
       {}
-    );
-  Object.defineProperties(target, props);
+    )
+  Object.defineProperties(target, props)
 }
 
-global.window = window;
-global.document = window.document;
+global.window = window
+global.document = window.document
 global.navigator = {
-  userAgent: "node.js",
-};
+  userAgent: 'node.js',
+}
 
-copyProps(window, global);
+copyProps(window, global)
 ```
 
 이 강좌에서는 위의 코드 자체를 깊이 설명하진 않겠습니다. 기본적으로 리액트 컴포넌트 테스트를 위해 브라우저의 동작을 흉내낸다고 생각하시면 됩니다. jsdom 라이브러리가 브라우저에 사용되는 `window` 객체를 만들고 `document` 객체같은 객체를 추가합니다. 코드 내용이 이해하기 힘들다고 너무 걱정하지 마세요. 뒤에 이 파일을 건드릴 일은 거의 없습니다.
@@ -326,11 +326,11 @@ touch App.spec.js
 이제 파일을 열고 코드를 추가합니다.
 
 ```javascript
-describe("Local State", () => {
-  it("state의 counter를 하나 올릴 수 있다", () => {});
+describe('Local State', () => {
+  it('state의 counter를 하나 올릴 수 있다', () => {})
 
-  it("state의 counter를 하나 줄일 수 있다", () => {});
-});
+  it('state의 counter를 하나 줄일 수 있다', () => {})
+})
 ```
 
 기본적으로 위의 테스트 묶음(suite)은 두 개의 테스트를 가지고 있습니다. **describe** 라고 하는 블록은 테스트 묶음을 정의하고, **it** 이라는 블록은 테스트 케이스를 정의합니다. 테스트는 성공할 수도 있고(Green), 실패할 수도 있습니다(Red). 당연히 여러분은 테스트를 계속 성공하도록 만들어야 합니다.
@@ -340,23 +340,23 @@ App 컴포넌트의 상태를 변경하기 위해 정의된 두 함수를 테스
 **it** 블록에 테스트를 작성할 때는 보통 세 단계를 거칩니다. 값을 정의하고(arrange), 실행하고(act), 단언하는 거죠(assert).
 
 ```javascript
-import { doIncrement, doDecrement } from "./App";
+import { doIncrement, doDecrement } from './App'
 
-describe("Local State", () => {
-  it("should increment the counter in state", () => {
-    const state = { counter: 0 };
-    const newState = doIncrement(state);
+describe('Local State', () => {
+  it('should increment the counter in state', () => {
+    const state = { counter: 0 }
+    const newState = doIncrement(state)
 
-    expect(newState.counter).to.equal(1);
-  });
+    expect(newState.counter).to.equal(1)
+  })
 
-  it("should decrement the counter in state", () => {
-    const state = { counter: 0 };
-    const newState = doDecrement(state);
+  it('should decrement the counter in state', () => {
+    const state = { counter: 0 }
+    const newState = doDecrement(state)
 
-    expect(newState.counter).to.equal(-1);
-  });
-});
+    expect(newState.counter).to.equal(-1)
+  })
+})
 ```
 
 각 테스트의 첫 번째 줄에는 초기 상태를 정의하는 객체를 설정했습니다. 이 객체는 바로 다음 단계에 테스트 할 함수의 입력값으로 사용됩니다. 두 번쨰 줄에서 함수에 설정한 초기값을 넘기고, 그 함수는 결과값을 리턴합니다. 마지막 줄에서 리턴된 값이 여러분이 설정한 기대값과 일치하는지 단언합니다. 우리가 작성한 테스트의 경우 `doIncrement()` 함수는 `counter` 속성의 값을 하나 올려야 하고, `doDecrement()` 함수는 하나 줄여야겠지요.
@@ -382,17 +382,17 @@ npm install --save-dev enzyme-adapter-react-16
 그러면 `test/helpers.js` 파일에 Enzyme을 설정하겠습니다. 이 파일에 어댑터와 Enzyme 테스트에 쓰이는 함수들을 설정합니다.
 
 ```javascript
-import { expect } from "chai";
-import { mount, render, shallow, configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import { expect } from 'chai'
+import { mount, render, shallow, configure } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
-configure({ adapter: new Adapter() });
+configure({ adapter: new Adapter() })
 
-global.expect = expect;
+global.expect = expect
 
-global.mount = mount;
-global.render = render;
-global.shallow = shallow;
+global.mount = mount
+global.render = render
+global.shallow = shallow
 ```
 
 Chai에서 단언을 실행할 때 사용하는 `expect` 함수처럼 Enzyme에서 사용하는 `shallow`, `render`, `mount` 함수를 전역 함수로 만듭니다. 그러면 테스트 파일에서 일일이 이 함수들을 불러올 필요가 없어지게 됩니다. 앞으로 리액트 컴포넌트의 단위 테스트나 통합 테스트를 할 때 이 함수들을 사용하게 됩니다.
@@ -406,19 +406,19 @@ Enzyme 설정이 완료되었으니, 컴포넌트 테스트를 진행해보겠�
 이미 `src/App.js` 파일에서 `App` 컴포넌트를 내보냈으니 바로 `App` 컴포넌트를 랜더링할 때 `Counter` 컴포넌트도 같이 랜더링 되는지 확인해보는 테스트를 작성할 수 있습니다. `App.spec.js` 파일에 다음의 테스트를 추가해보겠습니다.
 
 ```jsx
-import React from "react";
-import App, { doIncrement, doDecrement, Counter } from "./App";
+import React from 'react'
+import App, { doIncrement, doDecrement, Counter } from './App'
 
-describe("Local State", () => {
+describe('Local State', () => {
   // ...
-});
+})
 
-describe("App Component", () => {
-  it("Counter 래퍼를 그려낸다", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find(Counter)).to.have.length(1);
-  });
-});
+describe('App Component', () => {
+  it('Counter 래퍼를 그려낸다', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find(Counter)).to.have.length(1)
+  })
+})
 ```
 
 `shallow` 함수는 아까 `test/helpers.js` 파일에 정의해 놓았던 전역 변수 중 하나입니다. 이 함수는 Enzyme에서 가장 단순하게 컴포넌트를 그려내는 함수입니다. 딱 해당 컴포넌트만 그려내고 그 컴포넌트의 자손 컴포넌트의 내용은 그리지 않습니다. 컴포넌트를 분리해서 테스트 할 수 있게 만들어주기 때문에 단위 테스트에는 제격인 함수입니다. 앞선 테스트에서 `Counter` 컴포넌트가 `App` 컴포넌트 안의 인스턴스로 그려졌는지 확인해 보았습니다. 테스트에 따르면 딱 하나의 `Counter` 컴포넌트만 나와야 하지요.
@@ -426,11 +426,11 @@ describe("App Component", () => {
 이게 Enzyme으로 리액트 애플리케이션을 단위 테스트하는 아주 간단한 방법 중 하나입니다. 추가적으로 여러분은 그려진 컴포넌트에서 특정 HTML 태그나 CSS 클래스에 맞는 DOM이 그려졌는지 확인할 수 있습니다.
 
 ```jsx
-it("List 래퍼가 list 엘리먼트를 그려낸다", () => {
-  const wrapper = shallow(<List items={["a", "b"]} />);
-  expect(wrapper.find("li")).to.have.length(2);
-  expect(wrapper.find(".list")).to.have.length(1);
-});
+it('List 래퍼가 list 엘리먼트를 그려낸다', () => {
+  const wrapper = shallow(<List items={['a', 'b']} />)
+  expect(wrapper.find('li')).to.have.length(2)
+  expect(wrapper.find('.list')).to.have.length(1)
+})
 ```
 
 컴포넌트에 어떤 속성(리액트의 Props)을 전달했느냐에 따라 [Enzyme의 선택자를 이용하여](https://github.com/airbnb/enzyme/blob/master/docs/api/selector.md) 그려진 HTML 엘리먼트를 확인해볼 수 있습니다. 또한 컴포넌트에 [리액트의 조건부 랜더링을](https://github.com/airbnb/enzyme/blob/master/docs/api/selector.md) 적용했다면 선택자로 선택된 요소의 개수가 0개인지 1개인지 확인하는 방식으로 조건에 따라 컴포넌트가 알맞게 그려졌는지 확인할 수 있습니다.
@@ -440,24 +440,24 @@ Enzyme으로 얕은 랜더링을 할 떄는 단위 테스트 뿐 아니라 가�
 ```jsx
 // ...
 
-describe("App Component", () => {
-  it("Counter 래퍼를 그려낸다", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find(Counter)).to.have.length(1);
-  });
+describe('App Component', () => {
+  it('Counter 래퍼를 그려낸다', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find(Counter)).to.have.length(1)
+  })
 
-  it("Counter 래퍼에 모든 Prop이 전달되었다", () => {
-    const wrapper = shallow(<App />);
-    let counterWrapper = wrapper.find(Counter);
+  it('Counter 래퍼에 모든 Prop이 전달되었다', () => {
+    const wrapper = shallow(<App />)
+    let counterWrapper = wrapper.find(Counter)
 
-    expect(counterWrapper.props().counter).to.equal(0);
+    expect(counterWrapper.props().counter).to.equal(0)
 
-    wrapper.setState({ counter: -1 });
+    wrapper.setState({ counter: -1 })
 
-    counterWrapper = wrapper.find(Counter);
-    expect(counterWrapper.props().counter).to.equal(-1);
-  });
-});
+    counterWrapper = wrapper.find(Counter)
+    expect(counterWrapper.props().counter).to.equal(-1)
+  })
+})
 ```
 
 단위 테스트와 통합 테스트의 경계가 애매하게 보일 수도 있습니다. 하지만 이번 테스트의 경우는 두 컴포넌트 사이의 간단한 부분이 기대한 대로 동작하는지 확인하는 정도이기 때문에 '가벼운 통합 테스트' 정도로 생각할 수 있겠습니다. 저 마지막 테스트는 어떻게 컴포넌트 사이에 전달되는 속성에 접근하고 확인했는지, 그리고 어떻게 컴포넌트의 지역 상태를 변경했는지 의도한 목적에 맞게 결과를 보여주었습니다. 이런 방식으로 여러분은 컴포넌트의 지역 상태 변화를 테스트할 수 있습니다. 예를 들어 컴포넌트 안에 있는 상태에 따라 특정 요소가 나타났다 사라졌다 하는 토글이 있다고 생각해 봅시다. 여러분은 테스트 코드를 작성하면서 임의로 상태를 변경하여 알맞은 HTML 요소가 그려졌는지 확인할 수 있습니다.
@@ -467,42 +467,42 @@ describe("App Component", () => {
 ```javascript
 // ...
 
-describe("App Component", () => {
-  it("Counter 래퍼를 그려낸다", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find(Counter)).to.have.length(1);
-  });
+describe('App Component', () => {
+  it('Counter 래퍼를 그려낸다', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find(Counter)).to.have.length(1)
+  })
 
-  it("Counter 래퍼에 모든 Prop이 전달되었다", () => {
-    const wrapper = shallow(<App />);
-    let counterWrapper = wrapper.find(Counter);
+  it('Counter 래퍼에 모든 Prop이 전달되었다', () => {
+    const wrapper = shallow(<App />)
+    let counterWrapper = wrapper.find(Counter)
 
-    expect(counterWrapper.props().counter).to.equal(0);
+    expect(counterWrapper.props().counter).to.equal(0)
 
-    wrapper.setState({ counter: -1 });
+    wrapper.setState({ counter: -1 })
 
-    counterWrapper = wrapper.find(Counter);
-    expect(counterWrapper.props().counter).to.equal(-1);
-  });
+    counterWrapper = wrapper.find(Counter)
+    expect(counterWrapper.props().counter).to.equal(-1)
+  })
 
-  it("counter를 하나 올린다", () => {
-    const wrapper = shallow(<App />);
+  it('counter를 하나 올린다', () => {
+    const wrapper = shallow(<App />)
 
-    wrapper.setState({ counter: 0 });
-    wrapper.find("button").at(0).simulate("click");
+    wrapper.setState({ counter: 0 })
+    wrapper.find('button').at(0).simulate('click')
 
-    expect(wrapper.state().counter).to.equal(1);
-  });
+    expect(wrapper.state().counter).to.equal(1)
+  })
 
-  it("counter를 하나 내린다", () => {
-    const wrapper = shallow(<App />);
+  it('counter를 하나 내린다', () => {
+    const wrapper = shallow(<App />)
 
-    wrapper.setState({ counter: 0 });
-    wrapper.find("button").at(1).simulate("click");
+    wrapper.setState({ counter: 0 })
+    wrapper.find('button').at(1).simulate('click')
 
-    expect(wrapper.state().counter).to.equal(-1);
-  });
-});
+    expect(wrapper.state().counter).to.equal(-1)
+  })
+})
 ```
 
 버튼이 두개 있으니까 `at()` 헬퍼 함수를 사용하여 특정 태그를 가진 엘리먼트의 리스트를 가져와서 그 리스트의 인덱스에 직접 접근할 수 있습니다. 하지만 엘리먼트의 순서가 바뀌게 된다면 조심해서 사용하셔야 합니다. 제대로 된 테스트라면 각각의 엘리먼트들을 명확히 가져올 수 있도록 선택자(Selector)를 잘 매겨서 사용하시길 권합니다. 그렇지 않고 계속 인덱스를 사용하여 HTML 엘리먼트를 가져온다면 엘리먼트의 순서가 바뀔 때 테스트가 깨지게 됩니다.
@@ -532,37 +532,37 @@ npm install --save axios
 그리고 임의의 API 엔드포인트로 요청하는 코드를 작성해보겠습니다. 이 시나리오에서 직접 특정 API에 요청을 할 지 말지는 여러분의 자유입니다. 혹시 리액트 컴포넌트 안에서 외부 API에 요청하는 법을 잘 모르신다면 ['리액트에서 데이터 가져오는 방법'](https://www.robinwieruch.de/react-fetching-data/) 을 살펴보시기 바랍니다.
 
 ```jsx
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react'
+import axios from 'axios'
 
 // ...
 
 class App extends Component {
   constructor() {
-    super();
+    super()
 
     this.state = {
       counter: 0,
       asyncCounters: null,
-    };
+    }
 
-    this.onIncrement = this.onIncrement.bind(this);
-    this.onDecrement = this.onDecrement.bind(this);
+    this.onIncrement = this.onIncrement.bind(this)
+    this.onDecrement = this.onDecrement.bind(this)
   }
 
   componentDidMount() {
     axios
-      .get("http://mypseudodomain/counter")
-      .then(counter => this.setState({ asyncCounters: counter }))
-      .catch(error => console.log(error));
+      .get('http://mypseudodomain/counter')
+      .then((counter) => this.setState({ asyncCounters: counter }))
+      .catch((error) => console.log(error))
   }
 
   onIncrement() {
-    this.setState(doIncrement);
+    this.setState(doIncrement)
   }
 
   onDecrement() {
-    this.setState(doDecrement);
+    this.setState(doDecrement)
   }
 
   render() {
@@ -572,7 +572,7 @@ class App extends Component {
 
 // ...
 
-export default App;
+export default App
 ```
 
 이 시나리오를 테스트하기 위해 굳이 `render()` 메서드에서 `asyncCounters` 속성을 드러낼 필요는 없습니다. 어차피 엔드포인트에서 가짜 데이터만 리턴하게 될 테니까요. 그리고 오로지 요청이 성공적으로 이루어졌는지까지만 가정해서 테스트해보고자 합니다.
@@ -586,20 +586,20 @@ npm install --save-dev sinon
 그리고 Sinon을 `test/helpers.js` 파일에 글로벌 함수로 등록해줍니다.
 
 ```javascript
-import sinon from "sinon";
-import { expect } from "chai";
-import { mount, render, shallow, configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import sinon from 'sinon'
+import { expect } from 'chai'
+import { mount, render, shallow, configure } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
-configure({ adapter: new Adapter() });
+configure({ adapter: new Adapter() })
 
-global.expect = expect;
+global.expect = expect
 
-global.sinon = sinon;
+global.sinon = sinon
 
-global.mount = mount;
-global.render = render;
-global.shallow = shallow;
+global.mount = mount
+global.render = render
+global.shallow = shallow
 ```
 
 Sinon은 관찰(spies), Mock, Stub에 사용될 수 있습니다.(역주: Spy는 관찰자정도로 번역할 수 있겠지만 주로 영문 표기를 그대로 사용하고자 합니다. Mock, Stub은 일반적으로 한글로 번역하기 모호한 개념인데다 대부분의 기술 문서도 원문을 그대로 사용하고 있기 때문에 억지로 번역하지 않겠습니다 - Mock과 Stub에 관해서는 [다음 링크](https://medium.com/@SlackBeck/mock-object란-무엇인가-85159754b2ac)를 참고해주세요) 다음 장에서 관찰자와 Stub을 사용해서 리액트 컴포넌트 안의 비동기 비지니스 로직을 테스트합니다. 이런 작업이 비동기 로직을 테스트할 때 가장 시간이 많이 들어가는 부분입니다.
@@ -611,14 +611,14 @@ Sinon은 관찰(spies), Mock, Stub에 사용될 수 있습니다.(역주: Spy는
 ```jsx
 // ...
 
-describe("App Component", () => {
-  it("componentDidMount를 호출한다", () => {
-    sinon.spy(App.prototype, "componentDidMount");
+describe('App Component', () => {
+  it('componentDidMount를 호출한다', () => {
+    sinon.spy(App.prototype, 'componentDidMount')
 
-    const wrapper = mount(<App />);
-    expect(App.prototype.componentDidMount.calledOnce).to.equal(true);
-  });
-});
+    const wrapper = mount(<App />)
+    expect(App.prototype.componentDidMount.calledOnce).to.equal(true)
+  })
+})
 ```
 
 '`App` 컴포넌트의 프로토타입 체인에 들어있는 `componentDidMount()` 라이프사이클 메서드가 한 번 실행된다.' 는 테스트를 작성했습니다. 리액트의 라이프사이클 메서드를 알고 계시다면 이 메서드는 컴포넌트가 마운트될 때 한 번만 실행된다는 사실을 알고 계실겁니다. 그 이후에는 호출되지 않지요. 따라서 테스트는 성공할 겁니다. 이런 방식으로 리액트의 라이프사이클 메서드를 테스트할 수 있습니다.
@@ -630,45 +630,42 @@ describe("App Component", () => {
 ```javascript
 // ...
 
-describe("App Component", () => {
-  before(() => {});
+describe('App Component', () => {
+  before(() => {})
 
-  after(() => {});
+  after(() => {})
 
-  it("Counter 래퍼를 그려낸다", () => {
+  it('Counter 래퍼를 그려낸다', () => {
     // ...
-  });
+  })
 
   // ...
-});
+})
 ```
 
 이제 테스트 파일에 axios를 사용하겠습니다. 특정 API 요청에 [스텁](http://sinonjs.org/releases/v4.4.6/stubs/)(stub, 역주: '테스트용으로 특정 요청에 따라 정해진 가짜 데이터(canned answer)를 제공하는 함수' 라는 뜻을 가지고 있으며 국내에 적절한 우리말 번역이 없어 원어 그대로 사용하겠습니다)을 적용하여 데이터 요청을 흉내내고, 그 데이터를 가져오기 위해서입니다.
 
 ```javascript
-import React from "react";
-import axios from "axios";
-import App, { doIncrement, doDecrement, Counter } from "./App";
+import React from 'react'
+import axios from 'axios'
+import App, { doIncrement, doDecrement, Counter } from './App'
 
 // ...
 
-describe("App Component", () => {
-  const result = [3, 5, 9];
-  const promise = Promise.resolve(result);
+describe('App Component', () => {
+  const result = [3, 5, 9]
+  const promise = Promise.resolve(result)
 
   before(() => {
-    sinon
-      .stub(axios, "get")
-      .withArgs("http://mydomain/counter")
-      .returns(promise);
-  });
+    sinon.stub(axios, 'get').withArgs('http://mydomain/counter').returns(promise)
+  })
 
   after(() => {
-    axios.get.restore();
-  });
+    axios.get.restore()
+  })
 
   // ...
-});
+})
 ```
 
 그런데 스텁이 뭐냐고요? Sinon 문서에서 일컫기를 '테스트 스텁은 미리 지정된 동작을 수행하는 함수 (혹은 Spy)' 라고 합니다. 정의대로라면 Spy도 완전히 통제할 수 있다는 말이 되지요. 예를 들자면 특정 함수(`get()` 함수같은)가 어떤 리턴값을 돌려줄지 미리 지정할 수 있습니다. 한발 나아가 특정 인자를 받을 때만 내가 원하는 동작을 수행하도록 지정할 수 있습니다. 위의 코드를 보시면 axios의 `get` 함수로 특정 도메인에 요청을 할 때 반드시 정수의 배열(`counters`) 을 프로미스로 돌려주도록 정의한 것을 알 수 있습니다.
@@ -680,33 +677,30 @@ describe("App Component", () => {
 ```jsx
 // ...
 
-describe("App Component", () => {
-  const result = [3, 5, 9];
-  const promise = Promise.resolve(result);
+describe('App Component', () => {
+  const result = [3, 5, 9]
+  const promise = Promise.resolve(result)
 
   before(() => {
-    sinon
-      .stub(axios, "get")
-      .withArgs("http://mydomain/counter")
-      .returns(promise);
-  });
+    sinon.stub(axios, 'get').withArgs('http://mydomain/counter').returns(promise)
+  })
 
   after(() => {
-    axios.get.restore();
-  });
+    axios.get.restore()
+  })
 
   // ...
 
-  it("비동기로 카운터를 가져온다", () => {
-    const wrapper = shallow(<App />);
+  it('비동기로 카운터를 가져온다', () => {
+    const wrapper = shallow(<App />)
 
-    expect(wrapper.state().asyncCounters).to.equal(null);
+    expect(wrapper.state().asyncCounters).to.equal(null)
 
     promise.then(() => {
-      expect(wrapper.state().asyncCounters).to.equal(result);
-    });
-  });
-});
+      expect(wrapper.state().asyncCounters).to.equal(result)
+    })
+  })
+})
 ```
 
 `App` 컴포넌트를 처음 그려낼 때 `asyncCounters` 상태는 `null` 이어야 합니다. 그리고 프로미스가 완료되면 우리가 지정한 `result` 값과 같은 상태가 되어야 합니다. 이제 테스트를 여러 번 실행해봐도 원하는대로 동작하는지 확인해볼 수 있게 되었습니다. 축하드립니다! 이제 리액트 컴포넌트의 비동기 동작도 테스트할 수 있게 되었습니다. Sinon 자체는 Mocha, Chai와 마찬가지로 리액트와 직접적으로 엮여있지 않다는 점을 명심하셔야 합니다. 오로지 함수를 관찰하거나 그 함수에 스텁을 적용하고, 더 세밀하게 정의되어있는 Mock 객체를 만들고자 할 때만 사용하셔야 합니다.
@@ -777,26 +771,26 @@ touch App.snapshot.js
 그리고 `App`, `Counter` 컴포넌트에 대한 스냅샷 테스트를 작성합니다. 보통 스냅샷 테스트는 최소한 아래의 양식을 가지고 있습니다.
 
 ```jsx
-import React from "react";
-import renderer from "react-test-renderer";
+import React from 'react'
+import renderer from 'react-test-renderer'
 
-import App, { Counter } from "./App";
+import App, { Counter } from './App'
 
-describe("App Snapshot", () => {
-  test("renders", () => {
-    const component = renderer.create(<App />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-});
+describe('App Snapshot', () => {
+  test('renders', () => {
+    const component = renderer.create(<App />)
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})
 
-describe("Counter Snapshot", () => {
-  test("renders", () => {
-    const component = renderer.create(<Counter counter={1} />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-});
+describe('Counter Snapshot', () => {
+  test('renders', () => {
+    const component = renderer.create(<Counter counter={1} />)
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})
 ```
 
 네 이게 다입니다. 이제 커맨드 라인에서 스냅샷 테스트를 실행해보세요. 모두 성공할겁니다. 그 다음에 `App` 컴포넌트의 `render()` 메서드 구현부를 조금 수정해봅니다. 예를 들어 `<h1>` 태그에 몇마디 넣어서 추가해볼 수도 있겠습니다. 다시 스냅샷 테스트를 실행하면 `App` 컴포넌트에 대한 테스트는 실패할겁니다. 그리고 스냅샷을 업데이트할지 코드를 고칠지 결정하면 됩니다.
@@ -854,11 +848,11 @@ touch App.e2e.js
 첫 번째 테스트는 그다지 전체 테스트 같진 않지만, 일단 실행해보고 Cypress가 실제로 동작하는 것을 확인하실 수 있습니다.
 
 ```javascript
-describe("App E2E", () => {
-  it("should assert that true is equal to true", () => {
-    expect(true).to.equal(true);
-  });
-});
+describe('App E2E', () => {
+  it('should assert that true is equal to true', () => {
+    expect(true).to.equal(true)
+  })
+})
 ```
 
 이미 `describe`, `it` 블록은 친숙하게 느껴지시리라 생각합니다. 기존에 보시던 대로 이 블록들은 테스트를 특정 블록 안으로 캡슐화하는데 사용됩니다. Cypress는 실제로 Mocha를 기반에 두고 만들어졌기 때문에 위와 같은 블록들도 차용했다고 합니다. `expect` 같은 단언 문법은 Chai에서 가져왔습니다. **Cypress는 위와 같은 유명한 툴과 프레임워크를 기반으로 삼고 만들어졌기 때문에 친숙함을 느끼고 동작을 손쉽게 파악할 수 있습니다.**
@@ -876,11 +870,11 @@ npm run test:cypress
 테스트를 실행하고 `true` 와 `true` 가 같은지 확인해봅시다. 당연하게도 테스트는 성공이라고 나타나겠지요. 그렇지 않다면 무언가 문제가 있다는 겁니다. 반대로 테스트를 수정해서 일부러 실패하게 만들어 볼 수도 있습니다.
 
 ```javascript
-describe("App E2E", () => {
-  it("should assert that true is equal to true", () => {
-    expect(true).to.equal(false);
-  });
-});
+describe('App E2E', () => {
+  it('should assert that true is equal to true', () => {
+    expect(true).to.equal(false)
+  })
+})
 ```
 
 원하신다면 Cypress를 실행하자마자 모든 테스트를 실행하도록 스크립트를 수정하셔도 됩니다.
@@ -939,13 +933,13 @@ npm install --save-dev start-server-and-test
 마지막으로 실제 Cypress로 애플리케이션에 접속하는 전체 테스트를 작성해보겠습니다. Cypress 테스트 코드를 작성할 때 `cy` 라는 전역 객체를 사용하여 동작을 정의할 수 있습니다. 애플리케이션에 방문하고 `h1` 태그를 확인하는 테스트를 작성해보죠.
 
 ```javascript
-describe("App E2E", () => {
-  it("헤더가 있어야 한다", () => {
-    cy.visit("http://localhost:8080");
+describe('App E2E', () => {
+  it('헤더가 있어야 한다', () => {
+    cy.visit('http://localhost:8080')
 
-    cy.get("h1").should("have.text", "My Counter");
-  });
-});
+    cy.get('h1').should('have.text', 'My Counter')
+  })
+})
 ```
 
 기본적으로 Cypress로 CSS 선택자를 지정하고, 단언을 할 때는 이런 방식으로 합니다. 다시 테스트를 실행해 보면 성공했다고 나옵니다.
@@ -975,46 +969,46 @@ describe('App E2E', () => {
 그 다음에 리액트 애플리케이션의 버튼을 누르는 동작을 테스트할 겁니다. 각각의 버튼을 누르고 나서 카운터의 숫자가 바뀌는지를 확인합니다. 일단 카운터에 0이라는 숫자가 제대로 표시되는지 확인해보죠.
 
 ```javascript
-describe("App E2E", () => {
-  it("헤더가 있어야 한다", () => {
-    cy.visit("/");
+describe('App E2E', () => {
+  it('헤더가 있어야 한다', () => {
+    cy.visit('/')
 
-    cy.get("h1").should("have.text", "My Counter");
-  });
+    cy.get('h1').should('have.text', 'My Counter')
+  })
 
-  it("카운터를 늘리거나 줄일수 있어야 한다", () => {
-    cy.visit("/");
+  it('카운터를 늘리거나 줄일수 있어야 한다', () => {
+    cy.visit('/')
 
-    cy.get("p").should("have.text", "0");
-  });
-});
+    cy.get('p').should('have.text', '0')
+  })
+})
 ```
 
 그리고 [버튼을 조종하면서](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html) 카운터를 늘리거나 줄여보겠습니다.
 
 ```javascript
-describe("App E2E", () => {
-  it("헤더가 있어야 한다", () => {
-    cy.visit("/");
+describe('App E2E', () => {
+  it('헤더가 있어야 한다', () => {
+    cy.visit('/')
 
-    cy.get("h1").should("have.text", "My Counter");
-  });
+    cy.get('h1').should('have.text', 'My Counter')
+  })
 
-  it("카운터를 늘리거나 줄일수 있어야 한다", () => {
-    cy.visit("/");
+  it('카운터를 늘리거나 줄일수 있어야 한다', () => {
+    cy.visit('/')
 
-    cy.get("p").should("have.text", "0");
+    cy.get('p').should('have.text', '0')
 
-    cy.contains("Increment").click();
-    cy.get("p").should("have.text", "1");
+    cy.contains('Increment').click()
+    cy.get('p').should('have.text', '1')
 
-    cy.contains("Increment").click();
-    cy.get("p").should("have.text", "2");
+    cy.contains('Increment').click()
+    cy.get('p').should('have.text', '2')
 
-    cy.contains("Decrement").click();
-    cy.get("p").should("have.text", "1");
-  });
-});
+    cy.contains('Decrement').click()
+    cy.get('p').should('have.text', '1')
+  })
+})
 ```
 
 이렇게 여러분은 Cypress로 전체 테스트를 작성했습니다. URL과 URL 사이를 오갈 수도 있고, 다른 HTML 요소에 접근하고 그려진 결과물을 확인해볼 수 있습니다. 두 가지만 더 말씀드리자면

@@ -1,13 +1,13 @@
 ---
-slug: "how-to-handle-errors-2"
-title: "에러 처리를 어떻게 하면 좋을까? - 2"
-date: "2019-05-04"
+slug: 'how-to-handle-errors-2'
+title: '에러 처리를 어떻게 하면 좋을까? - 2'
+date: '2019-05-04'
 tags:
   - Programming
   - JavaScript
   - TypeScript
   - Functional Programming
-description: "에러 처리를 일관된 형태로 하기 위한 고민 이야기, 두 번째"
+description: '에러 처리를 일관된 형태로 하기 위한 고민 이야기, 두 번째'
 enableComment: false
 ---
 
@@ -24,32 +24,32 @@ enableComment: false
 ```typescript
 class HTTPError extends Error {
   constructor(statusCode: number, message?: string) {
-    super(message); // 반드시 호출해야함
-    this.name = `HTTPError`;
-    this.statusCode = statusCode;
+    super(message) // 반드시 호출해야함
+    this.name = `HTTPError`
+    this.statusCode = statusCode
   }
 }
 
 const fetchPosts = async () => {
-  const response = await fetch(`/api/posts`);
+  const response = await fetch(`/api/posts`)
   if (response.ok) {
-    return await response.json();
+    return await response.json()
   } else {
-    throw new HTTPError(response.status, response.statusText);
+    throw new HTTPError(response.status, response.statusText)
   }
-};
+}
 
 const renderPosts = async () => {
   try {
-    const posts = await fetchPosts();
+    const posts = await fetchPosts()
     // Do something with posts
   } catch (e) {
-    console.error(e.statusCode); // <- 컴파일 에러
+    console.error(e.statusCode) // <- 컴파일 에러
     if (e instanceof HTTPError) {
-      alert(`fetching posts failed, error code is ${e.statusCode}`); // 이건 정상
+      alert(`fetching posts failed, error code is ${e.statusCode}`) // 이건 정상
     }
   }
-};
+}
 ```
 
 이렇게 `instanceof` 를 통과하면 해당 에러 객체의 속성을 좀 더 안전하게 활용할 수 있습니다. 물론 어떻게든 예상하지 못한 에러를 처리하긴 해야겠죠.
@@ -63,18 +63,18 @@ class HTTPError extends Error {
     private errorData: Record<string, any>,
     message?: string
   ) {
-    super(message); // 반드시 호출해야함
-    this.name = `HTTPError`;
+    super(message) // 반드시 호출해야함
+    this.name = `HTTPError`
   }
 
   showAlert() {
-    alert(`HTTPError occurred: ${this.errorData.message}`);
+    alert(`HTTPError occurred: ${this.errorData.message}`)
   }
 
   forceLogout() {
     if (this.errorData.needForceLogout) {
-      localStorage.removeItem(`__magic__token__`);
-      window.history.replace(`/`);
+      localStorage.removeItem(`__magic__token__`)
+      window.history.replace(`/`)
     }
   }
 }
@@ -84,7 +84,7 @@ try {
 } catch (e) {
   // ...
   if (e instanceof HTTPError) {
-    e.showAlert();
+    e.showAlert()
   }
 }
 ```
@@ -142,8 +142,8 @@ try {
 ```typescript
 function handleHTTPError(err: Error, handlerFn: (e: HTTPError) => void) {
   if (err instanceof HTTPError) {
-    console.error(err.message); // 아니면 에러 로깅 서비스 등으로 전송을 하거나
-    handlerFn(e);
+    console.error(err.message) // 아니면 에러 로깅 서비스 등으로 전송을 하거나
+    handlerFn(e)
   }
 }
 ```
@@ -151,16 +151,16 @@ function handleHTTPError(err: Error, handlerFn: (e: HTTPError) => void) {
 커스텀 에러를 여러개 정의했고, 하나의 `try/catch` 블록에서 여러 타입의 에러 핸들러를 한번의 인자 전달로 처리하고 싶어졌으니 `pipeErrorHandlers` 같은 함수를 만들어보죠.
 
 ```typescript
-type ErrorHandler<E extends Error> = (e: E) => { moveNextHandler: boolean };
+type ErrorHandler<E extends Error> = (e: E) => { moveNextHandler: boolean }
 function pipeErrorHandlers(handlerFns: ErrorHandler[]) {
   return (e: Error) => {
     for (const handler of handlerFns) {
-      const { moveNextHandler } = handler(e);
+      const { moveNextHandler } = handler(e)
       if (!moveNextHandler) {
-        break;
+        break
       }
     }
-  };
+  }
 }
 ```
 
@@ -171,16 +171,16 @@ try {
   // 에러가 일어날만한 일 시도
 } catch (error) {
   pipeErrorHandlers(
-    handleSessionError(e => {
+    handleSessionError((e) => {
       // SessionError의 인스턴스라면 처리하고 끝낸다
     }),
-    handleHTTPError(e => {
+    handleHTTPError((e) => {
       // 아니면 HTTPError일 경우 처리하고 끝낸다
     }),
-    handleUnexpectedError(e => {
+    handleUnexpectedError((e) => {
       // 혹시 모르니까 안전장치를 마련해두자
     })
-  )(error);
+  )(error)
 }
 ```
 
@@ -225,14 +225,14 @@ const getPosts = async () => {
 // 만약 에러가 발생한다면 얼럿을 표시해준다
 // 에러가 없다면 그 값을 posts 라는 변수에 할당한다
 const posts = await getPosts()
-  .map(posts => posts.slice().sort((a, b) => b.createdAt - a.createdAt))
-  .map(sortedPosts =>
-    posts.map(post => ({
+  .map((posts) => posts.slice().sort((a, b) => b.createdAt - a.createdAt))
+  .map((sortedPosts) =>
+    posts.map((post) => ({
       ...post,
       title: `${post.title} - ${post.author}`,
     }))
   )
-  .get(e => e.showAlert());
+  .get((e) => e.showAlert())
 ```
 
 1. 덕분에 에러가 발생하는 경우를 고려하는 것 보다 핵심 로직을 작성하고 원하는대로 합성하는데 집중할 수 있습니다.
@@ -248,7 +248,7 @@ const posts = await getPosts()
 <iframe
   src="https://codesandbox.io/embed/31l59o1m9q?fontsize=14&module=%2Fsrc%2FEither.ts&view=editor"
   title="Either monad in typescript"
-  style={{ width: "100%", height: "500px", border: 0, borderRadius: "4px", overflow: "hidden" }}
+  style={{ width: '100%', height: '500px', border: 0, borderRadius: '4px', overflow: 'hidden' }}
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 

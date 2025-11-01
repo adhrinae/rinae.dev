@@ -1,7 +1,7 @@
 ---
-slug: "understanding-taming-the-meta-language-kor"
-date: "2017-04-04"
-title: "[번역] 메타언어 길들이기"
+slug: 'understanding-taming-the-meta-language-kor'
+date: '2017-04-04'
+title: '[번역] 메타언어 길들이기'
 tags:
   - Programming
   - Learning
@@ -16,7 +16,13 @@ enableComment: false
 
 저는 드디어 [Cheng Lou](https://twitter.com/_chenglou)가 ReactConf'17에서 발표한 내용을 이해했습니다. 20분정도 시간을 내실 수 있다면 이 영상을 먼저 봐 주세요.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_0T5OSSzxms" frameborder="0" allowfullscreen></iframe>
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/_0T5OSSzxms"
+  frameborder="0"
+  allowfullscreen
+></iframe>
 
 **요약:** 언어가 있으면 [메타언어](https://ko.wikipedia.org/wiki/%EB%A9%94%ED%83%80_%EC%96%B8%EC%96%B4)(고차 언어)도 있다. 여기서 언어는 실제 소스 코드이고, 메타 언어는 그 위에 있는 모든 것(테스트, 주석, IDE 기능, 문서, 예제, 튜토리얼, 블로그 글, 책, 비디오, 컨퍼런스 등의 기술 발표 등)을 뜻한다. 우리는 언어를 배우기 위해 메타언어를 사용한다. 우리가 메타언어의 개념을 언어 자체로 끌어내리면, 우리가 다루는 개념은 더욱 유연해지고 점차 새로운 메타언어를 만들어나갈 수 있게 된다. 새로운 메타언어는 같은 에너지를 쏟아도 기존 메타언어에 비해 더 고차원적이고 풍부한 형태를 가질 수 있게 된다.
 
@@ -119,16 +125,16 @@ state = {
   data: null,
   error: null,
   loading: true,
-};
+}
 ```
 
 이 경우 `loading` 이 `false` 라면 `data` 나 `error` 중에 하나가 `null` 이 되어서는 안된다는 안내를 하려면 메타언어를 사용할 수 밖에 없습니다. 그 대신 우리는 Flow나 타입스크립트(Typescript)를 사용하여 언어 단위에서 제약을 걸 수 있습니다.
 
 ```typescript
 type State =
-  | { progress: "loading" }
-  | { progress: "done"; data: Object }
-  | { progress: "error"; error: Error };
+  | { progress: 'loading' }
+  | { progress: 'done'; data: Object }
+  | { progress: 'error'; error: Error }
 ```
 
 **리덕스(Redux)와 불변성(Immutability):** 현재는 문서, 블로그 포스트, 비디오, 컨퍼런스 발표 등에서 리덕스를 사용할 때 변수나 객체에 직접적으로 변화를 주지 않을 것을(lack of direct mutation) 전제하고 있습니다. 만약 자바스크립트가 기본적으로 불변 데이터 타입과 타입 선언(type annotations)을 제공한다면 위에서 말하는 전제를 코드에서 바로 표현할 수 있지 않을까요?
@@ -151,15 +157,22 @@ type State =
 
 ```javascript
 // explicit
-if (obj !== undefined) return obj.x;
+if (obj !== undefined) return obj.x
 
 // implicit
-if (obj) return obj.x;
+if (obj) return obj.x
 ```
 
 보고 계시는 자바스크립트 코드에서 위쪽에 제시된 코드가 평균적으로 최대 15%까지 처리 속도가 빠르다고 합니다. [DHH는 트위터에서](https://twitter.com/dhh/status/846627223176167424) '어차피 15%라고 해봤자 실제로는 몇 밀리초 이하일텐데 왜 기계에게 맞추려고 하느냐' 같은 내용의 비판을 쏟아내었지요. 코드를 어떻게 작성하실건지는 여러분의 취향에 맡기겠습니다.
 
 하지만 오늘 제가 드리고픈 말씀은 아래 트윗에 다 있기 때문에 후기를 짧게 줄이고자 합니다.
 
-<blockquote class="twitter-tweet" data-conversation="none" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/dhh">@dhh</a> Code is not a conversation between a dev and a machine.&#13;&#13;Code is a conversation between a developer AND THE NEXT DEVELOPER.</p>&mdash; Don Schenck (@DonSchenck) <a href="https://twitter.com/DonSchenck/status/846675893909180416">March 28, 2017</a></blockquote>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="en">
+  <p lang="en" dir="ltr">
+    <a href="https://twitter.com/dhh">@dhh</a> Code is not a conversation between a dev and a
+    machine.&#13;&#13;Code is a conversation between a developer AND THE NEXT DEVELOPER.
+  </p>
+  &mdash; Don Schenck (@DonSchenck){' '}
+  <a href="https://twitter.com/DonSchenck/status/846675893909180416">March 28, 2017</a>
+</blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

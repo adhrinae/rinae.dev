@@ -1,7 +1,7 @@
 ---
-title: "[번역] useEffect 완벽 가이드"
-slug: "a-complete-guide-to-useeffect-ko"
-date: "2019-10-09"
+title: '[번역] useEffect 완벽 가이드'
+slug: 'a-complete-guide-to-useeffect-ko'
+date: '2019-10-09'
 tags:
   - Translation
   - React
@@ -116,14 +116,14 @@ enableComment: false
 
 ```jsx {6}
 function Counter() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   return (
     <div>
       <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
-  );
+  )
 }
 ```
 
@@ -132,9 +132,9 @@ function Counter() {
 **이 예제에서 `count` 는 그저 숫자입니다.** 마법의 "데이터 바인딩" 이나 "워쳐" 나 "프록시", 혹은 비슷한 그 어떤 것도 아닙니다. 그냥 아래와 같이 단순한 숫자에 불과합니다.
 
 ```jsx
-const count = 42;
+const count = 42
 // ...
-<p>You clicked {count} times</p>;
+;<p>You clicked {count} times</p>
 // ...
 ```
 
@@ -143,25 +143,25 @@ const count = 42;
 ```jsx {3,11,19}
 // 처음 랜더링 시
 function Counter() {
-  const count = 0; // useState() 로부터 리턴
+  const count = 0 // useState() 로부터 리턴
   // ...
-  <p>You clicked {count} times</p>;
+  ;<p>You clicked {count} times</p>
   // ...
 }
 
 // 클릭하면 함수가 다시 호출된다
 function Counter() {
-  const count = 1; // useState() 로부터 리턴
+  const count = 1 // useState() 로부터 리턴
   // ...
-  <p>You clicked {count} times</p>;
+  ;<p>You clicked {count} times</p>
   // ...
 }
 
 // 또 한번 클릭하면, 다시 함수가 호출된다
 function Counter() {
-  const count = 2; // useState() 로부터 리턴
+  const count = 2 // useState() 로부터 리턴
   // ...
-  <p>You clicked {count} times</p>;
+  ;<p>You clicked {count} times</p>
   // ...
 }
 ```
@@ -188,12 +188,12 @@ function Counter() {
 
 ```jsx {4-8,16-18}
 function Counter() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + count);
-    }, 3000);
+      alert('You clicked on: ' + count)
+    }, 3000)
   }
   return (
     <div>
@@ -201,7 +201,7 @@ function Counter() {
       <button onClick={() => setCount(count + 1)}>Click me</button>
       <button onClick={handleAlertClick}>Show alert</button>
     </div>
-  );
+  )
 }
 ```
 
@@ -239,20 +239,20 @@ _(다른 방식으로 동작할 수 있도록 구현하는 방법도 있습니�
 
 ```jsx {2}
 function sayHi(person) {
-  const name = person.name;
+  const name = person.name
   setTimeout(() => {
-    alert("Hello, " + name);
-  }, 3000);
+    alert('Hello, ' + name)
+  }, 3000)
 }
 
-let someone = { name: "Dan" };
-sayHi(someone);
+let someone = { name: 'Dan' }
+sayHi(someone)
 
-someone = { name: "Yuzhi" };
-sayHi(someone);
+someone = { name: 'Yuzhi' }
+sayHi(someone)
 
-someone = { name: "Dominic" };
-sayHi(someone);
+someone = { name: 'Dominic' }
+sayHi(someone)
 ```
 
 [이 예제에서](https://codesandbox.io/s/mm6ww11lk8), 외부의 `someone` 변수는 여러 번 재할당됩니다. (리액트 어딘가에서 _현재의_ 컴포넌트 상태가 바뀔 수 있는 것처럼요.) **하지만 `sayHi` 내부에서, 특정 호출마다 `person` 과 엮여있는 `name` 이라는 지역 상수가 존재합니다.** 이 상수는 지역 상수이기 때문에, 각각의 함수 호출로부터 분리되어 있습니다! 결과적으로 타임아웃 이벤트가 실행될 때마다 각자의 얼럿은 고유의 `name` 을 기억하게 됩니다.
@@ -262,36 +262,36 @@ sayHi(someone);
 ```jsx {3,15,27}
 // 처음 랜더링 시
 function Counter() {
-  const count = 0; // useState() 로부터 리턴
+  const count = 0 // useState() 로부터 리턴
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + count);
-    }, 3000);
+      alert('You clicked on: ' + count)
+    }, 3000)
   }
   // ...
 }
 
 // 클릭하면 함수가 다시 호출된다
 function Counter() {
-  const count = 1; // useState() 로부터 리턴
+  const count = 1 // useState() 로부터 리턴
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + count);
-    }, 3000);
+      alert('You clicked on: ' + count)
+    }, 3000)
   }
   // ...
 }
 
 // 또 한번 클릭하면, 다시 함수가 호출된다
 function Counter() {
-  const count = 2; // useState() 로부터 리턴
+  const count = 2 // useState() 로부터 리턴
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + count);
-    }, 3000);
+      alert('You clicked on: ' + count)
+    }, 3000)
   }
   // ...
 }
@@ -305,11 +305,11 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + 0);
-    }, 3000);
+      alert('You clicked on: ' + 0)
+    }, 3000)
   }
   // ...
-  <button onClick={handleAlertClick} />; // 0이 안에 들어있음
+  ;<button onClick={handleAlertClick} /> // 0이 안에 들어있음
   // ...
 }
 
@@ -318,11 +318,11 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + 1);
-    }, 3000);
+      alert('You clicked on: ' + 1)
+    }, 3000)
   }
   // ...
-  <button onClick={handleAlertClick} />; // 1이 안에 들어있음
+  ;<button onClick={handleAlertClick} /> // 1이 안에 들어있음
   // ...
 }
 
@@ -331,11 +331,11 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + 2);
-    }, 3000);
+      alert('You clicked on: ' + 2)
+    }, 3000)
   }
   // ...
-  <button onClick={handleAlertClick} />; // 2가 안에 들어있음
+  ;<button onClick={handleAlertClick} /> // 2가 안에 들어있음
   // ...
 }
 ```
@@ -354,17 +354,17 @@ _참고 노트: 저는 위의 예제에서 `handleAlertClick` 함수 안에 직�
 
 ```jsx {4-6}
 function Counter() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    document.title = `You clicked ${count} times`;
-  });
+    document.title = `You clicked ${count} times`
+  })
   return (
     <div>
       <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
-  );
+  )
 }
 ```
 
@@ -387,9 +387,9 @@ function Counter() {
   useEffect(
     // 첫 번째 랜더링의 이펙트 함수
     () => {
-      document.title = `You clicked ${0} times`;
+      document.title = `You clicked ${0} times`
     }
-  );
+  )
   // ...
 }
 
@@ -399,9 +399,9 @@ function Counter() {
   useEffect(
     // 두 번째 랜더링의 이펙트 함수
     () => {
-      document.title = `You clicked ${1} times`;
+      document.title = `You clicked ${1} times`
     }
-  );
+  )
   // ...
 }
 
@@ -411,9 +411,9 @@ function Counter() {
   useEffect(
     // 세 번째 랜더링의 이펙트 함수
     () => {
-      document.title = `You clicked ${2} times`;
+      document.title = `You clicked ${2} times`
     }
-  );
+  )
   // ..
 }
 ```
@@ -463,19 +463,19 @@ function Counter() {
 
 ```jsx {4-8}
 function Counter() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     setTimeout(() => {
-      console.log(`You clicked ${count} times`);
-    }, 3000);
-  });
+      console.log(`You clicked ${count} times`)
+    }, 3000)
+  })
   return (
     <div>
       <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
-  );
+  )
 }
 ```
 
@@ -521,21 +521,21 @@ componentDidUpdate() {
 function Example(props) {
   useEffect(() => {
     setTimeout(() => {
-      console.log(props.counter);
-    }, 1000);
-  });
+      console.log(props.counter)
+    }, 1000)
+  })
   // ...
 }
 ```
 
 ```jsx {2,5}
 function Example(props) {
-  const counter = props.counter;
+  const counter = props.counter
   useEffect(() => {
     setTimeout(() => {
-      console.log(counter);
-    }, 1000);
-  });
+      console.log(counter)
+    }, 1000)
+  })
   // ...
 }
 ```
@@ -575,11 +575,11 @@ function Example() {
 
 ```jsx
 useEffect(() => {
-  ChatAPI.subscribeToFriendStatus(props.id, handleStatusChange);
+  ChatAPI.subscribeToFriendStatus(props.id, handleStatusChange)
   return () => {
-    ChatAPI.unsubscribeFromFriendStatus(props.id, handleStatusChange);
-  };
-});
+    ChatAPI.unsubscribeFromFriendStatus(props.id, handleStatusChange)
+  }
+})
 ```
 
 첫 번째 랜더링에서 `prop` 이 `{id: 10}` 이고, 두 번째 랜더링에서 `{id: 20}` 이라고 해 봅시다. _아마도_ 아래와 같은 흐름대로 흘러가리라 생각하실겁니다.
@@ -618,13 +618,13 @@ function Example() {
   useEffect(
     // 첫 번째 랜더링의 이펙트
     () => {
-      ChatAPI.subscribeToFriendStatus(10, handleStatusChange);
+      ChatAPI.subscribeToFriendStatus(10, handleStatusChange)
       // 첫 번째 랜더링의 클린업
       return () => {
-        ChatAPI.unsubscribeFromFriendStatus(10, handleStatusChange);
-      };
+        ChatAPI.unsubscribeFromFriendStatus(10, handleStatusChange)
+      }
     }
-  );
+  )
   // ...
 }
 
@@ -634,13 +634,13 @@ function Example() {
   useEffect(
     // 두 번째 랜더링의 이펙트
     () => {
-      ChatAPI.subscribeToFriendStatus(20, handleStatusChange);
+      ChatAPI.subscribeToFriendStatus(20, handleStatusChange)
       // 두 번째 랜더링의 클린업
       return () => {
-        ChatAPI.unsubscribeFromFriendStatus(20, handleStatusChange);
-      };
+        ChatAPI.unsubscribeFromFriendStatus(20, handleStatusChange)
+      }
     }
-  );
+  )
   // ...
 }
 ```
@@ -657,7 +657,7 @@ function Example() {
 
 ```jsx
 function Greeting({ name }) {
-  return <h1 className="Greeting">Hello, {name}</h1>;
+  return <h1 className="Greeting">Hello, {name}</h1>
 }
 ```
 
@@ -672,9 +672,9 @@ function Greeting({ name }) {
 ```jsx {2-4}
 function Greeting({ name }) {
   useEffect(() => {
-    document.title = "Hello, " + name;
-  });
-  return <h1 className="Greeting">Hello, {name}</h1>;
+    document.title = 'Hello, ' + name
+  })
+  return <h1 className="Greeting">Hello, {name}</h1>
 }
 ```
 
@@ -705,14 +705,14 @@ function Greeting({ name }) {
 리액트는 두 객체를 비교합니다.
 
 ```jsx
-const oldProps = { className: "Greeting", children: "Hello, Dan" };
-const newProps = { className: "Greeting", children: "Hello, Yuzhi" };
+const oldProps = { className: 'Greeting', children: 'Hello, Dan' }
+const newProps = { className: 'Greeting', children: 'Hello, Yuzhi' }
 ```
 
 각각의 prop을 짚어보고 `children` 이 바뀌어서 DOM 업데이트가 필요하다고 파악했지만 `className` 은 그렇지 않습니다. 그래서 그저 아래의 코드만 호출됩니다.
 
 ```jsx
-domNode.innerText = "Hello, Yuzhi";
+domNode.innerText = 'Hello, Yuzhi'
 // domNode.className 은 건드릴 필요가 없다
 ```
 
@@ -722,18 +722,18 @@ domNode.innerText = "Hello, Yuzhi";
 
 ```jsx {11-13}
 function Greeting({ name }) {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(0)
 
   useEffect(() => {
-    document.title = "Hello, " + name;
-  });
+    document.title = 'Hello, ' + name
+  })
 
   return (
     <h1 className="Greeting">
       Hello, {name}
       <button onClick={() => setCounter(count + 1)}>Increment</button>
     </h1>
-  );
+  )
 }
 ```
 
@@ -743,11 +743,11 @@ function Greeting({ name }) {
 
 ```jsx
 let oldEffect = () => {
-  document.title = "Hello, Dan";
-};
+  document.title = 'Hello, Dan'
+}
 let newEffect = () => {
-  document.title = "Hello, Dan";
-};
+  document.title = 'Hello, Dan'
+}
 // 리액트가 이 배열을 같은 배열이라고 인식할 수 있을까?
 ```
 
@@ -757,8 +757,8 @@ let newEffect = () => {
 
 ```jsx {3}
 useEffect(() => {
-  document.title = "Hello, " + name;
-}, [name]); // 우리의 의존성
+  document.title = 'Hello, ' + name
+}, [name]) // 우리의 의존성
 ```
 
 **이건 마치 우리가 리액트에게 "이봐, 네가 이 함수의 _안을_ 볼 수 없는 것을 알고 있지만, 랜더링 스코프에서 `name` 외의 값은 쓰지 않는다고 약속할게." 라고 말하는 것과 같습니다.**
@@ -767,14 +767,14 @@ useEffect(() => {
 
 ```jsx
 const oldEffect = () => {
-  document.title = "Hello, Dan";
-};
-const oldDeps = ["Dan"];
+  document.title = 'Hello, Dan'
+}
+const oldDeps = ['Dan']
 
 const newEffect = () => {
-  document.title = "Hello, Dan";
-};
-const newDeps = ["Dan"];
+  document.title = 'Hello, Dan'
+}
+const newDeps = ['Dan']
 
 // 리액트는 함수 안을 살펴볼 수 없지만, deps를 비교할 수 있다.
 // 모든 deps가 같으므로, 새 이펙트를 실행할 필요가 없다.
@@ -793,8 +793,8 @@ function SearchResults() {
   }
 
   useEffect(() => {
-    fetchData();
-  }, []); // 이게 맞을까요? 항상 그렇진 않지요. 그리고 더 나은 방식으로 코드를 작성하는 방법이 있습니다.
+    fetchData()
+  }, []) // 이게 맞을까요? 항상 그렇진 않지요. 그리고 더 나은 방식으로 코드를 작성하는 방법이 있습니다.
 
   // ...
 }
@@ -814,8 +814,8 @@ _([Hooks FAQ](https://reactjs.org/docs/hooks-faq.html#is-it-safe-to-omit-functio
 
 ```jsx {3}
 useEffect(() => {
-  document.title = "Hello, " + name;
-}, [name]);
+  document.title = 'Hello, ' + name
+}, [name])
 ```
 
 ![이펙트가 하나를 다른 것으로 바꾸는 다이어그램](/images/a-complete-guide-to-useeffect/deps-compare-correct.gif)
@@ -825,8 +825,8 @@ _(의존성이 다르기 때문에 이펙트를 다시 실행한다.)_
 
 ```jsx {3}
 useEffect(() => {
-  document.title = "Hello, " + name;
-}, []); // 틀렸음: deps에 name이 없다
+  document.title = 'Hello, ' + name
+}, []) // 틀렸음: deps에 name이 없다
 ```
 
 ![이펙트가 하나를 다른 것으로 바꾸는 다이어그램](/images/a-complete-guide-to-useeffect/deps-compare-wrong.gif)
@@ -838,15 +838,15 @@ _(의존성이 같으므로 이펙트는 스킵한다.)_
 
 ```jsx {9}
 function Counter() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     const id = setInterval(() => {
-      setCount(count + 1);
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
-  return <h1>{count}</h1>;
+      setCount(count + 1)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [])
+  return <h1>{count}</h1>
 }
 ```
 
@@ -866,12 +866,12 @@ function Counter() {
     // 첫 번째 랜더링의 이펙트
     () => {
       const id = setInterval(() => {
-        setCount(0 + 1); // 언제나 setCount(1)
-      }, 1000);
-      return () => clearInterval(id);
+        setCount(0 + 1) // 언제나 setCount(1)
+      }, 1000)
+      return () => clearInterval(id)
     },
     [] // 절대 다시 실행하지 않는다
-  );
+  )
   // ...
 }
 
@@ -883,12 +883,12 @@ function Counter() {
     // 왜냐면 리액트에게 빈 deps를 넘겨주는 거짓말을 했기 때문
     () => {
       const id = setInterval(() => {
-        setCount(1 + 1);
-      }, 1000);
-      return () => clearInterval(id);
+        setCount(1 + 1)
+      }, 1000)
+      return () => clearInterval(id)
     },
     []
-  );
+  )
   // ...
 }
 ```
@@ -901,10 +901,10 @@ function Counter() {
 const count = // ...
   useEffect(() => {
     const id = setInterval(() => {
-      setCount(count + 1);
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
+      setCount(count + 1)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [])
 ```
 
 따라서 `[]` 을 의존성 배열로 지정하는 것은 버그를 만들 것입니다. 리액트는 배열을 비교하고, 이 이펙트를 업데이트 하지 않을 것입니다.
@@ -923,10 +923,10 @@ _(의존성이 같으므로 이펙트는 스킵한다.)_
 ```jsx {3,6}
 useEffect(() => {
   const id = setInterval(() => {
-    setCount(count + 1);
-  }, 1000);
-  return () => clearInterval(id);
-}, [count]);
+    setCount(count + 1)
+  }, 1000)
+  return () => clearInterval(id)
+}, [count])
 ```
 
 이렇게 의존성 배열을 올바르게 만들었습니다. _이상적이지_ 않을 수 있지만 우리가 고쳐야 하는 첫 번째 문제를 해결한 것입니다. 이제 `count` 값은 이펙트를 다시 실행하고 매번 다음 인터벌에서 `setCount(count + 1)` 부분은 해당 랜더링 시점의 `count` 값을 사용할 겁니다.
@@ -939,12 +939,12 @@ function Counter() {
     // 첫 번째 랜더링의 이펙트
     () => {
       const id = setInterval(() => {
-        setCount(0 + 1); // setCount(count + 1)
-      }, 1000);
-      return () => clearInterval(id);
+        setCount(0 + 1) // setCount(count + 1)
+      }, 1000)
+      return () => clearInterval(id)
     },
     [0] // [count]
-  );
+  )
   // ...
 }
 
@@ -955,12 +955,12 @@ function Counter() {
     // 두 번째 랜더링의 이펙트
     () => {
       const id = setInterval(() => {
-        setCount(1 + 1); // setCount(count + 1)
-      }, 1000);
-      return () => clearInterval(id);
+        setCount(1 + 1) // setCount(count + 1)
+      }, 1000)
+      return () => clearInterval(id)
     },
     [1] // [count]
-  );
+  )
   // ...
 }
 ```
@@ -985,10 +985,10 @@ _(의존성이 다르기 때문에 이펙트를 다시 실행한다)_
 ```jsx {3,6}
 useEffect(() => {
   const id = setInterval(() => {
-    setCount(count + 1);
-  }, 1000);
-  return () => clearInterval(id);
-}, [count]);
+    setCount(count + 1)
+  }, 1000)
+  return () => clearInterval(id)
+}, [count])
 ```
 
 문제를 해결하기 위해 먼저 자신에게 질문을 해 봅시다. **무엇 때문에 `count` 를 쓰고 있나요?** 오로지 `setCount` 를 위해 사용하고 있는 것으로 보입니다. 이 경우에 스코프 안에서 `count` 를 쓸 필요가 전혀 없습니다. 이전 상태를 기준으로 상태 값을 업데이트 하고 싶을 때는, `setState` 에 [함수 형태의 업데이터를](https://reactjs.org/docs/hooks-reference.html#functional-updates) 사용하면 됩니다.
@@ -996,10 +996,10 @@ useEffect(() => {
 ```jsx {3}
 useEffect(() => {
   const id = setInterval(() => {
-    setCount(c => c + 1);
-  }, 1000);
-  return () => clearInterval(id);
-}, []);
+    setCount((c) => c + 1)
+  }, 1000)
+  return () => clearInterval(id)
+}, [])
 ```
 
 저는 이런 경우를 "잘못된 의존관계" 라고 생각하는 것을 좋아합니다. 네, `count` 는 우리가 `setCount(count + 1)` 이라고 썼기 때문에 이펙트 안에서 필요한 의존성이었습니다. 하지만 진짜로 우리는 `count` 를 `count + 1` 로 변환하여 리액트에게 "돌려주기 위해" 원했을 뿐입니다. 하지만 리액트는 현재의 `count` 를 _이미 알고 있습니다._ **우리가 리액트에게 알려줘야 하는 것은 지금 값이 뭐든 간에 상태 값을 하나 더하라는 것입니다.**
@@ -1031,21 +1031,21 @@ _(의존성은 같으므로 이펙트는 스킵한다.)_
 
 ```jsx {7,10}
 function Counter() {
-  const [count, setCount] = useState(0);
-  const [step, setStep] = useState(1);
+  const [count, setCount] = useState(0)
+  const [step, setStep] = useState(1)
 
   useEffect(() => {
     const id = setInterval(() => {
-      setCount(c => c + step);
-    }, 1000);
-    return () => clearInterval(id);
-  }, [step]);
+      setCount((c) => c + step)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [step])
   return (
     <>
       <h1>{count}</h1>
-      <input value={step} onChange={e => setStep(Number(e.target.value))} />
+      <input value={step} onChange={(e) => setStep(Number(e.target.value))} />
     </>
-  );
+  )
 }
 ```
 
@@ -1064,15 +1064,15 @@ function Counter() {
 이펙트 안에서 `step` 의존성을 `dispatch` 로 바꾸어 보겠습니다.
 
 ```jsx {1,6,9}
-const [state, dispatch] = useReducer(reducer, initialState);
-const { count, step } = state;
+const [state, dispatch] = useReducer(reducer, initialState)
+const { count, step } = state
 
 useEffect(() => {
   const id = setInterval(() => {
-    dispatch({ type: "tick" }); // setCount(c => c + step) 대신에
-  }, 1000);
-  return () => clearInterval(id);
-}, [dispatch]);
+    dispatch({ type: 'tick' }) // setCount(c => c + step) 대신에
+  }, 1000)
+  return () => clearInterval(id)
+}, [dispatch])
 ```
 
 ([데모](https://codesandbox.io/s/xzr480k0np)를 보세요.)
@@ -1089,16 +1089,16 @@ _(리액트가 `dispatch`, `setState`, `useRef` 컨테이너 값이 항상 고�
 const initialState = {
   count: 0,
   step: 1,
-};
+}
 
 function reducer(state, action) {
-  const { count, step } = state;
-  if (action.type === "tick") {
-    return { count: count + step, step };
-  } else if (action.type === "step") {
-    return { count, step: action.step };
+  const { count, step } = state
+  if (action.type === 'tick') {
+    return { count: count + step, step }
+  } else if (action.type === 'step') {
+    return { count, step: action.step }
   } else {
-    throw new Error();
+    throw new Error()
   }
 }
 ```
@@ -1113,24 +1113,24 @@ function reducer(state, action) {
 
 ```jsx {1,6}
 function Counter({ step }) {
-  const [count, dispatch] = useReducer(reducer, 0);
+  const [count, dispatch] = useReducer(reducer, 0)
 
   function reducer(state, action) {
-    if (action.type === "tick") {
-      return state + step;
+    if (action.type === 'tick') {
+      return state + step
     } else {
-      throw new Error();
+      throw new Error()
     }
   }
 
   useEffect(() => {
     const id = setInterval(() => {
-      dispatch({ type: "tick" });
-    }, 1000);
-    return () => clearInterval(id);
-  }, [dispatch]);
+      dispatch({ type: 'tick' })
+    }, 1000)
+    return () => clearInterval(id)
+  }, [dispatch])
 
-  return <h1>{count}</h1>;
+  return <h1>{count}</h1>
 }
 ```
 
@@ -1173,18 +1173,18 @@ _([이 예제](https://codesandbox.io/s/8j4ykjyv0)는 Robin Wieruch의 멋진 �
 function SearchResults() {
   // 이 함수가 길다고 상상해 봅시다
   function getFetchUrl() {
-    return "https://hn.algolia.com/api/v1/search?query=react";
+    return 'https://hn.algolia.com/api/v1/search?query=react'
   }
 
   // 이 함수도 길다고 상상해 봅시다
   async function fetchData() {
-    const result = await axios(getFetchUrl());
-    setData(result.data);
+    const result = await axios(getFetchUrl())
+    setData(result.data)
   }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // ...
 }
@@ -1194,22 +1194,22 @@ function SearchResults() {
 
 ```jsx {6}
 function SearchResults() {
-  const [query, setQuery] = useState("react");
+  const [query, setQuery] = useState('react')
 
   // 이 함수가 길다고 상상해 봅시다
   function getFetchUrl() {
-    return "https://hn.algolia.com/api/v1/search?query=" + query;
+    return 'https://hn.algolia.com/api/v1/search?query=' + query
   }
 
   // 이 함수가 길다고 상상해 봅시다
   async function fetchData() {
-    const result = await axios(getFetchUrl());
-    setData(result.data);
+    const result = await axios(getFetchUrl())
+    setData(result.data)
   }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // ...
 }
@@ -1225,15 +1225,15 @@ function SearchResults() {
   useEffect(() => {
     // 아까의 함수들을 안으로 옮겼어요!
     function getFetchUrl() {
-      return "https://hn.algolia.com/api/v1/search?query=react";
+      return 'https://hn.algolia.com/api/v1/search?query=react'
     }
 
     async function fetchData() {
-      const result = await axios(getFetchUrl());
-      setData(result.data);
+      const result = await axios(getFetchUrl())
+      setData(result.data)
     }
-    fetchData();
-  }, []); // ✅ Deps는 OK
+    fetchData()
+  }, []) // ✅ Deps는 OK
   // ...
 }
 ```
@@ -1246,20 +1246,20 @@ function SearchResults() {
 
 ```jsx {6,15}
 function SearchResults() {
-  const [query, setQuery] = useState("react");
+  const [query, setQuery] = useState('react')
 
   useEffect(() => {
     function getFetchUrl() {
-      return "https://hn.algolia.com/api/v1/search?query=" + query;
+      return 'https://hn.algolia.com/api/v1/search?query=' + query
     }
 
     async function fetchData() {
-      const result = await axios(getFetchUrl());
-      setData(result.data);
+      const result = await axios(getFetchUrl())
+      setData(result.data)
     }
 
-    fetchData();
-  }, [query]); // ✅ Deps는 OK
+    fetchData()
+  }, [query]) // ✅ Deps는 OK
   // ...
 }
 ```
@@ -1285,18 +1285,18 @@ function SearchResults() {
 ```jsx
 function SearchResults() {
   function getFetchUrl(query) {
-    return "https://hn.algolia.com/api/v1/search?query=" + query;
+    return 'https://hn.algolia.com/api/v1/search?query=' + query
   }
 
   useEffect(() => {
-    const url = getFetchUrl("react");
+    const url = getFetchUrl('react')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, []); // 🔴 빠진 dep: getFetchUrl
+  }, []) // 🔴 빠진 dep: getFetchUrl
 
   useEffect(() => {
-    const url = getFetchUrl("redux");
+    const url = getFetchUrl('redux')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, []); // 🔴 빠진 dep: getFetchUrl
+  }, []) // 🔴 빠진 dep: getFetchUrl
 
   // ...
 }
@@ -1308,17 +1308,17 @@ function SearchResults() {
 function SearchResults() {
   // 🔴 매번 랜더링마다 모든 이펙트를 다시 실행한다
   function getFetchUrl(query) {
-    return "https://hn.algolia.com/api/v1/search?query=" + query;
+    return 'https://hn.algolia.com/api/v1/search?query=' + query
   }
   useEffect(() => {
-    const url = getFetchUrl("react");
+    const url = getFetchUrl('react')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, [getFetchUrl]); // 🚧 Deps는 맞지만 너무 자주 바뀐다
+  }, [getFetchUrl]) // 🚧 Deps는 맞지만 너무 자주 바뀐다
 
   useEffect(() => {
-    const url = getFetchUrl("redux");
+    const url = getFetchUrl('redux')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, [getFetchUrl]); // 🚧 Deps는 맞지만 너무 자주 바뀐다
+  }, [getFetchUrl]) // 🚧 Deps는 맞지만 너무 자주 바뀐다
 
   // ...
 }
@@ -1333,18 +1333,18 @@ function SearchResults() {
 ```jsx {1-4}
 // ✅ 데이터 흐름에 영향을 받지 않는다
 function getFetchUrl(query) {
-  return "https://hn.algolia.com/api/v1/search?query=" + query;
+  return 'https://hn.algolia.com/api/v1/search?query=' + query
 }
 function SearchResults() {
   useEffect(() => {
-    const url = getFetchUrl("react");
+    const url = getFetchUrl('react')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, []); // ✅ Deps는 OK
+  }, []) // ✅ Deps는 OK
 
   useEffect(() => {
-    const url = getFetchUrl("redux");
+    const url = getFetchUrl('redux')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, []); // ✅ Deps는 OK
+  }, []) // ✅ Deps는 OK
 
   // ...
 }
@@ -1357,18 +1357,18 @@ function SearchResults() {
 ```jsx {2-5}
 function SearchResults() {
   // ✅ 여기 정의된 deps가 같다면 항등성을 유지한다
-  const getFetchUrl = useCallback(query => {
-    return "https://hn.algolia.com/api/v1/search?query=" + query;
-  }, []); // ✅ 콜백의 deps는 OK
+  const getFetchUrl = useCallback((query) => {
+    return 'https://hn.algolia.com/api/v1/search?query=' + query
+  }, []) // ✅ 콜백의 deps는 OK
   useEffect(() => {
-    const url = getFetchUrl("react");
+    const url = getFetchUrl('react')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, [getFetchUrl]); // ✅ 이펙트의 deps는 OK
+  }, [getFetchUrl]) // ✅ 이펙트의 deps는 OK
 
   useEffect(() => {
-    const url = getFetchUrl("redux");
+    const url = getFetchUrl('redux')
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, [getFetchUrl]); // ✅ 이펙트의 deps는 OK
+  }, [getFetchUrl]) // ✅ 이펙트의 deps는 OK
 
   // ...
 }
@@ -1382,11 +1382,11 @@ function SearchResults() {
 
 ```jsx {5}
 function SearchResults() {
-  const [query, setQuery] = useState("react");
+  const [query, setQuery] = useState('react')
   const getFetchUrl = useCallback(() => {
     // No query argument
-    return "https://hn.algolia.com/api/v1/search?query=" + query;
-  }, []); // 🔴 빠진 의존성: query
+    return 'https://hn.algolia.com/api/v1/search?query=' + query
+  }, []) // 🔴 빠진 의존성: query
   // ...
 }
 ```
@@ -1395,16 +1395,16 @@ function SearchResults() {
 
 ```jsx {4-7}
 function SearchResults() {
-  const [query, setQuery] = useState("react");
+  const [query, setQuery] = useState('react')
 
   // ✅ query가 바뀔 때까지 항등성을 유지한다
   const getFetchUrl = useCallback(() => {
-    return "https://hn.algolia.com/api/v1/search?query=" + query;
-  }, [query]); // ✅ 콜백 deps는 OK
+    return 'https://hn.algolia.com/api/v1/search?query=' + query
+  }, [query]) // ✅ 콜백 deps는 OK
   useEffect(() => {
-    const url = getFetchUrl();
+    const url = getFetchUrl()
     // ... 데이터를 불러와서 무언가를 한다 ...
-  }, [getFetchUrl]); // ✅ 이펙트의 deps는 OK
+  }, [getFetchUrl]) // ✅ 이펙트의 deps는 OK
 
   // ...
 }
@@ -1416,22 +1416,22 @@ function SearchResults() {
 
 ```jsx {4-8}
 function Parent() {
-  const [query, setQuery] = useState("react");
+  const [query, setQuery] = useState('react')
 
   // ✅ query가 바뀔 때까지 항등성을 유지한다
   const fetchData = useCallback(() => {
-    const url = "https://hn.algolia.com/api/v1/search?query=" + query;
+    const url = 'https://hn.algolia.com/api/v1/search?query=' + query
     // ... 데이터를 불러와서 리턴한다 ...
-  }, [query]); // ✅ 콜백 deps는 OK
-  return <Child fetchData={fetchData} />;
+  }, [query]) // ✅ 콜백 deps는 OK
+  return <Child fetchData={fetchData} />
 }
 
 function Child({ fetchData }) {
-  let [data, setData] = useState(null);
+  let [data, setData] = useState(null)
 
   useEffect(() => {
-    fetchData().then(setData);
-  }, [fetchData]); // ✅ 이펙트 deps는 OK
+    fetchData().then(setData)
+  }, [fetchData]) // ✅ 이펙트 deps는 OK
 
   // ...
 }
@@ -1446,24 +1446,23 @@ function Child({ fetchData }) {
 ```jsx {5-8,18-20}
 class Parent extends Component {
   state = {
-    query: "react",
-  };
+    query: 'react',
+  }
   fetchData = () => {
-    const url =
-      "https://hn.algolia.com/api/v1/search?query=" + this.state.query;
+    const url = 'https://hn.algolia.com/api/v1/search?query=' + this.state.query
     // ... 데이터를 불러와서 무언가를 한다 ...
-  };
+  }
   render() {
-    return <Child fetchData={this.fetchData} />;
+    return <Child fetchData={this.fetchData} />
   }
 }
 
 class Child extends Component {
   state = {
     data: null,
-  };
+  }
   componentDidMount() {
-    this.props.fetchData();
+    this.props.fetchData()
   }
   render() {
     // ...
@@ -1477,14 +1476,14 @@ class Child extends Component {
 class Child extends Component {
   state = {
     data: null,
-  };
+  }
   componentDidMount() {
-    this.props.fetchData();
+    this.props.fetchData()
   }
   componentDidUpdate(prevProps) {
     // 🔴 이 조건문은 절대 참이 될 수 없다
     if (this.props.fetchData !== prevProps.fetchData) {
-      this.props.fetchData();
+      this.props.fetchData()
     }
   }
   render() {
@@ -1516,28 +1515,27 @@ render() {
 ```jsx {10,22-24}
 class Parent extends Component {
   state = {
-    query: "react",
-  };
+    query: 'react',
+  }
   fetchData = () => {
-    const url =
-      "https://hn.algolia.com/api/v1/search?query=" + this.state.query;
+    const url = 'https://hn.algolia.com/api/v1/search?query=' + this.state.query
     // ... 데이터를 불러와서 무언가를 한다 ...
-  };
+  }
   render() {
-    return <Child fetchData={this.fetchData} query={this.state.query} />;
+    return <Child fetchData={this.fetchData} query={this.state.query} />
   }
 }
 
 class Child extends Component {
   state = {
     data: null,
-  };
+  }
   componentDidMount() {
-    this.props.fetchData();
+    this.props.fetchData()
   }
   componentDidUpdate(prevProps) {
     if (this.props.query !== prevProps.query) {
-      this.props.fetchData();
+      this.props.fetchData()
     }
   }
   render() {
@@ -1558,9 +1556,9 @@ class Child extends Component {
 function ColorPicker() {
   // color가 진짜로 바뀌지 않는 한
   // Child의 얕은 props 비교를 깨트리지 않는다
-  const [color, setColor] = useState("pink");
-  const style = useMemo(() => ({ color }), [color]);
-  return <Child style={style} />;
+  const [color, setColor] = useState('pink')
+  const style = useMemo(() => ({ color }), [color])
+  return <Child style={style} />
 }
 ```
 
@@ -1576,13 +1574,13 @@ function ColorPicker() {
 class Article extends Component {
   state = {
     article: null,
-  };
+  }
   componentDidMount() {
-    this.fetchData(this.props.id);
+    this.fetchData(this.props.id)
   }
   async fetchData(id) {
-    const article = await API.fetchArticle(id);
-    this.setState({ article });
+    const article = await API.fetchArticle(id)
+    this.setState({ article })
   }
   // ...
 }
@@ -1594,18 +1592,18 @@ class Article extends Component {
 class Article extends Component {
   state = {
     article: null,
-  };
+  }
   componentDidMount() {
-    this.fetchData(this.props.id);
+    this.fetchData(this.props.id)
   }
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
-      this.fetchData(this.props.id);
+      this.fetchData(this.props.id)
     }
   }
   async fetchData(id) {
-    const article = await API.fetchArticle(id);
-    this.setState({ article });
+    const article = await API.fetchArticle(id)
+    this.setState({ article })
   }
   // ...
 }
@@ -1623,23 +1621,23 @@ class Article extends Component {
 
 ```jsx {5,9,16-18}
 function Article({ id }) {
-  const [article, setArticle] = useState(null);
+  const [article, setArticle] = useState(null)
 
   useEffect(() => {
-    let didCancel = false;
+    let didCancel = false
     async function fetchData() {
-      const article = await API.fetchArticle(id);
+      const article = await API.fetchArticle(id)
       if (!didCancel) {
-        setArticle(article);
+        setArticle(article)
       }
     }
 
-    fetchData();
+    fetchData()
 
     return () => {
-      didCancel = true;
-    };
-  }, [id]);
+      didCancel = true
+    }
+  }, [id])
 
   // ...
 }

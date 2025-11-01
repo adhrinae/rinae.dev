@@ -1,7 +1,7 @@
 ---
-slug: "what-is-testing-javascript-kr"
-date: "2018-01-14"
-title: "[번역] 그래서, 자바스크립트 테스트가 뭔가요?"
+slug: 'what-is-testing-javascript-kr'
+date: '2018-01-14'
+title: '[번역] 그래서, 자바스크립트 테스트가 뭔가요?'
 tags:
   - Translation
   - JavaScript
@@ -49,10 +49,10 @@ _일단 한 발짝 물러서서 시작부터 자바스크립트 자동화 테스
 이제 간단한 `math.js` 모듈을 만들어서 그 안에 두 함수를 작성한 다음에 내보내겠습니다.
 
 ```js
-const sum = (a, b) => a + b;
-const subtract = (a, b) => a - b;
+const sum = (a, b) => a + b
+const subtract = (a, b) => a - b
 
-module.exports = { sum, subtract };
+module.exports = { sum, subtract }
 ```
 
 **작성하는 모든 코드는 [Github에](https://github.com/kentcdodds/js-test-example) 올려두었으니 참고하시면 됩니다** 🐙😸
@@ -63,10 +63,10 @@ module.exports = { sum, subtract };
 
 ```js
 // basic-test.js
-const actual = true;
-const expected = false;
+const actual = true
+const expected = false
 if (actual !== expected) {
-  throw new Error("${actual} is not ${expected}");
+  throw new Error('${actual} is not ${expected}')
 }
 ```
 
@@ -80,17 +80,17 @@ if (actual !== expected) {
 
 ```js
 // 1.js
-const { sum, subtract } = require("./math");
-let result, expected;
-result = sum(3, 7);
-expected = 10;
+const { sum, subtract } = require('./math')
+let result, expected
+result = sum(3, 7)
+expected = 10
 if (result !== expected) {
-  throw new Error(`${result} is not equal to ${expected}`);
+  throw new Error(`${result} is not equal to ${expected}`)
 }
-result = subtract(7, 3);
-expected = 4;
+result = subtract(7, 3)
+expected = 4
 if (result !== expected) {
-  throw new Error(`${result} is not equal to ${expected}`);
+  throw new Error(`${result} is not equal to ${expected}`)
 }
 ```
 
@@ -123,18 +123,18 @@ Error: -4 is not equal to 10
 
 ```js
 // 2.js
-const assert = require("assert");
-const { sum, subtract } = require("./math");
+const assert = require('assert')
+const { sum, subtract } = require('./math')
 
-let result, expected;
+let result, expected
 
-result = sum(3, 7);
-expected = 10;
-assert.strictEqual(result, expected);
+result = sum(3, 7)
+expected = 10
+assert.strictEqual(result, expected)
 
-result = subtract(7, 3);
-expected = 4;
-assert.strictEqual(result, expected);
+result = subtract(7, 3)
+expected = 4
+assert.strictEqual(result, expected)
 ```
 
 좋아요! 저번에 작성했던 코드와 기능적으로 완전히 동일한 테스트 모듈을 작성해보았습니다. 딱 하나 다른게 있다면 에러 메세지입니다.
@@ -164,26 +164,26 @@ AssertionError [ERR_ASSERTION]: -4 === 10
 
 ```js
 // 3.js
-const { sum, subtract } = require("./math");
+const { sum, subtract } = require('./math')
 
-let result, expected;
+let result, expected
 
-result = sum(3, 7);
-expected = 10;
-expect(result).toBe(expected);
+result = sum(3, 7)
+expected = 10
+expect(result).toBe(expected)
 
-result = subtract(7, 3);
-expected = 4;
-expect(result).toBe(expected);
+result = subtract(7, 3)
+expected = 4
+expect(result).toBe(expected)
 
 function expect(actual) {
   return {
     toBe(expected) {
       if (actual !== expected) {
-        throw new Error(`${actual} is not equal to ${expected}`);
+        throw new Error(`${actual} is not equal to ${expected}`)
       }
     },
-  };
+  }
 }
 ```
 
@@ -217,34 +217,34 @@ Error: -4 is not equal to 10
 
 ```js
 // 4.js
-const { sum, subtract } = require("./math");
-test("sum adds numbers", () => {
-  const result = sum(3, 7);
-  const expected = 10;
-  expect(result).toBe(expected);
-});
-test("subtract subtracts numbers", () => {
-  const result = subtract(7, 3);
-  const expected = 4;
-  expect(result).toBe(expected);
-});
+const { sum, subtract } = require('./math')
+test('sum adds numbers', () => {
+  const result = sum(3, 7)
+  const expected = 10
+  expect(result).toBe(expected)
+})
+test('subtract subtracts numbers', () => {
+  const result = subtract(7, 3)
+  const expected = 4
+  expect(result).toBe(expected)
+})
 function test(title, callback) {
   try {
-    callback();
-    console.log(`- [x] ${title}`);
+    callback()
+    console.log(`- [x] ${title}`)
   } catch (error) {
-    console.error(`✕ ${title}`);
-    console.error(error);
+    console.error(`✕ ${title}`)
+    console.error(error)
   }
 }
 function expect(actual) {
   return {
     toBe(expected) {
       if (actual !== expected) {
-        throw new Error(`${actual} is not equal to ${expected}`);
+        throw new Error(`${actual} is not equal to ${expected}`)
       }
     },
-  };
+  }
 }
 ```
 
@@ -279,17 +279,17 @@ Error: -4 is not equal to 10
 
 ```js
 // 5.js
-const { sum, subtract } = require("./math");
-test("sum adds numbers", () => {
-  const result = sum(3, 7);
-  const expected = 10;
-  expect(result).toBe(expected);
-});
-test("subtract subtracts numbers", () => {
-  const result = subtract(7, 3);
-  const expected = 4;
-  expect(result).toBe(expected);
-});
+const { sum, subtract } = require('./math')
+test('sum adds numbers', () => {
+  const result = sum(3, 7)
+  const expected = 10
+  expect(result).toBe(expected)
+})
+test('subtract subtracts numbers', () => {
+  const result = subtract(7, 3)
+  const expected = 4
+  expect(result).toBe(expected)
+})
 ```
 
 Jest로 이 파일을 실행하면 다음과 같은 결과가 출력됩니다.

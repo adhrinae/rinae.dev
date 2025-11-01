@@ -1,13 +1,13 @@
 ---
-title: "에러 처리를 어떻게 하면 좋을까? - 3"
-date: "2020-04-04"
-slug: "how-to-handle-errors-3"
+title: '에러 처리를 어떻게 하면 좋을까? - 3'
+date: '2020-04-04'
+slug: 'how-to-handle-errors-3'
 tags:
   - Programming
   - TypeScript
   - React
   - MobX
-description: "React + Hooks + MST(mobx-state-tree) 사용 시 데이터와 UI 결합 에 대한 고민 및 아이디어"
+description: 'React + Hooks + MST(mobx-state-tree) 사용 시 데이터와 UI 결합 에 대한 고민 및 아이디어'
 enableComment: false
 ---
 
@@ -56,18 +56,18 @@ enableComment: false
 
 ```tsx
 export default function App() {
-  const store = React.useMemo(() => AppStore.create(), []);
-  const [error, setError] = React.useState<string>("");
+  const store = React.useMemo(() => AppStore.create(), [])
+  const [error, setError] = React.useState<string>('')
 
   React.useEffect(() => {
     const initialize = async () => {
-      const [, err] = await store.fetchTodos();
+      const [, err] = await store.fetchTodos()
       if (err) {
-        setError(err);
+        setError(err)
       }
-    };
-    initialize();
-  }, [store]);
+    }
+    initialize()
+  }, [store])
 
   return useObserver(() =>
     error.length > 0 ? (
@@ -76,19 +76,15 @@ export default function App() {
       <main className="main">
         <h1>Todo List</h1>
         <ul>
-          {store.todoItems.map(todo => (
-            <li
-              className={todo.isDone ? "done" : ""}
-              key={todo.id}
-              onClick={todo.toggleDone}
-            >
+          {store.todoItems.map((todo) => (
+            <li className={todo.isDone ? 'done' : ''} key={todo.id} onClick={todo.toggleDone}>
               {todo.title}
             </li>
           ))}
         </ul>
       </main>
     )
-  );
+  )
 }
 ```
 
@@ -103,15 +99,15 @@ export default function App() {
 ```tsx
 // 스토어
 enum FetchingStatus {
-  IDLE = "idle",
-  PENDING = "pending",
-  LOADING = "loading",
-  RESOLVED = "resolved",
-  REJECTED = "rejected",
+  IDLE = 'idle',
+  PENDING = 'pending',
+  LOADING = 'loading',
+  RESOLVED = 'resolved',
+  REJECTED = 'rejected',
 }
 
 const AppStore = types
-  .model("AppStore", {
+  .model('AppStore', {
     todoItems: types.array(TodoItem),
     fetchingStatus: types.optional(
       types.enumeration<FetchingStatus>(Object.values(FetchingStatus)),
@@ -120,56 +116,56 @@ const AppStore = types
     fetchingError: types.optional(
       types.model({
         statusCode: 400,
-        message: "",
+        message: '',
       }),
       {}
     ),
   })
-  .actions(self => {
+  .actions((self) => {
     function resetFetchingStatus() {
       if (self.fetchingStatus !== FetchingStatus.IDLE) {
-        self.fetchingStatus = FetchingStatus.IDLE;
-        self.fetchingError = { statusCode: 400, message: "" };
+        self.fetchingStatus = FetchingStatus.IDLE
+        self.fetchingError = { statusCode: 400, message: '' }
       }
     }
 
     const fetchTodos = flow(function* () {
       try {
-        resetFetchingStatus();
-        self.fetchingStatus = FetchingStatus.LOADING;
+        resetFetchingStatus()
+        self.fetchingStatus = FetchingStatus.LOADING
 
-        const result: TodoItemSnapshotIn[] = yield getTodos();
-        self.todoItems.push(...result);
+        const result: TodoItemSnapshotIn[] = yield getTodos()
+        self.todoItems.push(...result)
 
-        self.fetchingStatus = FetchingStatus.RESOLVED;
+        self.fetchingStatus = FetchingStatus.RESOLVED
       } catch (e) {
-        self.fetchingStatus = FetchingStatus.REJECTED;
+        self.fetchingStatus = FetchingStatus.REJECTED
         self.fetchingError = {
           statusCode: 500,
           message: e.message,
-        };
+        }
       }
-    });
+    })
 
     return {
       fetchTodos,
-    };
-  });
+    }
+  })
 
 // ...
 // ...
 
 // 컴포넌트
 export default function App() {
-  const store = React.useMemo(() => AppStore.create(), []);
+  const store = React.useMemo(() => AppStore.create(), [])
 
   React.useEffect(() => {
-    store.fetchTodos();
-  }, [store]);
+    store.fetchTodos()
+  }, [store])
 
   return useObserver(() => {
     if (store.fetchingStatus === FetchingStatus.LOADING) {
-      return <h1>Loading Todo List...</h1>;
+      return <h1>Loading Todo List...</h1>
     }
 
     if (store.fetchingStatus === FetchingStatus.REJECTED) {
@@ -179,26 +175,22 @@ export default function App() {
           <pre>{store.fetchingError.message}</pre>
           <button onClick={store.fetchTodos}>Fetch again</button>
         </div>
-      );
+      )
     }
 
     return (
       <main className="main">
         <h1>Todo List</h1>
         <ul>
-          {store.todoItems.map(todo => (
-            <li
-              className={todo.isDone ? "done" : ""}
-              key={todo.id}
-              onClick={todo.toggleDone}
-            >
+          {store.todoItems.map((todo) => (
+            <li className={todo.isDone ? 'done' : ''} key={todo.id} onClick={todo.toggleDone}>
               {todo.title}
             </li>
           ))}
         </ul>
       </main>
-    );
-  });
+    )
+  })
 }
 ```
 
@@ -209,42 +201,42 @@ export default function App() {
 
 ```ts
 // LoadingStore.ts
-import { Instance, types } from "mobx-state-tree";
+import { Instance, types } from 'mobx-state-tree'
 
 export const LoadingStore = types
-  .model("LoadingStore", {
+  .model('LoadingStore', {
     pendingRequests: types.map(types.number),
   })
-  .views(self => {
+  .views((self) => {
     function getNum(key: string): number {
-      return self.pendingRequests.get(key) || 0;
+      return self.pendingRequests.get(key) || 0
     }
     function isLoading(...keys: string[]): boolean {
-      return keys.some(key => getNum(key) > 0);
+      return keys.some((key) => getNum(key) > 0)
     }
     return {
       getNum,
       isLoading,
-    };
+    }
   })
-  .actions(self => {
+  .actions((self) => {
     function defaultValue(key: string) {
       if (self.pendingRequests.get(key) === undefined) {
-        self.pendingRequests.set(key, 0);
+        self.pendingRequests.set(key, 0)
       }
-      return self.pendingRequests.get(key);
+      return self.pendingRequests.get(key)
     }
     function incLoading(key: string) {
-      self.pendingRequests.set(key, defaultValue(key) + 1);
+      self.pendingRequests.set(key, defaultValue(key) + 1)
     }
     function descLoading(key: string) {
-      self.pendingRequests.set(key, defaultValue(key) - 1);
+      self.pendingRequests.set(key, defaultValue(key) - 1)
     }
     return {
       incLoading,
       descLoading,
-    };
-  });
+    }
+  })
 ```
 
 위 스토어처럼 로딩이 일어날 때 `pendingRequests` 맵에다 `액션 이름(key) -> 액션 요청 횟수(number)` 형식의 `key -> value` 를 지정해주듯이 `액션 이름(key) -> 액션의 현재 진행 상태(loading, done, error 등)` 으로 데이터 불러오기 상태를 활용할 수 있겠다는 아이디어가 떠올랐습니다.
@@ -252,17 +244,17 @@ export const LoadingStore = types
 ```ts
 // FetchingStore.ts
 
-import { types, Instance } from "mobx-state-tree";
+import { types, Instance } from 'mobx-state-tree'
 
 export enum FetchingStatus {
-  IDLE = "idle",
-  PENDING = "pending",
-  LOADING = "loading",
-  RESOLVED = "resolved",
-  REJECTED = "rejected",
+  IDLE = 'idle',
+  PENDING = 'pending',
+  LOADING = 'loading',
+  RESOLVED = 'resolved',
+  REJECTED = 'rejected',
 }
 
-const FetchingModel = types.model("FetchingModel", {
+const FetchingModel = types.model('FetchingModel', {
   actionName: types.identifier,
   status: types.optional(
     types.enumeration<FetchingStatus>(Object.values(FetchingStatus)),
@@ -270,107 +262,99 @@ const FetchingModel = types.model("FetchingModel", {
   ),
   error: types.optional(
     types.model({
-      message: "",
+      message: '',
     }),
     {}
   ),
-});
+})
 interface IFetchingModel extends Instance<typeof FetchingModel> {}
 
 export const FetchingStore = types
-  .model("FetchingStore", {
+  .model('FetchingStore', {
     statusMap: types.map(FetchingModel),
   })
-  .views(self => {
+  .views((self) => {
     function getActionStatus(actionName: string): IFetchingModel {
-      const actionStatus = self.statusMap.get(actionName);
+      const actionStatus = self.statusMap.get(actionName)
       if (!actionStatus) {
-        throw new Error(
-          `Could not find action status from actionName: ${actionName}`
-        );
+        throw new Error(`Could not find action status from actionName: ${actionName}`)
       }
-      return actionStatus;
+      return actionStatus
     }
 
     return {
       getActionStatus,
       isLoading(actionName: string) {
-        return getActionStatus(actionName).status === FetchingStatus.LOADING;
+        return getActionStatus(actionName).status === FetchingStatus.LOADING
       },
       hasError(actionName: string) {
-        return getActionStatus(actionName).status === FetchingStatus.REJECTED;
+        return getActionStatus(actionName).status === FetchingStatus.REJECTED
       },
       getError(actionName: string) {
-        return getActionStatus(actionName).error;
+        return getActionStatus(actionName).error
       },
-    };
+    }
   })
-  .actions(self => ({
+  .actions((self) => ({
     initStatus(actionName: string) {
       self.statusMap.put({
         actionName,
-      });
+      })
     },
     getStatus(actionName: string) {
-      return self.getActionStatus(actionName).status;
+      return self.getActionStatus(actionName).status
     },
-    setStatus(
-      actionName: string,
-      status: FetchingStatus,
-      error?: { message: string }
-    ) {
-      const actionStatus = self.getActionStatus(actionName);
-      actionStatus.status = status;
+    setStatus(actionName: string, status: FetchingStatus, error?: { message: string }) {
+      const actionStatus = self.getActionStatus(actionName)
+      actionStatus.status = status
       if (error && status === FetchingStatus.REJECTED) {
-        actionStatus.error = error;
+        actionStatus.error = error
       }
     },
     resetStatus(actionName: string) {
-      const actionStatus = self.getActionStatus(actionName);
-      actionStatus.status = FetchingStatus.IDLE;
-      actionStatus.error = { message: "" };
+      const actionStatus = self.getActionStatus(actionName)
+      actionStatus.status = FetchingStatus.IDLE
+      actionStatus.error = { message: '' }
     },
-  }));
+  }))
 
 interface IFetchingStore extends Instance<typeof FetchingStore> {}
 
 // MST 의 flow 함수 타입 정의를 그대로 가져옴.
-type FlowFunction<R, Args extends any[]> = (
-  ...args: Args
-) => Generator<any, R | undefined, any>;
+type FlowFunction<R, Args extends any[]> = (...args: Args) => Generator<any, R | undefined, any>
 export function getFlowWrapper(self: IFetchingStore) {
   return function flowWrapper<R, Args extends any[]>(
     actionName: string,
     f: FlowFunction<R, Args>
   ): FlowFunction<R, Args> {
-    self.initStatus(actionName);
+    self.initStatus(actionName)
 
     function* wrappedFlow(...args: Args) {
       if (self.isLoading(actionName)) {
-        return;
+        return
       }
       if (self.getStatus(actionName) !== FetchingStatus.IDLE) {
-        self.resetStatus(actionName);
+        self.resetStatus(actionName)
       }
       try {
-        self.setStatus(actionName, FetchingStatus.LOADING);
-        const returnValue: R | undefined = yield* f(...args);
-        self.setStatus(actionName, FetchingStatus.RESOLVED);
-        return returnValue;
+        self.setStatus(actionName, FetchingStatus.LOADING)
+        const returnValue: R | undefined = yield* f(...args)
+        self.setStatus(actionName, FetchingStatus.RESOLVED)
+        return returnValue
       } catch (e) {
         self.setStatus(actionName, FetchingStatus.REJECTED, {
           message: e.message,
-        });
+        })
       }
     }
 
-    Object.defineProperty(wrappedFlow, "name", {
+    Object.defineProperty(wrappedFlow, 'name', {
       value: `wrapped-${actionName}`,
       configurable: true,
-    });
+    })
 
-    return wrappedFlow;
-  };
+    return wrappedFlow
+  }
 }
 ```
 

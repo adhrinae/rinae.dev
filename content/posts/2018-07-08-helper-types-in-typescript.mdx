@@ -1,7 +1,7 @@
 ---
-slug: "helper-types-in-typescript"
-date: "2018-07-08"
-title: "타입스크립트에서 헬퍼 타입을 정의하고 활용하기"
+slug: 'helper-types-in-typescript'
+date: '2018-07-08'
+title: '타입스크립트에서 헬퍼 타입을 정의하고 활용하기'
 tags:
   - TypeScript
 enableComment: false
@@ -32,26 +32,26 @@ T extends U ? X : Y
 이를 활용하여 두 타입 혹은 객체 사이에서 다른 것을 추릴 때 가장 기본이 되는 `Diff` 타입을 만들어보겠습니다.
 
 ```typescript
-type Diff<T, U> = T extends U ? never : T;
+type Diff<T, U> = T extends U ? never : T
 
 // Example
-type DiffExample = Diff<"a" | "b" | "c" | "d", "a" | "c" | "f">; // 'b' | 'd'
+type DiffExample = Diff<'a' | 'b' | 'c' | 'd', 'a' | 'c' | 'f'> // 'b' | 'd'
 ```
 
 위 예제를 보면 바로 이해하실 수 있으리라 생각합니다. 기준이 되는 앞의 타입과 뒤에 정의한 타입 사이에 겹치지 않는 결과물만 정의되었습니다. 아직은 이 `Diff` 타입만 가지고는 인터페이스를 마음대로 주무를 수 없습니다. 가장 먼저 특정 인터페이스에서 원하지 않는 속성을 제외하는 `Omit` 타입을 만들어보겠습니다. 그 반대인 `Pick` 타입은 이미 있으니까요.
 
 ```typescript
-type Omit<T, U extends keyof T> = Pick<T, Exclude<keyof T, U>>;
+type Omit<T, U extends keyof T> = Pick<T, Exclude<keyof T, U>>
 
 // Example
 type OmitExample = Omit<
   {
-    a: "string";
-    b: "number";
-    c: "symbol";
+    a: 'string'
+    b: 'number'
+    c: 'symbol'
   },
-  "b" | "c"
->; // { a: 'string' }
+  'b' | 'c'
+> // { a: 'string' }
 ```
 
 `Exclude` 타입도 2.8버전에서 새로 등장한 선탑재(Predefined) 타입입니다. 위에 링크한 공식 문서를 한번 살펴보시면 이해하시는데 많은 도움이 됩니다.
@@ -63,18 +63,18 @@ type OmitExample = Omit<
 ```typescript
 const obj = {
   a: {
-    first: "1",
-    second: "2",
-    thrid: "3",
+    first: '1',
+    second: '2',
+    thrid: '3',
   },
-  b: "b",
+  b: 'b',
   c: {
-    fourth: "4",
-    fifth: "5",
+    fourth: '4',
+    fifth: '5',
   },
-};
+}
 
-type InsideA = Pick<typeof obj, "a">;
+type InsideA = Pick<typeof obj, 'a'>
 /* 결과
  * a: {
  *  first: string;
@@ -97,7 +97,7 @@ type InsideA = Pick<typeof obj, "a">;
 
 ```typescript
 // 위의 obj에 이어서
-type InsideA = Pick<typeof obj, "a">["a"];
+type InsideA = Pick<typeof obj, 'a'>['a']
 /**
  * 결과
  * {
@@ -111,7 +111,7 @@ type InsideA = Pick<typeof obj, "a">["a"];
 이제 원하는 결과가 제대로 나왔습니다. 하지만 저렇게 일일이 `['a']` 라고 붙이는것도 번거롭고 예쁘지가 않으니 하나의 헬퍼 타입으로 정의해보겠습니다. 저는 중첩된 객체를 파낸다는 데 착안해서 Dig라고 정의합니다.
 
 ```typescript
-type Dig<T, U extends keyof T> = Pick<T, U>[U];
+type Dig<T, U extends keyof T> = Pick<T, U>[U]
 ```
 
 동작 특성상 중첩 객체 탐색용으로 쓰시는걸 권장합니다. 대부분의 경우는 `Pick` 타입만으로도 충분합니다.
@@ -124,20 +124,20 @@ type Dig<T, U extends keyof T> = Pick<T, U>[U];
 
 ```typescript
 type A = {
-  a: string;
-  b: string;
-};
-type B = A & { b: number };
+  a: string
+  b: string
+}
+type B = A & { b: number }
 
 const b1: B = {
-  a: "string",
-  b: "string", // Error
-};
+  a: 'string',
+  b: 'string', // Error
+}
 
 const b2: B = {
-  a: "string",
+  a: 'string',
   b: 100, // Error
-};
+}
 ```
 
 위의 예시는 `b` 속성을 `&` 연산자로 덮어씌워버렸다고 생각했으나 두 조건 모두 충족되지 않는 결과물이 나와버렸습니다. `&` 연산자를 쓰실 때는 새로운 속성을 덧붙일때만 쓰셔야 한다는 점을 명심하시기 바랍니다.
@@ -146,15 +146,15 @@ const b2: B = {
 
 ```typescript
 type Overwrite<T, U> = {
-  [P in Diff<keyof T, keyof U>]: T[P];
-} & U;
+  [P in Diff<keyof T, keyof U>]: T[P]
+} & U
 
-type B = Overwrite<A, { b: number }>;
+type B = Overwrite<A, { b: number }>
 
 const b1: B = {
-  a: "string",
+  a: 'string',
   b: 100, // No Error
-};
+}
 ```
 
 ## SubType 타입
@@ -163,17 +163,17 @@ const b1: B = {
 
 ```typescript
 interface Person {
-  id: number;
-  firstName: string;
-  lastName: string;
-  load(): Promise<Person>;
+  id: number
+  firstName: string
+  lastName: string
+  load(): Promise<Person>
 }
 
 // SubType<Person, string>을 써서 원하는 결과
 type PersonName = {
-  firstName: string;
-  lastName: string;
-};
+  firstName: string
+  lastName: string
+}
 ```
 
 조금 복잡하겠지만 이렇게 됩니다.
@@ -182,15 +182,15 @@ type PersonName = {
 type SubType<BaseType, ConditionType> = Pick<
   BaseType,
   {
-    [Key in keyof BaseType]: BaseType[Key] extends ConditionType ? Key : never;
+    [Key in keyof BaseType]: BaseType[Key] extends ConditionType ? Key : never
   }[keyof BaseType]
->;
+>
 ```
 
 이런 타입은 함수 시그니처도 인식합니다.
 
 ```typescript
-type PersonLoader = SubType<Person, (_: any) => any>;
+type PersonLoader = SubType<Person, (_: any) => any>
 /** 결과
  * {
  *   load: () => Promise<Person>;

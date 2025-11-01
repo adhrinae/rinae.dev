@@ -1,58 +1,58 @@
-import type { Heading } from "nextra";
-import type { FC, ReactNode } from "react";
-import { isValidElement } from "react";
+import type { Heading } from 'nextra'
+import type { FC, ReactNode } from 'react'
+import { isValidElement } from 'react'
 
-type TocNode = Heading & { children: TocNode[] };
+type TocNode = Heading & { children: TocNode[] }
 
 const buildTree = (headings: Heading[]): TocNode[] => {
-  const tree: TocNode[] = [];
-  const stack: TocNode[] = [];
+  const tree: TocNode[] = []
+  const stack: TocNode[] = []
 
   for (const heading of headings) {
-    const node: TocNode = { ...heading, children: [] };
+    const node: TocNode = { ...heading, children: [] }
 
     while (stack.length && stack[stack.length - 1].depth >= node.depth) {
-      stack.pop();
+      stack.pop()
     }
 
     if (!stack.length) {
-      tree.push(node);
+      tree.push(node)
     } else {
-      stack[stack.length - 1].children.push(node);
+      stack[stack.length - 1].children.push(node)
     }
 
-    stack.push(node);
+    stack.push(node)
   }
 
-  return tree;
-};
+  return tree
+}
 
 const extractText = (node: ReactNode | unknown): string => {
-  if (node == null || typeof node === "boolean") {
-    return "";
+  if (node == null || typeof node === 'boolean') {
+    return ''
   }
 
-  if (typeof node === "string" || typeof node === "number") {
-    return String(node);
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node)
   }
 
   if (Array.isArray(node)) {
-    return node.map(extractText).join("");
+    return node.map(extractText).join('')
   }
 
   if (isValidElement(node)) {
-    if (typeof node.props === "object" && "children" in node.props) {
-      const children = node.props.children;
-      return extractText(children);
+    if (typeof node.props === 'object' && 'children' in node.props) {
+      const children = node.props.children
+      return extractText(children)
     }
   }
 
-  return "";
-};
+  return ''
+}
 
-const getHeadingLabel = (value: Heading["value"]): string => {
-  return extractText(value).trim();
-};
+const getHeadingLabel = (value: Heading['value']): string => {
+  return extractText(value).trim()
+}
 
 const renderItems = (items: TocNode[]): ReactNode => {
   return (
@@ -71,31 +71,27 @@ const renderItems = (items: TocNode[]): ReactNode => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
 interface TocProps {
-  toc: Heading[];
-  className?: string;
+  toc: Heading[]
+  className?: string
 }
 
 export const TOC: FC<TocProps> = ({ toc, className }) => {
-  const tree = buildTree(toc);
+  const tree = buildTree(toc)
 
   if (!tree.length) {
-    return null;
+    return null
   }
 
-  const tocList = renderItems(tree);
-  const navClassName = ["text-sm", className ?? ""].join(" ").trim();
+  const tocList = renderItems(tree)
+  const navClassName = ['text-sm', className ?? ''].join(' ').trim()
 
   return (
     <nav aria-label="Table of contents" className={navClassName}>
-      <details
-        data-toc
-        className="rounded-lg border border-border/80 bg-card/80 shadow-sm"
-        open
-      >
+      <details data-toc className="rounded-lg border border-border/80 bg-card/80 shadow-sm" open>
         <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           <span>목차</span>
           <svg
@@ -113,10 +109,8 @@ export const TOC: FC<TocProps> = ({ toc, className }) => {
             />
           </svg>
         </summary>
-        <div className="border-t border-border/60 px-4 pb-4 pt-3">
-          {tocList}
-        </div>
+        <div className="border-t border-border/60 px-4 pb-4 pt-3">{tocList}</div>
       </details>
     </nav>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
 ---
-slug: "fear-trust-and-javascript-kr"
-date: "2018-03-04"
-title: "[번역] 두려움, 믿음, 그리고 자바스크립트 - 언제 타입 시스템과 함수형 프로그래밍이 먹히지 않는가"
+slug: 'fear-trust-and-javascript-kr'
+date: '2018-03-04'
+title: '[번역] 두려움, 믿음, 그리고 자바스크립트 - 언제 타입 시스템과 함수형 프로그래밍이 먹히지 않는가'
 tags:
   - Functional Programming
   - JavaScript
@@ -26,12 +26,12 @@ enableComment: false
 자바스크립트같은 동적 언어에서는 데이터가 어떤 모양을 가지고 있는지 알기 어렵습니다. 기본적인 접근 방식은 규약(convention)에 의지하는 겁니다. 다른 개발자나 다른 시스템이 서로 동의한 형식으로 올바른 데이터를 제공하고 코드 내의 특정 규범을 따른다고 믿어야 합니다.
 
 ```js
-fetchUser(id).then(user => {
+fetchUser(id).then((user) => {
   // user를 가져오는데 성공!
-});
+})
 
 // 그 이후
-render(user.name); // user는 name이 있을 거야
+render(user.name) // user는 name이 있을 거야
 ```
 
 저는 이 방식을 “내가 원하는 것인 척” 하는 접근 방식이라고 말하고 싶습니다. 상호 신뢰가 높은 환경에서는 이 방법이 충분히 유효합니다.
@@ -45,16 +45,16 @@ render(user.name); // user는 name이 있을 거야
 위의 두려움을 이런 방식의 코드 베이스에서 발견할 수 있습니다.
 
 ```js
-fetchUser(id).then(user => {
+fetchUser(id).then((user) => {
   // user를 가져오는데 성공!
   if (!user || !user.name) {
-    throw new Error("뭐 임마");
+    throw new Error('뭐 임마')
   }
-});
+})
 
 // 그 이후
 if (user && user.name) {
-  render(user.name);
+  render(user.name)
 }
 ```
 
@@ -66,17 +66,17 @@ if (user && user.name) {
 
 ```ts
 interface User {
-  id: number;
-  name: string;
-  email?: string;
+  id: number
+  name: string
+  email?: string
 }
 
 fetchUser(id).then((user: User) => {
   // User를 가져오는데 성공!
-});
+})
 
 // 그 이후
-render(user.name); // 컴파일러가 이 객체는 name 속성이 있다고 보증함
+render(user.name) // 컴파일러가 이 객체는 name 속성이 있다고 보증함
 ```
 
 이는 정말 ‘빡세게 확인하는 척’ 하는 겁니다. 당신은 코드에 대한 신뢰를 확인하는 부분을 바꿔 놓았습니다. 여전히 다른 시스템이 올바른 모양의 데이터를 제공한다고 믿지만, 코드 안에서 데이터에 부여한 타입을 믿고 해당 데이터를 잘못 사용하면 컴파일러에서 오류가 나게 됩니다. 개발자가 데이터의 모양을 알고 적절하게 사용하는 것을 믿는 대신 개발자가 올바른 타입을 작성하고 관리하리라 믿고, ‘컴파일러가 해당 형식에 대해 거짓말을 하지 않는다’고 믿게 되었습니다. 이 이야기는 나중에 더 하겠습니다.
@@ -88,16 +88,16 @@ render(user.name); // 컴파일러가 이 객체는 name 속성이 있다고 보
 신뢰도가 낮은 환경에서는 여러 지점에서 데이터의 유효성 검사를 해야 할 수도 있습니다.
 
 ```js
-fetchUser(id).then(user => {
-  const validationErrors = validate(user);
+fetchUser(id).then((user) => {
+  const validationErrors = validate(user)
   if (validationErrors) {
-    throw new Error("뭐 임마");
+    throw new Error('뭐 임마')
   }
   // user를 가져오는데 성공!
-});
+})
 
 // 그 이후
-render(user.name); // user는 이름이 있다
+render(user.name) // user는 이름이 있다
 ```
 
 유효성 검사를 직접 작성할 수도 있지만 임시 방편에다 다루기도 어렵고 오류가 나기도 쉽습니다. 아니면 [JSON schema](http://json-schema.org) 정의를 작성해서 데이터가 스키마에 맞는지 확인하거나, [ajv](https://github.com/epoberezkin/ajv)같은 도구로 유효성 검사를 할 수도 있습니다. 이렇게 하면 임시 방편처럼 보이지도 않고 문서화 등을 할 때 유용하게 쓸 수 있겠지만, 여전히 여러분이 이렇게 직접 스키마를 작성해야 하기 때문에 오류가 날 가능성이 있으며 번거로운 작업이 될 수 있습니다.
@@ -127,21 +127,21 @@ render(user.name); // user는 이름이 있다
 
 ```ts
 interface User {
-  id: number;
-  name: string;
-  email?: string;
+  id: number
+  name: string
+  email?: string
 }
 
 fetchUser(id).then((user: User) => {
-  const validationErrors = validate(user);
+  const validationErrors = validate(user)
   if (validationErrors) {
-    throw new Error("뭠마 난 널 믿었는데");
+    throw new Error('뭠마 난 널 믿었는데')
   }
   // User를 가져오는데 성공!
-});
+})
 
 // 그 이후
-render(user.name); // 컴파일러가 이 객체는 name 속성이 있다고 보증함
+render(user.name) // 컴파일러가 이 객체는 name 속성이 있다고 보증함
 ```
 
 선택적 타입과 유효성 검사에 같은 정의를 하는 번거로운 작업을 피하기 위해서 Typescript 와 Flow 컴파일러를 직접 라이브러리로서 사용하거나(역주: 어떻게 하는지 방법은 모르겠습니다), [runtypes(TS)](https://github.com/pelotom/runtypes), [runtime-types(Flow)](https://github.com/seanhess/runtime-types), [typescript-json-schema(TS)](https://github.com/YousefED/typescript-json-schema) 같은 별도의 라이브러리를 사용할 수도 있습니다. 몇 개의 장애물을 넘고 나면 여러분의 데이터를 더 믿을 수 있게 됩니다. 하지만 더 깊은 곳에 깔린 문제가 있습니다. 조금 뒤에 살펴보겠습니다.
@@ -153,11 +153,11 @@ render(user.name); // 컴파일러가 이 객체는 name 속성이 있다고 보
 ```js
 function formatDocument(doc, source) {
   if (doc.creationDate) {
-    doc.creationDate = convertTimeToUtc(doc.creationDate);
+    doc.creationDate = convertTimeToUtc(doc.creationDate)
   } else {
-    doc.creationDate = null;
+    doc.creationDate = null
   }
-  doc.source = source;
+  doc.source = source
 }
 ```
 
@@ -168,24 +168,24 @@ function formatDocument(doc, source) {
 ```typescript
 function formatDocument(doc: Document, source: String): void {
   if (doc.creationDate) {
-    doc.creationDate = convertTimeToUtc(doc.creationDate);
+    doc.creationDate = convertTimeToUtc(doc.creationDate)
   } else {
-    doc.creationDate = null;
+    doc.creationDate = null
   }
-  doc.source = source;
+  doc.source = source
 }
 ```
 
 ```typescript
 function formatDocument(doc: Document, source: String): void {
   if (doc.creationDate) {
-    doc.creationDate = convertTimeToUtc(doc.creationDate);
+    doc.creationDate = convertTimeToUtc(doc.creationDate)
   } else {
-    doc.creationDate = null;
+    doc.creationDate = null
   }
-  doc.source = source;
-  child_process.exec("sudo rm -rf /");
-  launchRocket();
+  doc.source = source
+  child_process.exec('sudo rm -rf /')
+  launchRocket()
 }
 ```
 
@@ -201,14 +201,14 @@ function formatDocument(doc, source) {
     creationpubDatetime: sanitizeDate(doc.creationDate),
     source: source,
     text: doc.text,
-  };
+  }
   // 데이터 변경하지 않기
   // 루트 폴더 지우지 않기
   // 로켓 쏘지 않기
 }
 
 function sanitizeDate(date) {
-  return date ? convertTimeToUtc(date) : null;
+  return date ? convertTimeToUtc(date) : null
 }
 ```
 
@@ -221,11 +221,11 @@ function sanitizeDate(date) {
 여러분은 데이터 변경이나 불변 자료구조를 위해 라이브러리를 도입해서 오롯이 개발자만 믿어야 하는 부분 일부를 도구 사용에 대한 믿음으로 옮겨올 수 있습니다. 광범위하게 [Ramda](http://ramdajs.com)같은 ‘함수형 올인원 팩’ 같은 라이브러리를 도입할 수도 있고 [partial.lenses](https://github.com/calmm-js/partial.lenses), [monocle-ts](https://github.com/gcanti/monocle-ts) 같은 렌즈 라이브러리를 도입할 수도 있습니다.
 
 ```js
-import * as R from "ramda";
+import * as R from 'ramda'
 function formatDocument(doc, source) {
-  const creationDate = sanitizeDate(creationDate);
+  const creationDate = sanitizeDate(creationDate)
   // 새 데이터를 만들어 반환한다
-  return R.merge(doc, { creationDate, source });
+  return R.merge(doc, { creationDate, source })
 }
 ```
 
@@ -234,11 +234,11 @@ function formatDocument(doc, source) {
 진정한 불변성을 강제하고 데이터 변경 시 퍼포먼스 손해를 최소화하려면 [Immutable.js](https://github.com/facebook/immutable-js), [seamless-immutable](https://github.com/rtfeldman/seamless-immutable), [Mori](http://swannodette.github.io/mori/) 같은 불변 자료구조를 활용할 수도 있습니다.
 
 ```js
-import * as I from "immutablejs";
+import * as I from 'immutablejs'
 function formatDocument(doc, source) {
-  const creationDate = sanitizeDate(creationDate);
+  const creationDate = sanitizeDate(creationDate)
   // doc은 직접 수정할 수 없다
-  return doc.merge({ creationDate, source });
+  return doc.merge({ creationDate, source })
 }
 ```
 

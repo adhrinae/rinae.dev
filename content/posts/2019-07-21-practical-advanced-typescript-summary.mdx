@@ -1,7 +1,7 @@
 ---
 title: "'Practical Advanced TypeScript' 정리"
-slug: "practical-advanced-typescript-summary"
-date: "2019-07-21"
+slug: 'practical-advanced-typescript-summary'
+date: '2019-07-21'
 tags:
   - TypeScript
   - Redux
@@ -41,10 +41,10 @@ Numeric Separator는 [TC39 Stage 3에 있는 제안 중 하나다.](https://tc39
 
 ```ts
 // 대한민국의 인구 수 51,709,098명
-const koreanPop = 51709098;
+const koreanPop = 51709098
 
 // with numeric seprator
-const koreanPop = 51_709_098;
+const koreanPop = 51_709_098
 ```
 
 이렇게 하면 큰 수를 표현할 때 가독성을 높일 수 있다. 딱히 어느 자리에 언더스코어를 둘 지는 고려할 필요가 없다. TS 컴파일러를 통해 나오는 자바스크립트 파일에는 언더스코어가 제거되어 있을 것이다. 소수점에도 찍을 수 있지만 가독성이 떨어질 수도 있기 때문에 개발자가 선택하기에 따라 달렸다.
@@ -53,19 +53,19 @@ const koreanPop = 51_709_098;
 
 ```ts
 class AmountInput {
-  private static MAX_AMOUNT_ALLOWED = 99_999_999;
-  amount: number = 0;
+  private static MAX_AMOUNT_ALLOWED = 99_999_999
+  amount: number = 0
 
   showTooltip() {
     // 툴팁을 표시
     setTimeout(() => {
       // 툴팁 닫기
-    }, 2_500);
+    }, 2_500)
   }
 
   // 백만 단위로 표시
   formatMillion() {
-    return this.amount / 1_000_000 + "M";
+    return this.amount / 1_000_000 + 'M'
   }
 }
 ```
@@ -76,11 +76,11 @@ class AmountInput {
 
 ```ts
 class Library {
-  titles: string[];
+  titles: string[]
 
   constructor() {}
 }
-const library = new Library();
+const library = new Library()
 ```
 
 이렇게 `Library` 의 인스턴스를 만들어서 사용할 수 있겠지만, 만약에 제대로 속성을 초기화하지 않은 상태에서 `library.titles` 를 가져다 쓰려고 하면 에러가 날 것이다.
@@ -101,13 +101,13 @@ const library = new Library();
 
 ```ts
 class Library {
-  titles: string[];
+  titles: string[]
 
   constructor(underRenovation: boolean) {
     if (!underRenovation) {
-      this.titles = ["What if?", "Flow"];
+      this.titles = ['What if?', 'Flow']
     } else {
-      this.titles = [];
+      this.titles = []
     }
   }
 }
@@ -117,7 +117,7 @@ class Library {
 
 ```ts
 class Library {
-  titles!: string[];
+  titles!: string[]
 
   constructor() {}
 }
@@ -147,14 +147,14 @@ function redirect(user: Admin | User) {
 저 `if` 문에서 구분을 어떻게 할 지가 문제다. 직접 타입을 지정해주었다 해도 컴파일러는 바로 알아듣지 못한다.
 
 ```ts
-function routeToAdminPage(role: Admin["role"]) {}
-function routeToHomePage(email: User["email"]) {}
+function routeToAdminPage(role: Admin['role']) {}
+function routeToHomePage(email: User['email']) {}
 
 function redirect(user: Admin | User) {
   if ((user as Admin).role !== undefined) {
-    routeToAdminPage(user.role); // 에러
+    routeToAdminPage(user.role) // 에러
   } else {
-    routeToHomePage(user.email); // 역시 에러
+    routeToHomePage(user.email) // 역시 에러
   }
 }
 ```
@@ -164,14 +164,14 @@ function redirect(user: Admin | User) {
 ```ts
 function redirect(user: Admin | User) {
   if (isAdmin(user)) {
-    routeToAdminPage(user.role);
+    routeToAdminPage(user.role)
   } else {
-    routeToHomePage(user.email);
+    routeToHomePage(user.email)
   }
 }
 
 function isAdmin(user: Admin | User): user is Admin {
-  return (user as Admin).role !== undefined;
+  return (user as Admin).role !== undefined
 }
 ```
 
@@ -179,10 +179,10 @@ function isAdmin(user: Admin | User): user is Admin {
 
 ```ts
 function redirect(user: Admin | User) {
-  if ("role" in user) {
-    routeToAdminPage(user.role); // 이 부분에서 자동완성 할 때는 `role` 속성밖에 나오지 않음
+  if ('role' in user) {
+    routeToAdminPage(user.role) // 이 부분에서 자동완성 할 때는 `role` 속성밖에 나오지 않음
   } else {
-    routeToHomePage(user.email); // 여기서는 `email` 만 나옴
+    routeToHomePage(user.email) // 여기서는 `email` 만 나옴
   }
 }
 ```
@@ -194,35 +194,35 @@ function redirect(user: Admin | User) {
 ```ts
 // index.ts
 interface TodoState {
-  todos: string[];
+  todos: string[]
 }
 
 function todoReducer(state: TodoState = { todos: [] }, action: Action) {
   switch (action.type) {
-    case "Add":
+    case 'Add':
       return {
         todos: [...state.todos, action.payload], // payload 부분에서 에러
-      };
-    case "Remove All":
+      }
+    case 'Remove All':
       return {
         todos: [],
-      };
+      }
     // ...
   }
 }
 
 // todo.actions.ts
 export interface Action {
-  type: string;
+  type: string
 }
 
 export class Add implements Action {
-  readonly type: string = "Add";
+  readonly type: string = 'Add'
   constructor(public payload: string) {}
 }
 
 export class RemoveAll implements Action {
-  readonly type: string = "Remove All";
+  readonly type: string = 'Remove All'
 }
 ```
 
@@ -232,7 +232,7 @@ export class RemoveAll implements Action {
 
 ```ts
 export class Add implements Action {
-  readonly type = "Add"; // (property) Add.type: 'Add'
+  readonly type = 'Add' // (property) Add.type: 'Add'
   constructor(public payload: string) {}
 }
 ```
@@ -241,15 +241,15 @@ export class Add implements Action {
 
 ```ts
 export class Add implements Action {
-  readonly type = "Add";
+  readonly type = 'Add'
   constructor(public payload: string) {}
 }
 
 export class RemoveAll implements Action {
-  readonly type = "Remove All";
+  readonly type = 'Remove All'
 }
 
-export type TodoActions = Add | RemoveAll;
+export type TodoActions = Add | RemoveAll
 
 // ...
 function todoReducer(state: TodoState = { todos: [] }, action: TodoActions) {
@@ -263,56 +263,53 @@ function todoReducer(state: TodoState = { todos: [] }, action: TodoActions) {
 
 ```ts
 interface ITodoState {
-  todos: string[];
+  todos: string[]
 }
 
 enum TodoActionType {
-  Add = "Add",
-  RemoveAll = "Remove All",
-  RemoveOne = "Remove One",
+  Add = 'Add',
+  RemoveAll = 'Remove All',
+  RemoveOne = 'Remove One',
 }
 
 export interface Action {
-  type: TodoActionType;
+  type: TodoActionType
 }
 
 export class Add implements Action {
-  readonly type = TodoActionType.Add;
+  readonly type = TodoActionType.Add
   constructor(public payload: string) {}
 }
 
 export class RemoveAll implements Action {
-  readonly type = TodoActionType.RemoveAll;
+  readonly type = TodoActionType.RemoveAll
 }
 
 export class RemoveOne implements Action {
-  readonly type = TodoActionType.RemoveOne;
+  readonly type = TodoActionType.RemoveOne
 }
 
-type TodoActions = Add | RemoveAll | RemoveOne;
+type TodoActions = Add | RemoveAll | RemoveOne
 
-function todoReducer(
-  action: TodoActions,
-  state: ITodoState = { todos: [] }
-): ITodoState {
+function todoReducer(action: TodoActions, state: ITodoState = { todos: [] }): ITodoState {
   switch (action.type) {
     case TodoActionType.Add: {
       return {
         todos: [...state.todos, action.payload],
-      };
+      }
     }
     case TodoActionType.RemoveAll: {
       return {
         todos: [],
-      };
+      }
     }
     default: {
       // 에러
       // 위의 switch 문을 다 거쳐서 남은 `action` 은 RemoveOne인데 `never` 가 될 수 없다.
-      const x: never = action;
+      const x: never = action
     }
   }
-  return state;
+  return state
 }
 ```
 
@@ -324,32 +321,32 @@ function todoReducer(
 
 ```ts
 interface Pet {
-  name: string;
-  age: number;
+  name: string
+  age: number
 }
 
-type ReadonlyPet = { readonly [K in keyof Pet]: Pet[K] };
+type ReadonlyPet = { readonly [K in keyof Pet]: Pet[K] }
 
-const pet: Pet = { name: "Happy", age: 10 };
-const readonlyPet: ReadonlyPet = { name: "Cerberus", age: 1000 };
+const pet: Pet = { name: 'Happy', age: 10 }
+const readonlyPet: ReadonlyPet = { name: 'Cerberus', age: 1000 }
 
-pet.age = 15;
-readonlyPet.age = 200; // readonly 속성을 수정하려고 하기 때문에 에러
+pet.age = 15
+readonlyPet.age = 200 // readonly 속성을 수정하려고 하기 때문에 에러
 ```
 
 `Pet` 에 새로운 옵셔널 속성을 추가하되 `ReadonlyPet` 에서는 모든 속성이 반드시 있어야 한다고 정의하려면 어떻게 해야 할까? Mapped Type을 정의할 때 특수하게 `+`, `?` 연산자를 사용하여 특정 심볼을 더하거나 제거할 수 있다.
 
 ```ts
 interface Pet {
-  name: string;
-  age: number;
-  favoritePark?: string;
+  name: string
+  age: number
+  favoritePark?: string
 }
 
-type ReadonlyPet = { readonly [K in keyof Pet]-?: Pet[K] }; // `-?` 부분 주목
+type ReadonlyPet = { readonly [K in keyof Pet]-?: Pet[K] } // `-?` 부분 주목
 
 // 이제 favoritePark 속성이 없다고 에러가 난다.
-const readonlyPet: ReadonlyPet = { name: "Cerberus", age: 1000 };
+const readonlyPet: ReadonlyPet = { name: 'Cerberus', age: 1000 }
 ```
 
 `+` 연산자는 특별할 것은 없지만 읽는 사람에게 '이 속성을 추가한다' 는 것을 더 명시적으로 보여줄 수는 있을 것이다.
@@ -382,59 +379,59 @@ type ReadonlyPet =
 
 ```ts
 interface TreeNode<T> {
-  value: T;
-  left: TreeNode<T>;
-  right: TreeNode<T>;
+  value: T
+  left: TreeNode<T>
+  right: TreeNode<T>
 }
 
 interface LinkedListNode<T> {
-  value: T;
-  next: LinkedListNode<T>;
+  value: T
+  next: LinkedListNode<T>
 }
 
-let node: LinkedListNode<string>;
-node.next.next.next.next.next.value;
+let node: LinkedListNode<string>
+node.next.next.next.next.next.value
 ```
 
 이 원리를 어떻게 활용할 수 있을까? 리덕스의 개발자 도구나 리덕스의 장점 중 하나인 undo/redo 가 용이하다는 것을 떠올려보면 되겠다. 만약 내가 이전에 사용했던 액션으로 돌아가보고 싶다면? 위에 정의한 것과 비슷하게 `ListNode` 타입을 만들어볼 수 있겠다.
 
 ```ts
 interface Action {
-  type: string;
+  type: string
 }
 
 interface ListNode<T> {
-  value: T;
-  prev: ListNode<T>;
-  next: ListNode<T>;
+  value: T
+  prev: ListNode<T>
+  next: ListNode<T>
 }
 
-let action1 = { type: "LOGIN" };
-let action2 = { type: "LOAD_POSTS" };
+let action1 = { type: 'LOGIN' }
+let action2 = { type: 'LOAD_POSTS' }
 let actionNode1: ListNode<Action> = {
   value: action1,
   prev: null,
   next: null,
-};
+}
 let actionNode2: ListNode<Action> = {
   value: action2,
   prev: actionNode1,
   next: null,
-};
-actionNode1.next = actionNode2;
+}
+actionNode1.next = actionNode2
 ```
 
 하지만 `.next` 를 마구마구 찍어볼 수 있기 때문에 어느 순간에 `undefined` 가 나올 수 있다. 안전하게 호출하고자 한다면 `do/while` 문 같은것을 활용하여 다음 노드가 있는지 확인하면서 탐색을 할 수 있겠다.
 
 ```ts
-actionNode1.next = actionNode2;
+actionNode1.next = actionNode2
 
-let currentNode = actionNode2;
+let currentNode = actionNode2
 
 do {
-  console.log(currentNode.value);
-  currentNode = currentNode.prev;
-} while (currentNode);
+  console.log(currentNode.value)
+  currentNode = currentNode.prev
+} while (currentNode)
 ```
 
 물론 더 나은 방법이 있다. 바로 아래에 소개되는 이터레이터를 이용한 방법이다.
@@ -460,19 +457,19 @@ class BackwardActionIterator implements IterableIterator<Action> {
   constructor(private _currentActionNode: ListNode<Action>) {}
 
   [Symbol.iterator](): IterableIterator<Action> {
-    return this;
+    return this
   }
 
   next(): IteratorResult<Action> {
-    const curr = this._currentActionNode;
+    const curr = this._currentActionNode
     // 종료 조건
     if (!curr || !curr.value) {
-      return { value: null, done: true };
+      return { value: null, done: true }
     }
     // 1. 리스트의 아이템을 이동한다
-    this._currentActionNode = curr.prev;
+    this._currentActionNode = curr.prev
     // 2. 값을 리턴해준다
-    return { value: curr.value, done: false };
+    return { value: curr.value, done: false }
   }
 }
 ```
@@ -480,43 +477,43 @@ class BackwardActionIterator implements IterableIterator<Action> {
 이렇게 클래스를 생성했다면 임의의 액션과 리스트 아이템을 정의해보자.
 
 ```ts
-let action1 = { type: "LOGIN" };
-let action2 = { type: "LOAD_POSTS" };
-let action3 = { type: "DISPLAY_POSTS" };
-let action4 = { type: "LOGOUT" };
+let action1 = { type: 'LOGIN' }
+let action2 = { type: 'LOAD_POSTS' }
+let action3 = { type: 'DISPLAY_POSTS' }
+let action4 = { type: 'LOGOUT' }
 
 let actionNode1: ListNode<Action> = {
   value: action1,
   prev: null,
   next: null,
-};
+}
 let actionNode2: ListNode<Action> = {
   value: action2,
   prev: actionNode1,
   next: null,
-};
-actionNode1.next = actionNode2;
+}
+actionNode1.next = actionNode2
 let actionNode3: ListNode<Action> = {
   value: action3,
   prev: actionNode2,
   next: null,
-};
-actionNode2.next = actionNode3;
+}
+actionNode2.next = actionNode3
 let actionNode4: ListNode<Action> = {
   value: action4,
   prev: actionNode3,
   next: null,
-};
-actionNode3.next = actionNode4;
+}
+actionNode3.next = actionNode4
 ```
 
 아까 만들어둔 이터레이터를 이용한다면 `next` 메서드 호출 뿐 아니라 `for..of`, 전개 연산자같이 이터러블 프로토콜을 사용하는 조작은 모두 사용할 수 있다. 다만 컴파일 할때는 타겟을 ES6 이상으로 해 주어야 한다. 하위 호환성을 챙기려면 바벨과 함께 사용해야 한다.
 
 ```ts
-const backwardActionsList = new BackwardActionIterator(actionNode4);
+const backwardActionsList = new BackwardActionIterator(actionNode4)
 
 for (const action of backwardActionsList) {
-  console.log(action);
+  console.log(action)
 }
 /** 결과
  * { type: 'LOGOUT' }
@@ -573,8 +570,8 @@ item.container.
 강좌에서도 언급된 부분이지만, 이 방식을 활용하여 특정 타입을 걸러내는 식으로도 사용할 수 있다. 조건에 맞지 않는 타입은 `never` 타입이 되도록 만들면 된다. `never` 타입이 유니언 타입 안에 있으면 자동으로 무시되기 때문이다.
 
 ```ts
-type ArrayOnly<T> = T extends any[] ? T : never;
-type StringOrNumbers = ArrayOnly<string | number | string[] | number[]>;
+type ArrayOnly<T> = T extends any[] ? T : never
+type StringOrNumbers = ArrayOnly<string | number | string[] | number[]>
 ```
 
 이런식으로 하면 `StringOrNumbers` 의 타입은 `string[] | number[]` 가 된다.
@@ -585,17 +582,17 @@ type StringOrNumbers = ArrayOnly<string | number | string[] | number[]>;
 
 ```ts
 interface Book {
-  id: string;
-  tableOfContents: string[];
+  id: string
+  tableOfContents: string[]
 }
 
 interface Tv {
-  id: number;
-  diagonal: number;
+  id: number
+  diagonal: number
 }
 
 interface ItemService {
-  getItem<T>(id: T): Book | Tv;
+  getItem<T>(id: T): Book | Tv
 }
 ```
 
@@ -603,14 +600,14 @@ interface ItemService {
 
 ```ts
 interface ItemService {
-  getItem<T extends string | number>(id: T): T extends string ? Book : Tv;
+  getItem<T extends string | number>(id: T): T extends string ? Book : Tv
 }
 
-let itemService: IItemService;
+let itemService: IItemService
 
-const book = itemService.getItem("10");
-const tv = itemService.getItem(10);
-const wrong = itemService.getItem(false); // 에러
+const book = itemService.getItem('10')
+const tv = itemService.getItem(10)
+const wrong = itemService.getItem(false) // 에러
 ```
 
 [조건부 타입에 대해 자세히 설명된 글은 이 링크를 참고](https://mariusschulz.com/blog/conditional-types-in-typescript)
@@ -635,11 +632,11 @@ type SomeBooleanFlattened  // -> boolean
 3개의 타입을 각각 구현해보자. 먼저 위의 두 개 까지는 쉽다.
 
 ```ts
-type FlattenArray<T extends any[]> = T[number];
-type FlattenObject<T extends object> = T[keyof T];
+type FlattenArray<T extends any[]> = T[number]
+type FlattenObject<T extends object> = T[keyof T]
 
-type NumbersArrayFlattened = FlattenArray<typeof someNumbers>; // -> number
-type SomeObjectFlattened = FlattenObject<typeof someObject>; // -> number | string
+type NumbersArrayFlattened = FlattenArray<typeof someNumbers> // -> number
+type SomeObjectFlattened = FlattenObject<typeof someObject> // -> number | string
 ```
 
 `FlattenArray`, `FlattenObject` 가 비슷해보이지만 본질적으로 다른 이유는 JS의 배열도 일종의 객체지만 key를 `number` 타입으로만 쓰는 특수한 객체라는 것이다.  
@@ -650,15 +647,11 @@ type SomeObjectFlattened = FlattenObject<typeof someObject>; // -> number | stri
 여기까지 이야기했음에도 소제목과 다르게 조건부 타입에 대한 이야기가 나오지 않았지만, 슬슬 조건부 타입이 등장할 차례가 되었다. 조건부 타입을 활용하면 저 3가지 조건을 모두 충족하는 타입 `Flatten` 하나를 만들 수 있다.
 
 ```ts
-type Flatten<T> = T extends any[]
-  ? T[number]
-  : T extends object
-    ? T[keyof T]
-    : T;
+type Flatten<T> = T extends any[] ? T[number] : T extends object ? T[keyof T] : T
 
-type NumbersArrayFlattened = Flatten<typeof someNumbers>; // -> number
-type SomeObjectFlattened = Flatten<typeof someObject>; // -> number | string
-type SomeBooleanFlattened = Flatten<typeof someBoolean>; // -> boolean
+type NumbersArrayFlattened = Flatten<typeof someNumbers> // -> number
+type SomeObjectFlattened = Flatten<typeof someObject> // -> number | string
+type SomeBooleanFlattened = Flatten<typeof someBoolean> // -> boolean
 ```
 
 조건부 타입은 삼항 연산자의 연산 방식과 비슷하게 동작하기 때문에 중첩하여 사용할 수 있다. 따라서 두 가지 이상의 조건을 결합하여 타입을 계산하게 만들 수 있다.
@@ -669,7 +662,7 @@ type SomeBooleanFlattened = Flatten<typeof someBoolean>; // -> boolean
 
 ```ts
 function generateId(seed: number) {
-  return seed + 5; // 숫자를 반환
+  return seed + 5 // 숫자를 반환
   //  return seed + "5"; -> 문자열을 반환
 }
 ```
@@ -678,10 +671,10 @@ function generateId(seed: number) {
 
 ```ts
 function generateId(seed: number) {
-  return seed + 5;
+  return seed + 5
 }
 
-lookupEntity(generateId(10)); // 에러
+lookupEntity(generateId(10)) // 에러
 
 // id의 인자 타입을 number로 바꿔주면 당장은 동작하겠다만
 // generateId의 리턴 타입이 바뀌게 되면 일일이 대응해주어야 하나?
@@ -693,7 +686,7 @@ function lookupEntity(id: string) {
 여기서 [`infer` 키워드](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#type-inference-in-conditional-types)가 유용하게 사용된다. 키워드를 사용하여 '해당 타입의 추론을 하라'고 타입스크립트 엔진에게 시키는 것이다. 아래의 `ReturnType` 을 보자. 이 타입은 원래 타입스크립트 2.8버전부터 기본으로 들어있기 때문에 직접 구현할 필요는 없다.
 
 ```ts
-type ReturnType<F> = F extends (...args: any[]) => infer R ? R : any;
+type ReturnType<F> = F extends (...args: any[]) => infer R ? R : any
 ```
 
 함수 타입 `F` 의 리턴 타입을 추론할 수 있다면 추론된 `R` 이라는 타입을 리턴하고, 할 수 없다면 `any` 를 리턴하게 만드는 타입이다. 좀 더 빡빡한 타입 정의를 하고자 한다면 `any` 를 `never` 로 만들 수도 있겠다.
@@ -702,8 +695,8 @@ type ReturnType<F> = F extends (...args: any[]) => infer R ? R : any;
 
 ```ts
 // ...
-type Id = ReturnType<typeof generateId>;
-lookupEntity(generateId(10)); // 이제 에러 안난다
+type Id = ReturnType<typeof generateId>
+lookupEntity(generateId(10)) // 이제 에러 안난다
 
 // generateId의 리턴 타입에 따라 id의 타입도 바뀐다
 function lookupEntity(id: Id) {
@@ -714,11 +707,11 @@ function lookupEntity(id: Id) {
 다른 사용 예로 프라미스(Promise) 객체 안에 있는 값의 타입을 편하게 꺼내려 할 때도 `infer` 키워드를 사용하면 런타임에서 결정되는 타입을 손쉽게 정의할 수 있다.
 
 ```ts
-type UnpackPromiseArray<P> = P extends Promise<infer K>[] ? K : any;
+type UnpackPromiseArray<P> = P extends Promise<infer K>[] ? K : any
 
-const arr = [Promise.resolve(true)];
+const arr = [Promise.resolve(true)]
 
-type ExpectedBoolean = UnpackPromiseArray<typeof arr>; // -> boolean
+type ExpectedBoolean = UnpackPromiseArray<typeof arr> // -> boolean
 ```
 
 응용을 해 보자면 [이 소스코드](https://github.com/hallettj/redux-instant/blob/master/src/index.ts#L14-L18)가 어느정도 참고할만하다고 생각한다. 아래는 소스코드의 주석을 번역한 것이다.
@@ -729,12 +722,12 @@ type ExpectedBoolean = UnpackPromiseArray<typeof arr>; // -> boolean
  * 만약 핸들러가 페이로드 인자(두 번째 인자)가 없는 경우 리턴 타입은 `undefined` 를 리턴하고
  * 페이로드가 있다면 페이로드의 타입을 추론하여 리턴한다.
  */
-export type Handler<S, P> = (state: S, payload: P) => S;
+export type Handler<S, P> = (state: S, payload: P) => S
 type Payload<H> = H extends (s: any) => any
   ? undefined // 페이로드가 인자에 포함되지 않은 경우
   : H extends Handler<any, infer Payload> // `H` 타입이 `Handler` 타입이 아닌 경우 에러를 표시한다
     ? Payload
-    : never;
+    : never
 ```
 
 ## 중첩된 객체의 모든 속성을 read-only 타입으로 만들기
@@ -745,94 +738,94 @@ type Payload<H> = H extends (s: any) => any
 
 ```ts
 interface Email {
-  from: string;
-  to: string[];
-  body: string;
+  from: string
+  to: string[]
+  body: string
 }
 
 interface Todo {
-  isCompleted: boolean;
-  text: string;
-  linkedEmail: Email;
+  isCompleted: boolean
+  text: string
+  linkedEmail: Email
 }
 
 interface RootState {
-  userId: string;
-  showCompletedOnly: boolean;
-  todoTypes: string[];
-  todos: Todo[];
-  iconGrid: string[][];
+  userId: string
+  showCompletedOnly: boolean
+  todoTypes: string[]
+  todos: Todo[]
+  iconGrid: string[][]
 }
 
 function rootReducer(action: any, state: RootState): RootState {
   // case action 1...
   // case action 2...
-  return state;
+  return state
 }
 
-let state: RootState;
+let state: RootState
 
 // 아래의 코드는 아무런 경고가 뜨지 않는다.
-state.showCompletedOnly = true;
-state.userId = "newId";
-state.todoTypes = [];
-state.todoTypes[0] = "diff type";
-state.todos[1].linkedEmail.body = "hi";
-state.todos[1].linkedEmail.to[1] = "john";
+state.showCompletedOnly = true
+state.userId = 'newId'
+state.todoTypes = []
+state.todoTypes[0] = 'diff type'
+state.todos[1].linkedEmail.body = 'hi'
+state.todos[1].linkedEmail.to[1] = 'john'
 ```
 
 처음에는 "`Readonly<IRootState>` 하면 되지 않나? 그러면 모든 속성이 `readonly` 가 될 거잖아" 라고 생각할 수 있다. 하지만 해당 속성 안에 또 배열이나 다른 객체가 들어있는 경우는 에러가 표시되지 않는다.
 
 ```ts
-type ReadonlyRootState = Readonly<RootState>;
-let state: ReadonlyRootState;
+type ReadonlyRootState = Readonly<RootState>
+let state: ReadonlyRootState
 
 // 위의 세 줄 까지만 에러가 뜬다.
-state.showCompletedOnly = true;
-state.userId = "newId";
-state.todoTypes = [];
+state.showCompletedOnly = true
+state.userId = 'newId'
+state.todoTypes = []
 // 여기부터는 에러가 뜨지 않는다.
-state.todoTypes[0] = "diff type";
-state.todos[1].linkedEmail.body = "hi";
-state.todos[1].linkedEmail.to[1] = "john";
+state.todoTypes[0] = 'diff type'
+state.todos[1].linkedEmail.body = 'hi'
+state.todos[1].linkedEmail.to[1] = 'john'
 ```
 
 결국 객체의 속성을 모두 순회 탐색하면서 `readonly` 를 해 주는 재귀 형태의 타입을 정의해보기로 한다.
 
 ```ts
-type DeepReadonly<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> };
-type ReadonlyRootState = DeepReadonly<RootState>;
+type DeepReadonly<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> }
+type ReadonlyRootState = DeepReadonly<RootState>
 
-let state: ReadonlyRootState;
+let state: ReadonlyRootState
 
 // 이제 모든 부분에서 에러가 표시된다.
-state.showCompletedOnly = true;
-state.userId = "newId";
-state.todoTypes = [];
-state.todoTypes[0] = "diff type";
-state.todos[1].linkedEmail.body = "hi";
-state.todos[1].linkedEmail.to[1] = "john";
+state.showCompletedOnly = true
+state.userId = 'newId'
+state.todoTypes = []
+state.todoTypes[0] = 'diff type'
+state.todos[1].linkedEmail.body = 'hi'
+state.todos[1].linkedEmail.to[1] = 'john'
 ```
 
 강좌에서는 `DeepReadonly` 가 적용될 경우 아래와 같이 `map` 함수를 사용할 때도 에러가 표시된다고 하는데, 타입스크립트 3.5.2 버전 기준으로 실험해봤을 때 에러가 표시되지 않았다. [3.4버전부터 `ReadonlyArray` 타입이 개선된 것으로 보인다.](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html#improvements-for-readonlyarray-and-readonly-tuples)
 
 ```ts
-state.todoTypes.map(todo => todo.toUpperCase());
+state.todoTypes.map((todo) => todo.toUpperCase())
 ```
 
 따라서 강좌의 내용을 정리할 필요가 없어졌지만, 한번 어떤 방식으로 `DeepReadonly` 타입을 개선했는지 살펴보자.  
 먼저 맨 처음 정의했던 `DeepReadonly` 는 `DeepReadonlyObject` 로 수정한다. 객체만 적용하겠다는 뜻이다. 그리고 조건부 타입을 활용하여 객체가 아니라 배열일 경우에만 특별한 처리를 해 준다.
 
 ```ts
-type DeepReadonlyObject<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> };
+type DeepReadonlyObject<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> }
 type DeepReadonly<T> = T extends (infer E)[]
   ? ReadonlyArray<DeepReadonlyObject<E>>
   : T extends object
     ? DeepReadonlyObject<T>
-    : T;
-type ReadonlyRootState = DeepReadonlyObject<RootState>;
+    : T
+type ReadonlyRootState = DeepReadonlyObject<RootState>
 
-let state: ReadonlyRootState;
+let state: ReadonlyRootState
 ```
 
 하지만 이 `DeepReadonly` 구현체는 이중 배열일 경우 제대로 처리가 되지 않는다. 제네릭 안에 또 처리를 해주면 되겠지만 매번 이렇게 중첩을 해 줄수도 없는 노릇이다.  
@@ -847,17 +840,17 @@ API 서버에서 데이터를 가져오는 역할을 담당하는 서비스 계�
 
 ```ts
 interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
+  userId: number
+  id: number
+  title: string
+  completed: boolean
 }
 
 class TodoService {
-  todos: Promise<Todo[]> = fetch("...");
+  todos: Promise<Todo[]> = fetch('...')
 }
 
-const todoService = new TodoService();
+const todoService = new TodoService()
 ```
 
 이상적으로 일일이 `fetch` 를 호출하기보다 미들웨어를 맡아서 어떤 속성이든 손쉽게 `fetch` 요청을 처리하고 싶을 것이다. 그래서 `@GetTodos` 데코레이터를 만들어보기로 한다.
@@ -867,7 +860,7 @@ function GetTodos(target: any, propertyKey: string) {}
 
 class TodoService {
   @GetTodos
-  todos: Promise<Todo[]>;
+  todos: Promise<Todo[]>
 }
 ```
 
@@ -877,13 +870,13 @@ class TodoService {
 
 ```ts
 function GetTodos(target: any, propertyKey: string) {
-  const fetchData = () => fetch("targetUrl").then(response => response.json());
+  const fetchData = () => fetch('targetUrl').then((response) => response.json())
 
   Object.defineProperty(target, propertyKey, {
     get: function () {
-      return fetchData();
+      return fetchData()
     },
-  });
+  })
 }
 ```
 
@@ -892,48 +885,48 @@ function GetTodos(target: any, propertyKey: string) {
 ```ts
 class TodoService {
   @GetTodos
-  todos: Promise<Todo[]>;
+  todos: Promise<Todo[]>
 }
 
-const todoService = new TodoService();
-todoService.todos.then(todos => {
-  console.log(todos);
-});
+const todoService = new TodoService()
+todoService.todos.then((todos) => {
+  console.log(todos)
+})
 ```
 
 위에서 "가져올 때마다" 를 강조했는데, 너무나 당연하지만 매번 저 속성을 조회할 때마다 API를 호출하는 것은 굉장히 비효율적이다. 처음 호출할 때만 데이터를 가져올 수 있게 만들면 어떨까? 데이터를 언제 어떻게 갱신할지 구체적인 부분에 대한 고민은 이 글에서는 넘어가기로 한다.
 
 ```ts
 function GetTodos(target: any, propertyKey: string) {
-  const hiddenInstanceKey = `_$$${propertyKey}$$_`;
+  const hiddenInstanceKey = `_$$${propertyKey}$$_`
   const fetchData = () => {
-    console.log("calling fetchData"); // fetchData가 여러번 호출되는지 확인해보자
-    return fetch("targetUrl").then(response => response.json());
-  };
+    console.log('calling fetchData') // fetchData가 여러번 호출되는지 확인해보자
+    return fetch('targetUrl').then((response) => response.json())
+  }
 
   Object.defineProperty(target, propertyKey, {
     get: function () {
       // 최초 호출 시 `hiddenInstanceKey` 안에 동적 할당
-      return this[hiddenInstanceKey] || (this[hiddenInstanceKey] = fetchData());
+      return this[hiddenInstanceKey] || (this[hiddenInstanceKey] = fetchData())
     },
-  });
+  })
 }
 
 class TodoService {
   @GetTodos
-  todos: Promise<Todo[]>;
+  todos: Promise<Todo[]>
 }
 
-const todoService = new TodoService();
-todoService.todos.then(todos => {
-  console.log(todos);
-});
-todoService.todos.then(todos => {
-  console.log(todos);
-});
-todoService.todos.then(todos => {
-  console.log(todos);
-});
+const todoService = new TodoService()
+todoService.todos.then((todos) => {
+  console.log(todos)
+})
+todoService.todos.then((todos) => {
+  console.log(todos)
+})
+todoService.todos.then((todos) => {
+  console.log(todos)
+})
 ```
 
 실제로 저렇게 하고 나서 코드를 돌려 보면 "calling fetchData" 로그는 한 번만 찍히는 것을 확인할 수 있다. `this` 는 해당 인스턴스를 지칭한다. 따라서 `Object.defineProperty` 로 객체를 설정할 때 인스턴스를 활용할 필요가 있다면 화살표 함수를 사용하면 안된다.
@@ -943,22 +936,20 @@ todoService.todos.then(todos => {
 ```ts
 function Get(url: string) {
   return function (target: any, propertyKey: string) {
-    const hiddenInstanceKey = `_$$${propertyKey}$$_`;
-    const fetchData = () => fetch(url).then(response => response.json());
+    const hiddenInstanceKey = `_$$${propertyKey}$$_`
+    const fetchData = () => fetch(url).then((response) => response.json())
 
     Object.defineProperty(target, propertyKey, {
       get: function () {
-        return (
-          this[hiddenInstanceKey] || (this[hiddenInstanceKey] = fetchData())
-        );
+        return this[hiddenInstanceKey] || (this[hiddenInstanceKey] = fetchData())
       },
-    });
-  };
+    })
+  }
 }
 
 class TodoService {
-  @Get("https://jsonplaceholder.typicode.com/todos")
-  todos: Promise<ITodo[]>;
+  @Get('https://jsonplaceholder.typicode.com/todos')
+  todos: Promise<ITodo[]>
 }
 ```
 
@@ -966,25 +957,17 @@ class TodoService {
 
 ```ts
 function f() {
-  console.log("f(): evaluated");
-  return function (
-    target,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
-    console.log("f(): called");
-  };
+  console.log('f(): evaluated')
+  return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log('f(): called')
+  }
 }
 
 function g() {
-  console.log("g(): evaluated");
-  return function (
-    target,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
-    console.log("g(): called");
-  };
+  console.log('g(): evaluated')
+  return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log('g(): called')
+  }
 }
 
 class C {
@@ -992,8 +975,8 @@ class C {
   @g()
   method() {}
 }
-const c = new C();
-console.log(c.method());
+const c = new C()
+console.log(c.method())
 
 /**
  * method 호출 결과
@@ -1007,10 +990,10 @@ console.log(c.method());
 이 원리를 활용하여 `@Get` 데코레이터의 첫 번째 결과만 가져오는 `@First` 라는 데코레이터를 만들어보자. 참고로 타입스크립트에서 기본으로 데코레이터 타입을 내장하고 있기 때문에 타입 안정성을 가져가고 싶다면 활용해 보는 것도 좋다.
 
 ```ts
-const Get: (url: string) => PropertyDecorator = url => {
+const Get: (url: string) => PropertyDecorator = (url) => {
   return function fetchDecorator(target: any, propertyKey: string) {
-    const hiddenInstanceKey = `_$$${propertyKey}$$_`;
-    const fetchData = () => fetch(url).then(response => response.json());
+    const hiddenInstanceKey = `_$$${propertyKey}$$_`
+    const fetchData = () => fetch(url).then((response) => response.json())
 
     Object.defineProperty(target, propertyKey, {
       get() {
@@ -1020,35 +1003,33 @@ const Get: (url: string) => PropertyDecorator = url => {
            * 강좌의 예제에서는 `this` 가 잘 동작했지만, 이번에는 `target` 만 사용하여도 동작하고, 같은 객체를 사용하리라 생각하기 때문에 변경했다.
            */
           target[hiddenInstanceKey] || (target[hiddenInstanceKey] = fetchData())
-        );
+        )
       },
       configurable: true,
-    });
-  };
-};
+    })
+  }
+}
 
 const First: () => PropertyDecorator = () => {
   return function (target: any, propertyKey: string) {
-    const hiddenInstanceKey = `_$$${propertyKey}$$_`;
+    const hiddenInstanceKey = `_$$${propertyKey}$$_`
     // `@Get` 데코레이터를 통해 먼저 재정의되었던 `get` 을 가져온다.
-    const prevInit = Object.getOwnPropertyDescriptor(target, propertyKey).get;
-    const getFirst = () => prevInit().then(response => response[0]);
+    const prevInit = Object.getOwnPropertyDescriptor(target, propertyKey).get
+    const getFirst = () => prevInit().then((response) => response[0])
 
     Object.defineProperty(target, propertyKey, {
       get() {
-        return (
-          target[hiddenInstanceKey] || (target[hiddenInstanceKey] = getFirst())
-        );
+        return target[hiddenInstanceKey] || (target[hiddenInstanceKey] = getFirst())
       },
       configurable: true,
-    });
-  };
-};
+    })
+  }
+}
 
 class TodoService {
   @First()
-  @Get("https://jsonplaceholder.typicode.com/todos")
-  todos: Promise<Todo[]>;
+  @Get('https://jsonplaceholder.typicode.com/todos')
+  todos: Promise<Todo[]>
 }
 ```
 

@@ -1,5 +1,5 @@
-import React from "react";
-import Logo from "@/components/logo";
+import React from 'react'
+import Logo from '@/components/logo'
 
 const CustomHeader = async () => {
   return (
@@ -9,7 +9,7 @@ const CustomHeader = async () => {
         <span className="font-bold">Read, Think and Code</span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CustomHeader;
+export default CustomHeader
