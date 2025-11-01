@@ -16,7 +16,7 @@ type Props = {
 
 export function PostDetail({ metadata, children, toc }: Props) {
   return (
-    <article className="!pt-0 mx-auto flex w-full max-w-5xl flex-col gap-10">
+    <article className="pt-0! mx-auto flex w-full max-w-5xl flex-col gap-10">
       <div className="mb-6 flex items-center gap-4 text-sm">
         <Link href="/posts" className="flex items-center gap-1 no-underline hover:underline">
           <IconArrowBack className="w-4" />
