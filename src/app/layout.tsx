@@ -6,10 +6,11 @@ import CustomHeader from '@/components/custom-header'
 import { Metadata } from 'next'
 import { Layout } from 'nextra-theme-blog'
 import { Noto_Sans_KR } from 'next/font/google'
+import { SITE } from '@/config/site'
 
 export const metadata: Metadata = {
   title: 'rinae.dev',
-  description: 'rinae의 개발 블로그',
+  description: SITE.description,
 }
 
 const bodyFont = Noto_Sans_KR({

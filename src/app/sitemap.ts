@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { Folder, MdxFile, Meta, MetaJsonFile, PageMapItem } from 'nextra'
 import { getPageMap } from 'nextra/page-map'
+import { getSiteUrl } from '@/config/site'
 
 export const dynamic = 'force-static'
 
@@ -89,7 +90,7 @@ const parsePageMapItems = (items: PageMapItem[]): SitemapEntry[] => {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com'
+  const baseUrl = getSiteUrl()
   const pageMap = await getPageMap()
 
   const entries = parsePageMapItems(pageMap)
