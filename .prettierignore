@@ -4,3 +4,4 @@ node_modules
 public/_pagefind
 pnpm-lock.yaml
 out/
+next-env.d.ts
