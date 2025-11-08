@@ -1,7 +1,6 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
 import { useMDXComponents as getMDXComponents } from '../../../mdx-components'
 import type { Metadata } from 'next'
-import React from 'react'
 import { PostDetail } from '@/components/post-detail'
 
 // Define types for params and metadata
@@ -32,31 +31,18 @@ const Wrapper = getMDXComponents().wrapper
 export default async function Page(props: PageProps) {
   const params = await props.params
   const result = await importPage(params.mdxPath)
-  const {
-    default: MDXContent,
-    toc,
-    metadata,
-  } = result as {
-    default: React.ComponentType<any>
-    toc: any
-    metadata: CustomMetadata
-  }
+  const { default: MDXContent, toc, metadata, sourceCode } = result
 
   const isPostPage = params.mdxPath && params.mdxPath.length > 1 && params.mdxPath.includes('posts')
 
   return (
-    // @ts-ignore
-    <Wrapper toc={toc} metadata={metadata}>
-      {isPostPage && (
+    <Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
+      {isPostPage ? (
         <PostDetail metadata={metadata} toc={toc}>
           <MDXContent {...props} params={params} />
         </PostDetail>
-      )}
-
-      {!isPostPage && (
-        <>
-          <MDXContent {...props} params={params} />
-        </>
+      ) : (
+        <MDXContent {...props} params={params} />
       )}
     </Wrapper>
   )
