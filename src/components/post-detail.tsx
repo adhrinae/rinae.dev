@@ -17,6 +17,8 @@ type Props = {
 export function PostDetail({ metadata, children, toc }: Props) {
   return (
     <article className="pt-0! mx-auto flex w-full max-w-5xl flex-col gap-10">
+      {metadata.title ? <h1 className="text-3xl font-semibold">{String(metadata.title)}</h1> : null}
+
       <div className="mb-6 flex items-center gap-4 text-sm">
         <Link href="/posts" className="flex items-center gap-1 no-underline hover:underline">
           <IconArrowBack className="w-4" />
@@ -32,7 +34,7 @@ export function PostDetail({ metadata, children, toc }: Props) {
 
       <div className="mt-16">
         <h2>관련 글</h2>
-        <Posts tags={metadata.tags} excludeByTitle={metadata.title as string} first={5} />
+        <Posts tags={metadata.tags} excludeByTitle={String(metadata.title)} first={5} />
       </div>
 
       {metadata.enableComment === true ? (
