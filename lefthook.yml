@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint staged
+      run: pnpm lint-staged
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: build test
+      run: pnpm build

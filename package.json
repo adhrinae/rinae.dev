@@ -9,8 +9,7 @@
     "postbuild": "pagefind --site .next/server/app --output-path out/_pagefind",
     "start": "next start",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "prepare": "husky install"
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@giscus/react": "^3.1.0",
@@ -31,7 +30,7 @@
     "@tailwindcss/postcss": "^4.2.0",
     "@types/node": "^24.10.13",
     "@types/react": "^19.2.14",
-    "husky": "^9.1.7",
+    "lefthook": "^2.1.1",
     "lint-staged": "^16.2.7",
     "pagefind": "^1.4.0",
     "postcss": "^8.5.6",
