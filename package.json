@@ -10,7 +10,7 @@
     "start": "next start",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@giscus/react": "^3.1.0",
