@@ -132,9 +132,7 @@ state = {
 
 ```typescript
 type State =
-  | { progress: 'loading' }
-  | { progress: 'done'; data: Object }
-  | { progress: 'error'; error: Error }
+  { progress: 'loading' } | { progress: 'done'; data: Object } | { progress: 'error'; error: Error }
 ```
 
 **리덕스(Redux)와 불변성(Immutability):** 현재는 문서, 블로그 포스트, 비디오, 컨퍼런스 발표 등에서 리덕스를 사용할 때 변수나 객체에 직접적으로 변화를 주지 않을 것을(lack of direct mutation) 전제하고 있습니다. 만약 자바스크립트가 기본적으로 불변 데이터 타입과 타입 선언(type annotations)을 제공한다면 위에서 말하는 전제를 코드에서 바로 표현할 수 있지 않을까요?

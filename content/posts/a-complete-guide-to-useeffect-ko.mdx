@@ -802,7 +802,7 @@ function SearchResults() {
 
 _([Hooks FAQ](https://reactjs.org/docs/hooks-faq.html#is-it-safe-to-omit-functions-from-the-list-of-dependencies)에서 그 대신 어떻게 해야하는지 설명합니다. 위의 예제는 [아랫부분](https://overreacted.io/a-complete-guide-to-useeffect/#moving-functions-inside-effects)에서 다시 다루겠습니다.)_
 
-"하지만 저는 마운트 될 때만 이펙트를 실행하고 싶다고요!" 라고 하실 수 있습니다. 일단 지금은 deps를 지정한다면, **컴포넌트에 있는 _모든_ 값 중 그 이펙트에 사용될 값은 _반드시_ 거기 있어야 한다**는 것을 기억해 두세요. props, state, 함수들 등 컴포넌트 안에 있는 모든 것 말입니다.
+"하지만 저는 마운트 될 때만 이펙트를 실행하고 싶다고요!" 라고 하실 수 있습니다. 일단 지금은 deps를 지정한다면, **컴포넌트에 있는 *모든* 값 중 그 이펙트에 사용될 값은 *반드시* 거기 있어야 한다**는 것을 기억해 두세요. props, state, 함수들 등 컴포넌트 안에 있는 모든 것 말입니다.
 
 가끔은 위의 코드처럼 하면 문제를 일으킵니다. 예를 들어 데이터 불러오는 로직이 무한 루프에 빠질 수도 있고, 소켓이 너무 자주 반응할 수도 있습니다. **이런 문제를 해결하는 방법은 의존성을 제거하는 것이 _아닙니다._** 곧 그 해결책을 살펴보겠습니다.
 
