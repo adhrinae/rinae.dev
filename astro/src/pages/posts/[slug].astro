@@ -1,0 +1,32 @@
+---
+import { render } from 'astro:content'
+import ReadingToc from '../../components/ReadingToc.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import { formatPostDate } from '../../lib/reading-posts'
+import { getValidatedReadingCollections } from '../../lib/content-routes'
+
+export async function getStaticPaths() {
+  const { posts } = await getValidatedReadingCollections()
+
+  return posts.map((post) => ({
+    params: { slug: post.data.slug || post.id },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { Content, headings } = await render(post)
+---
+
+<SiteLayout title={post.data.title}>
+  <div class="reading-post">
+    <h1 class="reading-title">{post.data.title}</h1>
+    <div class="reading-metadata">
+      <a class="back-to-list" href="/posts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 10l-5 5l5 5M4 15h11a5 5 0 0 0 0-10h-1" /></svg><span>글 목록으로</span></a>
+      <svg class="metadata-point" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="1" /></svg>
+      <div><time datetime={post.data.date}>{formatPostDate(post.data.date)}</time></div>
+    </div>
+    <ReadingToc headings={headings} />
+    <Content />
+  </div>
+</SiteLayout>
