@@ -1,0 +1,29 @@
+---
+import { formatPostDate, getPostUrl, type ReadingPost } from '../lib/reading-posts'
+
+interface Props {
+  posts: ReadingPost[]
+}
+
+const { posts } = Astro.props
+---
+
+<div class="post-list">
+  {posts.map((post) => (
+    <div class="post-row">
+      <div class="post-title-column">
+        <div class="post-title">
+          <a href={getPostUrl(post)}>{post.data.title}</a>
+        </div>
+        <div class="post-tags">
+          {post.data.tags.map((tag, index) => (
+            <span>{tag}{index < post.data.tags.length - 1 ? ', ' : ''}</span>
+          ))}
+        </div>
+      </div>
+      <div class="post-date-column">
+        <time datetime={post.data.date}>{formatPostDate(post.data.date)}</time>
+      </div>
+    </div>
+  ))}
+</div>

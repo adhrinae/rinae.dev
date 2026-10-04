@@ -1,0 +1,36 @@
+---
+import 'nextra-theme-blog/style.css'
+import '../styles/reading.css'
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
+
+interface Props {
+  title: string
+}
+
+const { title } = Astro.props
+---
+
+<!doctype html>
+<html lang="ko" dir="ltr">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(250,245,233)" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="rgb(21,18,13)" />
+    <title>{title} | rinae.dev</title>
+  </head>
+  <body>
+    <article class="x:container x:px-4 x:prose x:max-md:prose-sm x:dark:prose-invert" dir="ltr" data-pagefind-body>
+      <Header />
+      <slot />
+      <Footer />
+    </article>
+  </body>
+</html>

@@ -8,6 +8,8 @@
     "build": "next build",
     "postbuild": "pagefind --site .next/server/app --output-path out/_pagefind",
     "start": "next start",
+    "astro:build": "astro build --root ./astro",
+    "astro:test": "node --test --test-concurrency=1 scripts/reading-slice-diagnostics.test.mjs scripts/reading-slice-output.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -27,9 +29,11 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "@astrojs/mdx": "8.0.2",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
+    "astro": "7.3.5",
     "lefthook": "^2.1.10",
     "lint-staged": "^16.4.0",
     "pagefind": "^1.5.2",

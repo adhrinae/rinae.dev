@@ -1,0 +1,17 @@
+---
+import PostList from '../../components/PostList.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import { getReadingPosts } from '../../lib/reading-posts'
+
+const posts = await getReadingPosts()
+---
+
+<SiteLayout title="글 목록">
+  <h1>글 목록</h1>
+  <p>대표 글 미리보기입니다. 전체 글은 기존 사이트에서 계속 확인할 수 있습니다.</p>
+  <PostList posts={posts} />
+  <p class="synthetic-label">
+    Parser preview only:
+    <a href="/preview/markdown-heading-fixture">합성 Markdown 예시 (기존 게시물이 아닙니다)</a>
+  </p>
+</SiteLayout>
