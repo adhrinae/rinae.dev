@@ -1,7 +1,7 @@
 ---
 id: '07'
 title: '한국어 검색 절편'
-status: in-progress
+status: done
 blocked_by:
   - '03'
 approval_required: []
@@ -72,4 +72,11 @@ Pagefind를 유지하고 기존 순위의 완전한 일치를 요구하지 않�
 - 기존 Nextra `/` shortcut은 이행하지 않았다. 공식 inline searchbox가 제공하는 shortcut 속성 하나로 `mod+k`를 보존했다. `/`까지 지원하려면 내부 input을 찾는 별도 listener가 필요해 no-custom-runtime/low-coupling 방향과 맞지 않아 생략했다.
 - 기존 사용자 `.gitignore` 변경은 보존하고 stage하지 않았다. 전체 86개 콘텐츠 검색 parity, 원격 push, deploy는 범위 밖이며 수행하지 않았다.
 
-동일 단계 두 번 실패 시 원인과 수정 계획을 이 티켓에 기록하고 재시도 전 계획을 조정한다. Acceptance criteria별 결과와 범위 외 예외를 기록했으며, 최종 status는 로컬 통합과 post-merge 검증 후 `done`으로 갱신한다.
+### 로컬 통합 및 post-merge 결과
+
+- Feature commit `ec326e0`을 `integration/astro-migration`에 merge commit `b62d4a5`로 로컬 통합했다.
+- Post-merge `pnpm astro:test` 27/27 통과, `pnpm astro:build` 16 HTML/15 한국어 페이지 인덱스 생성, `pnpm build` 126/126 Next 페이지 및 121페이지 Pagefind index 생성.
+- Post-merge Next build 첫 시도는 `.next/server` 정리 중 `ENOTEMPTY`로 실패했다. 실패 직후 해당 폴더에는 `.DS_Store`만 남아 있었고, 이를 `/tmp/rinae-pagefind-07/backups/`에 보존 후 제거하자 같은 `pnpm build`가 성공했다. 두 빌드 시도 모두에서 사용자 파일 삭제는 없었고, 생성된 `.DS_Store`는 보존 후 작업 산출물에서 제거했다.
+- 원격 push나 deploy는 하지 않았다. 기존 사용자 `.gitignore` 변경은 계속 unstaged 상태로 보존했다.
+
+Acceptance criteria와 외부 embed 예외를 기록했다. Ticket 07은 로컬 통합 및 post-merge 검증까지 완료되어 status `done`이다.
