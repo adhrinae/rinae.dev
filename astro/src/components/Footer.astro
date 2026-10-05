@@ -6,6 +6,13 @@
       <a href="https://github.com/adhrinae" target="_blank" rel="noreferrer">GitHub</a>
       <a href="https://www.linkedin.com/in/adhrinae" target="_blank" rel="noreferrer">LinkedIn</a>
     </nav>
+    {import.meta.env.PROD && (
+      <pagefind-searchbox
+        class="footer-search"
+        placeholder="글 검색..."
+        shortcut="mod+k"
+      />
+    )}
     <div class="footer-controls">
       <button
         class="theme-toggle"

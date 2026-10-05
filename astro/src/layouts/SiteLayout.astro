@@ -6,9 +6,11 @@ import Header from '../components/Header.astro'
 
 interface Props {
   title: string
+  pagefindIndex?: boolean
 }
 
-const { title } = Astro.props
+const { title, pagefindIndex = true } = Astro.props
+const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
 ---
 
 <!doctype html>
@@ -16,6 +18,7 @@ const { title } = Astro.props
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
@@ -24,7 +27,14 @@ const { title } = Astro.props
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(250,245,233)" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="rgb(21,18,13)" />
+    {pagefindIndex && <meta data-pagefind-meta={`url:${pagefindUrl}`} />}
     <title>{title} | rinae.dev</title>
+    {import.meta.env.PROD && (
+      <link rel="stylesheet" href="/_pagefind/pagefind-component-ui.css" />
+    )}
+    {import.meta.env.PROD && (
+      <script is:inline type="module" src="/_pagefind/pagefind-component-ui.js"></script>
+    )}
     <script is:inline id="theme-bootstrap">
       (() => {
         const root = document.documentElement
@@ -41,6 +51,7 @@ const { title } = Astro.props
           root.classList.remove('light', 'dark')
           root.classList.add(theme)
           root.style.colorScheme = theme
+          root.dataset.pfTheme = theme
         }
 
         applyTheme()
@@ -73,7 +84,14 @@ const { title } = Astro.props
     </script>
   </head>
   <body>
-    <article class="x:container x:px-4 x:prose x:max-md:prose-sm x:dark:prose-invert" dir="ltr" data-pagefind-body>
+    {import.meta.env.PROD && (
+      <pagefind-config bundle-path="/_pagefind/" base-url="/" lang="ko" />
+    )}
+    <article
+      class="x:container x:px-4 x:prose x:max-md:prose-sm x:dark:prose-invert"
+      dir="ltr"
+      data-pagefind-body={pagefindIndex ? 'true' : undefined}
+    >
       <Header />
       <slot />
       <Footer />
