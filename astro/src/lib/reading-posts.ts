@@ -1,7 +1,10 @@
 import type { CollectionEntry } from 'astro:content'
+import { getPostsForTag, getReadingTags, getRelatedPosts, getTagUrl } from './topic-navigation'
 import { getValidatedReadingCollections } from './content-routes'
 
 export type ReadingPost = CollectionEntry<'post'>
+export type { ReadingTag } from './topic-navigation'
+export { getPostsForTag, getReadingTags, getRelatedPosts, getTagUrl }
 
 export const getReadingPosts = async (): Promise<ReadingPost[]> => {
   const { posts } = await getValidatedReadingCollections()

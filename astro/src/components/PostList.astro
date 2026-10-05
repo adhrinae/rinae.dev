@@ -1,5 +1,5 @@
 ---
-import { formatPostDate, getPostUrl, type ReadingPost } from '../lib/reading-posts'
+import { formatPostDate, getPostUrl, getTagUrl, type ReadingPost } from '../lib/reading-posts'
 
 interface Props {
   posts: ReadingPost[]
@@ -17,7 +17,7 @@ const { posts } = Astro.props
         </div>
         <div class="post-tags">
           {post.data.tags.map((tag, index) => (
-            <span>{tag}{index < post.data.tags.length - 1 ? ', ' : ''}</span>
+            <a href={getTagUrl(tag)}>{tag}{index < post.data.tags.length - 1 ? ', ' : ''}</a>
           ))}
         </div>
       </div>

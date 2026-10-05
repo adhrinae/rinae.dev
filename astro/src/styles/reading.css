@@ -123,6 +123,41 @@ body {
   font-size: 0.875rem;
 }
 
+.post-tags a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-tags a:hover {
+  text-decoration: underline;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tag-link {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--reading-border);
+  border-radius: 9999px;
+  padding: 0.125rem 0.5rem;
+  color: inherit;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-decoration: none;
+}
+
+.tag-link:hover {
+  background: color-mix(in oklab, var(--reading-border) 35%, transparent);
+}
+
+.tag-count {
+  opacity: 0.5;
+}
+
 .post-date-column {
   width: 100px;
   padding-top: 0.25rem;

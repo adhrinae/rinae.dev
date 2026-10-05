@@ -1,21 +1,21 @@
 ---
 import { render } from 'astro:content'
 import ReadingToc from '../../components/ReadingToc.astro'
+import PostList from '../../components/PostList.astro'
 import CodeCopyEnhancer from '../../components/CodeCopyEnhancer.astro'
 import SiteLayout from '../../layouts/SiteLayout.astro'
-import { formatPostDate } from '../../lib/reading-posts'
-import { getValidatedReadingCollections } from '../../lib/content-routes'
+import { formatPostDate, getReadingPosts, getRelatedPosts } from '../../lib/reading-posts'
 
 export async function getStaticPaths() {
-  const { posts } = await getValidatedReadingCollections()
+  const posts = await getReadingPosts()
 
   return posts.map((post) => ({
     params: { slug: post.data.slug || post.id },
-    props: { post },
+    props: { post, relatedPosts: getRelatedPosts(posts, post) },
   }))
 }
 
-const { post } = Astro.props
+const { post, relatedPosts } = Astro.props
 const { Content, headings } = await render(post)
 ---
 
@@ -29,6 +29,10 @@ const { Content, headings } = await render(post)
     </div>
     <ReadingToc headings={headings} />
     <Content />
+    <section class="related-posts" aria-label="관련 글">
+      <h2>관련 글</h2>
+      <PostList posts={relatedPosts} />
+    </section>
     <CodeCopyEnhancer />
   </div>
 </SiteLayout>
