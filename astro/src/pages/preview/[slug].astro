@@ -17,7 +17,7 @@ const { entry } = Astro.props
 const { Content, headings } = await render(entry)
 ---
 
-<SiteLayout title={entry.data.title}>
+<SiteLayout title={entry.data.title} pagefindIndex={false}>
   <h1>{entry.data.title}</h1>
   <p class="synthetic-label">합성 Markdown 미리보기 — 이 예시는 기존 게시물이 아닙니다.</p>
   <p class="post-date"><time datetime={entry.data.date}>{entry.data.date}</time></p>

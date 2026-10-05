@@ -84,6 +84,40 @@ body {
   gap: 0.75rem;
 }
 
+.footer-search {
+  width: min(100%, 18rem);
+  min-width: 0;
+  --pf-font: inherit;
+  --pf-text: var(--reading-foreground);
+  --pf-text-secondary: var(--reading-muted);
+  --pf-text-muted: var(--reading-muted);
+  --pf-background: var(--reading-background);
+  --pf-border: var(--reading-border);
+  --pf-border-focus: var(--reading-primary);
+  --pf-hover: color-mix(in oklab, var(--reading-foreground) 8%, var(--reading-background));
+  --pf-mark: var(--reading-foreground);
+  --pf-outline-focus: var(--reading-primary);
+  --pf-searchbox-max-width: 100%;
+}
+
+/* The search sits in the footer, so keep its result panel above the input. */
+.footer-search .pf-searchbox.open .pf-searchbox-input {
+  border-top-color: var(--pf-border);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: var(--pf-border-radius);
+  border-bottom-right-radius: var(--pf-border-radius);
+}
+
+.footer-search .pf-searchbox.open .pf-searchbox-dropdown {
+  top: 100%;
+  bottom: auto;
+  transform: translateY(calc(-100% - var(--pf-input-height))) !important;
+  border-top: 1px solid var(--pf-border);
+  border-bottom: 0;
+  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+}
+
 .theme-toggle {
   display: inline-grid;
   width: 2rem;
