@@ -533,3 +533,31 @@ html.dark .x\:prose {
   --tw-prose-th-borders: #4b5564;
   --tw-prose-td-borders: #374151;
 }
+
+/* Baseline 404 error screen (Next.js default error page) recreated for the Astro site */
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.not-found-code {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 49px;
+  margin: 0 20px 0 0;
+  padding: 0 23px 0 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.not-found-message {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 49px;
+  margin: 0;
+}
+
+html.dark .not-found-code {
+  border-right-color: rgba(255, 255, 255, 0.3);
+}

@@ -1,5 +1,5 @@
 ---
-import 'nextra-theme-blog/style.css'
+import '../styles/nextra-theme-blog.css'
 import '../styles/reading.css'
 import Footer from '../components/Footer.astro'
 import Header from '../components/Header.astro'
@@ -9,9 +9,10 @@ interface Props {
   title: string
   description?: string
   pagefindIndex?: boolean
+  noindex?: boolean
 }
 
-const { title, description = SITE.description, pagefindIndex = true } = Astro.props
+const { title, description = SITE.description, pagefindIndex = true, noindex = false } = Astro.props
 const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
 ---
 
@@ -32,6 +33,7 @@ const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
     {pagefindIndex && <meta data-pagefind-meta={`url:${pagefindUrl}`} />}
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     {import.meta.env.PROD && (
       <link rel="stylesheet" href="/_pagefind/pagefind-component-ui.css" />
     )}
