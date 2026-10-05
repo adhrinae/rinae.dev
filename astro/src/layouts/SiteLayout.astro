@@ -25,6 +25,52 @@ const { title } = Astro.props
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(250,245,233)" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="rgb(21,18,13)" />
     <title>{title} | rinae.dev</title>
+    <script is:inline id="theme-bootstrap">
+      (() => {
+        const root = document.documentElement
+        const media = window.matchMedia('(prefers-color-scheme: dark)')
+        const storageKey = 'theme'
+        let selectedTheme = 'system'
+
+        try {
+          selectedTheme = localStorage.getItem(storageKey) || 'system'
+        } catch {}
+
+        const applyTheme = () => {
+          const theme = selectedTheme === 'system' ? (media.matches ? 'dark' : 'light') : selectedTheme
+          root.classList.remove('light', 'dark')
+          root.classList.add(theme)
+          root.style.colorScheme = theme
+        }
+
+        applyTheme()
+
+        const updateSystemTheme = () => {
+          if (selectedTheme === 'system') applyTheme()
+        }
+
+        if (typeof media.addEventListener === 'function') {
+          media.addEventListener('change', updateSystemTheme)
+        } else {
+          media.addListener(updateSystemTheme)
+        }
+
+        document.addEventListener('click', (event) => {
+          if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return
+          selectedTheme = root.classList.contains('dark') ? 'light' : 'dark'
+          try {
+            localStorage.setItem(storageKey, selectedTheme)
+          } catch {}
+          applyTheme()
+        })
+
+        window.addEventListener('storage', (event) => {
+          if (event.key !== storageKey && event.key !== null) return
+          selectedTheme = event.newValue || 'system'
+          applyTheme()
+        })
+      })()
+    </script>
   </head>
   <body>
     <article class="x:container x:px-4 x:prose x:max-md:prose-sm x:dark:prose-invert" dir="ltr" data-pagefind-body>

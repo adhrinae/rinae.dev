@@ -9,7 +9,7 @@
     "postbuild": "pagefind --site .next/server/app --output-path out/_pagefind",
     "start": "next start",
     "astro:build": "astro build --root ./astro",
-    "astro:test": "node --experimental-strip-types --test --test-concurrency=1 scripts/reading-slice-diagnostics.test.mjs scripts/reading-slice-output.test.mjs scripts/reading-slice-rich-content.test.mjs scripts/topic-navigation-logic.test.mjs scripts/topic-navigation-output.test.mjs",
+    "astro:test": "node --experimental-strip-types --test --test-concurrency=1 scripts/reading-slice-diagnostics.test.mjs scripts/reading-slice-output.test.mjs scripts/reading-slice-rich-content.test.mjs scripts/topic-navigation-logic.test.mjs scripts/topic-navigation-output.test.mjs scripts/theme-comments-output.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
