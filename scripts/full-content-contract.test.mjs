@@ -1,58 +1,26 @@
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
 import { access, readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import test from 'node:test'
-import { fileURLToPath } from 'node:url'
 
-const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const outputRoot = path.join(repositoryRoot, 'astro-dist')
+import {
+  createCachedAstroBuild,
+  decodeFragment,
+  decodePath,
+  hrefs,
+  outputRoot,
+  renderedHeadings,
+  repositoryRoot,
+} from './lib/astro-test-helpers.mjs'
+
 const baselinePath = path.join(repositoryRoot, 'docs/planning/reports/02-baseline/baseline.json')
-
-let buildResult
-
-const buildAstroSite = async () => {
-  if (!buildResult) {
-    buildResult = spawnSync('pnpm', ['astro:build'], {
-      cwd: repositoryRoot,
-      encoding: 'utf8',
-      timeout: 300_000,
-    })
-  }
-
-  assert.equal(
-    buildResult.status,
-    0,
-    `Astro build failed (exit ${buildResult.status}):\n${buildResult.stdout}\n${buildResult.stderr}`
-  )
-}
+const buildAstroSite = createCachedAstroBuild('Astro full-content build')
 
 const loadBaseline = async () => JSON.parse(await readFile(baselinePath, 'utf8'))
 
-const decodeHtml = (value) =>
-  value
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#x27;|&#39;/gi, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
+const publicPages = (baseline) => baseline.pages.filter((page) => page.routeKind === 'public-page')
 
-const normalizeHref = (href) => {
-  try {
-    return decodeURI(href)
-  } catch {
-    return href
-  }
-}
-
-const renderedHeadings = (html) =>
-  [...html.matchAll(/<h([1-6])\b([^>]*)>([\s\S]*?)<\/h\1>/g)].map(
-    ([, level, attributes, contents]) => ({
-      level: Number(level),
-      id: attributes.match(/\bid="([^"]*)"/)?.[1] ?? null,
-      text: decodeHtml(contents.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ')).trim(),
-    })
-  )
+const pageFile = (page) => path.join(outputRoot, page.file)
 
 const renderedIds = (html) => new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(([, id]) => id))
 
@@ -63,9 +31,32 @@ const localImageSources = (html) =>
 
 const giscusLoaded = (html) => html.includes('giscus.app/client.js')
 
-const pageFile = (page) => path.join(outputRoot, page.file)
+const baselineCrossRouteLinks = (page) => {
+  const links = new Set()
+  for (const link of page.internalLinks) {
+    if (!link.internal || !link.targetRoute || link.targetRoute === page.route) continue
+    if (!(link.targetRoute.startsWith('/posts/') || link.targetRoute.startsWith('/tags/'))) continue
+    links.add(
+      decodePath(link.targetRoute) + (link.fragment ? `#${decodeFragment(link.fragment)}` : '')
+    )
+  }
+  return links
+}
 
-const publicPages = (baseline) => baseline.pages.filter((page) => page.routeKind === 'public-page')
+const emittedCrossRouteLinks = (page, html) => {
+  const links = new Set()
+  for (let href of hrefs(html)) {
+    if (href.startsWith('https://rinae.dev')) href = href.slice('https://rinae.dev'.length)
+    if (!href.startsWith('/')) continue
+    const hash = href.indexOf('#')
+    const pathname = hash === -1 ? href : href.slice(0, hash)
+    const fragment = hash === -1 ? '' : href.slice(hash + 1)
+    if (!(pathname.startsWith('/posts/') || pathname.startsWith('/tags/'))) continue
+    if (pathname === page.route) continue
+    links.add(decodePath(pathname) + (fragment ? `#${decodeFragment(fragment)}` : ''))
+  }
+  return links
+}
 
 test('full content build emits every baseline public route with identical headings and element counts', async () => {
   await buildAstroSite()
@@ -115,25 +106,37 @@ test('full content build emits every baseline public route with identical headin
   assert.equal(emittedTags.length, tags.length, 'no extra or missing tag outputs')
 })
 
-test('full content preserves same-page anchors, local images, and internal targets', async () => {
+test('full content keeps every baseline content link, anchor target, and local image', async () => {
   await buildAstroSite()
   const baseline = await loadBaseline()
+  const pages = publicPages(baseline)
+  const pagesByRoute = new Map(pages.map((page) => [page.route, page]))
+  const idsByRoute = new Map()
 
-  for (const page of publicPages(baseline)) {
+  const idsFor = async (page) => {
+    if (!idsByRoute.has(page.route)) {
+      idsByRoute.set(page.route, renderedIds(await readFile(pageFile(page), 'utf8')))
+    }
+    return idsByRoute.get(page.route)
+  }
+
+  for (const page of pages) {
     const html = await readFile(pageFile(page), 'utf8')
-    const ids = renderedIds(html)
+
+    const emitted = emittedCrossRouteLinks(page, html)
+    for (const link of baselineCrossRouteLinks(page)) {
+      assert.ok(emitted.has(link), `${page.route} must keep its content link to ${link}`)
+    }
 
     for (const link of page.internalLinks) {
-      if (link.fragment && link.exists && link.targetRoute === page.route) {
-        assert.ok(ids.has(link.fragment), `${page.route} must keep anchor #${link.fragment}`)
-      }
-      if (
-        link.internal &&
-        link.targetRoute &&
-        (link.targetRoute.startsWith('/posts/') || link.targetRoute.startsWith('/tags/'))
-      ) {
-        await access(path.join(outputRoot, `${normalizeHref(link.targetRoute).slice(1)}.html`))
-      }
+      if (!link.internal || !link.fragment || !link.exists || !link.targetRoute) continue
+      const destination = pagesByRoute.get(link.targetRoute)
+      assert.ok(destination, `${page.route} links to an unknown route ${link.targetRoute}`)
+      const ids = await idsFor(destination)
+      assert.ok(
+        ids.has(link.fragment) || ids.has(decodeFragment(link.fragment)),
+        `${link.targetRoute} must keep anchor #${link.fragment}`
+      )
     }
 
     for (const source of localImageSources(html)) {

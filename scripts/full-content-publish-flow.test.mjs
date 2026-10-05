@@ -1,27 +1,9 @@
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
 import { access, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import test from 'node:test'
-import { fileURLToPath } from 'node:url'
 
-const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const outputRoot = path.join(repositoryRoot, 'astro-dist')
-
-const buildAstroSite = (label) => {
-  const build = spawnSync('pnpm', ['astro:build'], {
-    cwd: repositoryRoot,
-    encoding: 'utf8',
-    timeout: 300_000,
-  })
-
-  assert.equal(
-    build.status,
-    0,
-    `${label} failed (exit ${build.status}):\n${build.stdout}\n${build.stderr}`
-  )
-  return build
-}
+import { outputRoot, repositoryRoot, runAstroBuild } from './lib/astro-test-helpers.mjs'
 
 test('a new Markdown post flows through build, list, tag, detail, and the Pagefind index', async () => {
   const slug = `ticket09-publish-flow-${process.pid}`
@@ -44,12 +26,17 @@ enableComment: false
 
   await writeFile(sourcePath, source)
   try {
-    buildAstroSite('Astro build with the new Markdown post')
+    runAstroBuild('Astro build with the new Markdown post')
 
     const detail = await readFile(path.join(outputRoot, 'posts', `${slug}.html`), 'utf8')
     assert.match(detail, /<h1\b[^>]*>발행 흐름 검증 글<\/h1>/)
     assert.match(detail, /id="발행-흐름-확인"/)
     assert.match(detail, /data-pagefind-body/)
+    assert.match(
+      detail,
+      new RegExp(`data-pagefind-meta="url:/posts/${slug}"`),
+      'the temporary post must expose its public URL to the index'
+    )
     assert.ok(!detail.includes('giscus.app/client.js'), 'enableComment false must not load Giscus')
 
     const list = await readFile(path.join(outputRoot, 'posts.html'), 'utf8')
@@ -65,7 +52,7 @@ enableComment: false
     )
   } finally {
     await rm(sourcePath, { force: true })
-    buildAstroSite('clean Astro rebuild after removing the temporary post')
+    runAstroBuild('clean Astro rebuild after removing the temporary post')
   }
 
   await assert.rejects(access(path.join(outputRoot, 'posts', `${slug}.html`)))

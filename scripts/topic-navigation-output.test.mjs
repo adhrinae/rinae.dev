@@ -1,29 +1,17 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
-import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 import test from 'node:test'
-import { fileURLToPath } from 'node:url'
 
-const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const outputRoot = path.join(repositoryRoot, 'astro-dist')
-let buildResult
+import {
+  createCachedAstroBuild,
+  decodeHtml,
+  decodePath,
+  outputRoot,
+  repositoryRoot,
+} from './lib/astro-test-helpers.mjs'
 
-const buildAstroSite = async () => {
-  if (!buildResult) {
-    buildResult = spawnSync('pnpm', ['astro:build'], {
-      cwd: repositoryRoot,
-      encoding: 'utf8',
-      timeout: 300_000,
-    })
-  }
-
-  assert.equal(
-    buildResult.status,
-    0,
-    `Astro build failed (exit ${buildResult.status}):\n${buildResult.stdout}\n${buildResult.stderr}`
-  )
-}
+const buildAstroSite = createCachedAstroBuild('Astro topic-navigation build')
 
 const baseline = JSON.parse(
   await readFile(
@@ -32,28 +20,12 @@ const baseline = JSON.parse(
   )
 )
 
-const decodeHtml = (value) =>
-  value
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#x27;|&#39;/gi, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-
-const normalizeHref = (href) => {
-  try {
-    return decodeURI(href)
-  } catch {
-    return href
-  }
-}
-
 const publicPages = baseline.pages.filter((page) => page.routeKind === 'public-page')
 const baselinePage = (route) => publicPages.find((page) => page.route === route)
 
 const postRoutes = (html) =>
   [...html.matchAll(/<a\b[^>]*href="(\/posts\/[^"#?]+)"[^>]*>/g)].map(([, href]) =>
-    normalizeHref(href)
+    decodePath(href)
   )
 
 const tagListItems = (html) => {
@@ -61,7 +33,7 @@ const tagListItems = (html) => {
   assert.ok(match, 'page must expose the full tag list')
   return [...match[1].matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)].map(
     ([, href, label]) => ({
-      href: normalizeHref(href),
+      href: decodePath(href),
       label: decodeHtml(
         label
           .replace(/<[^>]+>/g, '')
@@ -82,7 +54,7 @@ const postTagRoutes = (html, slug) => {
   assert.ok(tagsStart > titlePosition && (nextRow === -1 || tagsStart < nextRow))
   const tagsEnd = html.indexOf('</div>', tagsStart)
   return [...html.slice(tagsStart, tagsEnd).matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>/g)].map(
-    ([, href]) => normalizeHref(href)
+    ([, href]) => decodePath(href)
   )
 }
 
@@ -97,7 +69,7 @@ const relatedHtml = (html) => {
 // The baseline renders the tag list last on /posts, so the final 31 tag links are the list in order.
 const postsListTagLinks = baselinePage('/posts')
   .internalLinks.filter((link) => link.targetRoute?.startsWith('/tags/'))
-  .map((link) => normalizeHref(link.targetRoute))
+  .map((link) => decodePath(link.targetRoute))
 const expectedTagOrder = postsListTagLinks.slice(-31).map((route) => route.slice('/tags/'.length))
 assert.equal(new Set(expectedTagOrder).size, 31, 'baseline tag list must be 31 distinct tags')
 

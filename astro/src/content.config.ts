@@ -16,13 +16,17 @@ const isCalendarDate = (value: string): boolean => {
   return day <= daysInMonth[month - 1]
 }
 
+const titleField = z.string().refine((value) => value.trim().length > 0, {
+  message: 'Title must not be empty',
+})
+
+const calendarDateField = z.string().refine(isCalendarDate, {
+  message: 'Expected a real calendar date in YYYY-MM-DD format',
+})
+
 const readingSchema = z.object({
-  title: z.string().refine((value) => value.trim().length > 0, {
-    message: 'Title must not be empty',
-  }),
-  date: z.string().refine(isCalendarDate, {
-    message: 'Expected a real calendar date in YYYY-MM-DD format',
-  }),
+  title: titleField,
+  date: calendarDateField,
   tags: z.array(z.string()),
   slug: z.string().optional(),
   description: z.string().optional(),
@@ -30,15 +34,8 @@ const readingSchema = z.object({
 })
 
 const pageSchema = z.object({
-  title: z.string().refine((value) => value.trim().length > 0, {
-    message: 'Title must not be empty',
-  }),
-  date: z
-    .string()
-    .refine(isCalendarDate, {
-      message: 'Expected a real calendar date in YYYY-MM-DD format',
-    })
-    .optional(),
+  title: titleField,
+  date: calendarDateField.optional(),
   description: z.string().optional(),
   enableComment: z.boolean().optional(),
 })
