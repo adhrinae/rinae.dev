@@ -501,27 +501,23 @@ test('reading rhythm restores original block flow and text utility leading witho
   }
 })
 
-test('home and list expose the same selected posts in date order with original public URLs', async () => {
+test('home lists the five newest public posts and the list keeps every baseline URL in date order', async () => {
   await buildAstroSite()
 
   const home = await readFile(path.join(repositoryRoot, 'astro-dist/index.html'), 'utf8')
   const list = await readFile(path.join(repositoryRoot, 'astro-dist/posts.html'), 'utf8')
-  const postSlugs = [...list.matchAll(/<a\b[^>]*href="\/posts\/([^"/#?]+)"[^>]*>/g)].map(
-    ([, slug]) => slug
-  )
+  const slugs = (html) =>
+    [...html.matchAll(/<a\b[^>]*href="\/posts\/([^"/#?]+)"[^>]*>/g)].map(([, slug]) => slug)
+  const postSlugs = slugs(list)
   const detail = await readFile(
     path.join(repositoryRoot, 'astro-dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
 
+  assert.equal(postSlugs.length, 86, 'the list must expose every existing public post')
+  assert.equal(new Set(postSlugs).size, 86, 'the list must not repeat a post')
+  assert.deepEqual(slugs(home), postSlugs.slice(0, 5), 'home shows the five newest posts')
   assert.match(home, /href="\/posts"/)
-  assert.deepEqual(postSlugs, [
-    'recreating-blog-2025',
-    'a-complete-guide-to-useeffect-ko',
-    'review-when-to-usememo-and-usecallback',
-    'the-fine-art-of-fast-development-kr-1',
-    'understanding-taming-the-meta-language-kor',
-  ])
   assert.match(list, /블로그 다시 만들기/)
   assert.match(list, /2019-06-09/)
   assert.match(detail, /<time[^>]*datetime="2019-05-12"/)

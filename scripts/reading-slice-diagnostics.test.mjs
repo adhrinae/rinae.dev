@@ -123,3 +123,33 @@ test('Astro build rejects a slug that normalizes onto the home route', async (t)
   assert.ok(output.toLowerCase().includes('reserved public path collision at /'), output)
   t.diagnostic(output.trim())
 })
+
+test('Astro build reports both sources for a duplicate post public path', async (t) => {
+  const slug = `diagnostic-post-collision-${process.pid}`
+  const firstName = `${slug}-first.mdx`
+  const secondName = `${slug}-second.mdx`
+  const firstFile = path.join(repositoryRoot, 'content/posts', firstName)
+  const secondFile = path.join(repositoryRoot, 'content/posts', secondName)
+  const frontmatter = `title: 'Post collision fixture'\ndate: '2025-01-02'\nslug: ${slug}\ntags:\n  - Synthetic`
+  const source = invalidMarkdown(frontmatter, 'A duplicate post route fixture.')
+
+  await Promise.all([writeFile(firstFile, source), writeFile(secondFile, source)])
+  let build
+  try {
+    build = spawnSync('pnpm', ['astro:build'], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      timeout: 300_000,
+    })
+  } finally {
+    await Promise.all([rm(firstFile, { force: true }), rm(secondFile, { force: true })])
+  }
+
+  const output = `${build.stdout}\n${build.stderr}`
+  assert.notEqual(build.status, 0, 'Astro unexpectedly accepted duplicate post public paths')
+  assert.ok(output.includes(firstName), output)
+  assert.ok(output.includes(secondName), output)
+  assert.ok(output.includes(`/posts/${slug}`), output)
+  assert.match(output, /public path collision/i)
+  t.diagnostic(output.trim())
+})
