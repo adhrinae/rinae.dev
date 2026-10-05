@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content'
 import ReadingToc from '../../components/ReadingToc.astro'
+import CodeCopyEnhancer from '../../components/CodeCopyEnhancer.astro'
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import { formatPostDate } from '../../lib/reading-posts'
 import { getValidatedReadingCollections } from '../../lib/content-routes'
@@ -28,5 +29,6 @@ const { Content, headings } = await render(post)
     </div>
     <ReadingToc headings={headings} />
     <Content />
+    <CodeCopyEnhancer />
   </div>
 </SiteLayout>

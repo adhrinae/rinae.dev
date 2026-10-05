@@ -317,9 +317,9 @@ test('article and Markdown TOCs use final heading IDs, hierarchy, and native ope
     assert.ok(start !== -1 && end !== -1, 'TOC must use native details')
     return toc.slice(start, end + 1)
   }
-  const assertNoClientRuntime = (html) => {
-    for (const marker of ['<script', '<astro-island', 'react-dom', 'react/jsx-runtime']) {
-      assert.equal(html.includes(marker), false, `unexpected client runtime marker: ${marker}`)
+  const assertNoFrameworkRuntime = (html) => {
+    for (const marker of ['<astro-island', 'react-dom', 'react/jsx-runtime', 'preact/hooks']) {
+      assert.equal(html.includes(marker), false, `unexpected framework runtime marker: ${marker}`)
     }
   }
 
@@ -335,7 +335,7 @@ test('article and Markdown TOCs use final heading IDs, hierarchy, and native ope
   assert.equal(listDepthFor(articleToc, articleHeadings[3].id), 1)
   assert.ok(detailsStartTag(articleToc).includes(' open'), 'TOC details should be open by default')
   assert.ok(articleToc.includes('목차'), 'TOC summary should be visibly labeled')
-  assertNoClientRuntime(article)
+  assertNoFrameworkRuntime(article)
 
   const fixtureToc = tableOfContents(fixture)
   assert.deepEqual(
@@ -346,7 +346,7 @@ test('article and Markdown TOCs use final heading IDs, hierarchy, and native ope
     detailsStartTag(fixtureToc).includes(' open'),
     'Markdown preview TOC should be open by default'
   )
-  assertNoClientRuntime(fixture)
+  assertNoFrameworkRuntime(fixture)
 })
 
 test('Noto Sans KR loads browser Google CSS with readable native fallbacks and no local font injection', async () => {
@@ -407,7 +407,6 @@ test('Noto Sans KR loads browser Google CSS with readable native fallbacks and n
     '--font-noto-sans-kr',
     '/_astro/fonts/',
     '.woff2',
-    '<script',
     '<astro-island',
     'react-dom',
     'react/jsx-runtime',
@@ -518,8 +517,10 @@ test('home and list expose the same selected posts in date order with original p
   assert.match(home, /href="\/posts"/)
   assert.deepEqual(postSlugs, [
     'recreating-blog-2025',
+    'a-complete-guide-to-useeffect-ko',
     'review-when-to-usememo-and-usecallback',
     'the-fine-art-of-fast-development-kr-1',
+    'understanding-taming-the-meta-language-kor',
   ])
   assert.match(list, /블로그 다시 만들기/)
   assert.match(list, /2019-06-09/)

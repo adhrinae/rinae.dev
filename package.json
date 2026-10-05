@@ -9,7 +9,7 @@
     "postbuild": "pagefind --site .next/server/app --output-path out/_pagefind",
     "start": "next start",
     "astro:build": "astro build --root ./astro",
-    "astro:test": "node --test --test-concurrency=1 scripts/reading-slice-diagnostics.test.mjs scripts/reading-slice-output.test.mjs",
+    "astro:test": "node --test --test-concurrency=1 scripts/reading-slice-diagnostics.test.mjs scripts/reading-slice-output.test.mjs scripts/reading-slice-rich-content.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@astrojs/mdx": "8.0.2",
+    "@shikijs/transformers": "4.5.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",

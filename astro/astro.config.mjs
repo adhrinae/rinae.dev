@@ -1,4 +1,5 @@
 import mdx from '@astrojs/mdx'
+import { transformerMetaHighlight } from '@shikijs/transformers'
 import { defineConfig } from 'astro/config'
 
 export default defineConfig({
@@ -8,6 +9,16 @@ export default defineConfig({
   outDir: '../astro-dist',
   build: {
     format: 'file',
+  },
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+      defaultColor: false,
+      transformers: [transformerMetaHighlight()],
+    },
   },
   vite: {
     css: {

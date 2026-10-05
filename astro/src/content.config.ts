@@ -36,6 +36,8 @@ const post = defineCollection({
       'recreating-blog-2025.mdx',
       'review-when-to-usememo-and-usecallback.mdx',
       'the-fine-art-of-fast-development-kr-1.mdx',
+      'understanding-taming-the-meta-language-kor.mdx',
+      'a-complete-guide-to-useeffect-ko.mdx',
     ],
     generateId: ({ entry }) => entry.replace(/\.mdx?$/u, ''),
   }),

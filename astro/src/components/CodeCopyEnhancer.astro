@@ -1,0 +1,38 @@
+<script>
+  const article = document.querySelector('.reading-post')
+
+  article?.querySelectorAll('pre').forEach((pre) => {
+    const code = pre.querySelector('code')
+    if (!code) return
+
+    const toolbar = document.createElement('div')
+    toolbar.className = 'code-copy-toolbar'
+
+    const button = document.createElement('button')
+    button.className = 'code-copy-button'
+    button.type = 'button'
+    button.textContent = '복사'
+    button.setAttribute('aria-label', '코드 복사')
+
+    const status = document.createElement('span')
+    status.className = 'code-copy-status'
+    status.setAttribute('role', 'status')
+    status.setAttribute('aria-live', 'polite')
+
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(code.textContent ?? '')
+        status.dataset.state = 'success'
+        status.textContent = '코드가 복사되었습니다.'
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error)
+        status.dataset.state = 'error'
+        status.textContent = `코드 복사 실패: ${reason}`
+        console.error('코드 복사 실패', error)
+      }
+    })
+
+    toolbar.append(button, status)
+    pre.before(toolbar)
+  })
+</script>
