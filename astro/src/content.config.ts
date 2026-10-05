@@ -29,16 +29,24 @@ const readingSchema = z.object({
   enableComment: z.boolean().optional(),
 })
 
+const pageSchema = z.object({
+  title: z.string().refine((value) => value.trim().length > 0, {
+    message: 'Title must not be empty',
+  }),
+  date: z
+    .string()
+    .refine(isCalendarDate, {
+      message: 'Expected a real calendar date in YYYY-MM-DD format',
+    })
+    .optional(),
+  description: z.string().optional(),
+  enableComment: z.boolean().optional(),
+})
+
 const post = defineCollection({
   loader: glob({
     base: '../content/posts',
-    pattern: [
-      'recreating-blog-2025.mdx',
-      'review-when-to-usememo-and-usecallback.mdx',
-      'the-fine-art-of-fast-development-kr-1.mdx',
-      'understanding-taming-the-meta-language-kor.mdx',
-      'a-complete-guide-to-useeffect-ko.mdx',
-    ],
+    pattern: ['**/*.{md,mdx}', '!index.mdx'],
     generateId: ({ entry }) => entry.replace(/\.mdx?$/u, ''),
   }),
   schema: readingSchema,
@@ -53,4 +61,13 @@ const markdownFixture = defineCollection({
   schema: readingSchema,
 })
 
-export const collections = { post, markdownFixture }
+const page = defineCollection({
+  loader: glob({
+    base: '../content',
+    pattern: 'colophon.{md,mdx}',
+    generateId: ({ entry }) => entry.replace(/\.mdx?$/u, ''),
+  }),
+  schema: pageSchema,
+})
+
+export const collections = { post, page, markdownFixture }
