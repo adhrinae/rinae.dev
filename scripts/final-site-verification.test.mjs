@@ -65,7 +65,7 @@ test('the static site ships the baseline 404 error screen outside the search ind
 test('every shipped browser script is runtime-free of React and hydrated islands', async () => {
   await buildAstroSite()
 
-  const shippedFiles = await walk(outputRoot, { skip: ['.prerender', '_pagefind'] })
+  const shippedFiles = await walk(outputRoot, { skip: ['.prerender'] })
   const bundleFiles = shippedFiles.filter((file) => file.endsWith('.js'))
 
   for (const file of bundleFiles) {
@@ -135,7 +135,6 @@ test('no Next.js or Nextra dependency, config, or runtime residue remains', asyn
     'next-env.d.ts',
     'postcss.config.mjs',
     'tsconfig.json',
-    'public/_pagefind',
   ]
   for (const removed of removedPaths) {
     assert.ok(!(await pathExists(path.join(repositoryRoot, removed))), `${removed} must be removed`)
