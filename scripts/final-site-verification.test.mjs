@@ -185,3 +185,18 @@ test('every public page keeps the baseline discovery links to the colophon and t
     assert.ok(html.includes('href="/rss.xml"'), `${file} must link to the RSS feed`)
   }
 })
+
+test('post lists keep the baseline tag icon and the home page keeps the view-all arrow', async () => {
+  await buildAstroSite()
+
+  const tagIconPath = 'M7 10h-.01'
+  for (const file of ['index.html', 'posts.html', 'tags/Programming.html']) {
+    const html = await readFile(path.join(outputRoot, file), 'utf8')
+    assert.ok(html.includes(tagIconPath), `${file} must render the baseline tag icon`)
+  }
+
+  const arrowPath = 'M15 8l4 4'
+  const home = await readFile(path.join(outputRoot, 'index.html'), 'utf8')
+  assert.ok(home.includes(arrowPath), 'index.html must render the baseline view-all arrow')
+  assert.ok(home.includes('모든 글 보기'), 'index.html must keep the view-all label')
+})
