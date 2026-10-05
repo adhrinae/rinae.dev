@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import test from 'node:test'
 
@@ -10,6 +11,11 @@ import {
   outputRoot,
   repositoryRoot,
 } from './lib/astro-test-helpers.mjs'
+
+const require = createRequire(import.meta.url)
+// `sax` lives in the pinned pnpm store as a transitive package. The baseline
+// collector vendors transitive parsers the same way, so this adds no dependency.
+const sax = require('../node_modules/.pnpm/sax@1.6.1/node_modules/sax')
 
 const baselineRoot = path.join(repositoryRoot, 'docs/planning/reports/02-baseline')
 const baselinePath = path.join(baselineRoot, 'baseline.json')
@@ -40,11 +46,6 @@ const sitemapLocations = (xml) => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
 
 const sitemapBlocks = (xml) => [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, body]) => body)
 
-const sitemapField = (block, tag) => {
-  const match = block.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`))
-  return match ? match[1] : null
-}
-
 const metaTags = (html) =>
   [...html.matchAll(/<meta\b[^>]*>/g)].map(([tag]) => ({
     name: tag.match(/\bname="([^"]*)"/)?.[1] ?? null,
@@ -64,10 +65,17 @@ const openGraph = (html) => metaTags(html).filter((meta) => meta.property?.start
 const twitter = (html) => metaTags(html).filter((meta) => meta.name?.startsWith('twitter:'))
 const canonical = (html) => html.match(/<link\b[^>]*rel="canonical"[^>]*>/)?.[0] ?? null
 
-const assertWellFormedEntities = (xml, label) => {
-  const bareAmpersand = /&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/
-  assert.ok(!bareAmpersand.test(xml), `${label} must not contain an unescaped ampersand`)
-  assert.ok(!/<[^>]*<[^>]*>/.test(xml), `${label} must not contain a nested unclosed tag`)
+const assertWellFormedXml = (xml, label) => {
+  const errors = []
+  const parser = sax.parser(true)
+  parser.onerror = (error) => errors.push(error.message)
+  try {
+    parser.write(xml)
+    parser.close()
+  } catch (error) {
+    errors.push(error.message)
+  }
+  assert.deepEqual(errors, [], `${label} must be well-formed XML`)
 }
 
 test('RSS artifact matches the baseline feed contract item by item', async () => {
@@ -84,7 +92,7 @@ test('RSS artifact matches the baseline feed contract item by item', async () =>
     'Read, Think and Code'
   )
   assert.equal(xmlField(xml.match(/<channel>([\s\S]*?)<\/channel>/)[1], 'language'), 'ko-kr')
-  assertWellFormedEntities(xml, 'rss.xml')
+  assertWellFormedXml(xml, 'rss.xml')
 
   const items = rssItems(xml)
   const baselineItems = rssItems(baselineXml)
@@ -123,7 +131,7 @@ test('RSS artifact matches the baseline feed contract item by item', async () =>
 test('sitemap artifact lists exactly the baseline public non-tag routes', async () => {
   await buildAstroSite()
   const xml = await artifact('sitemap.xml')
-  assertWellFormedEntities(xml, 'sitemap.xml')
+  assertWellFormedXml(xml, 'sitemap.xml')
 
   const baseline = await loadBaseline()
   const expected = publicPages(baseline)
@@ -143,15 +151,15 @@ test('sitemap artifact lists exactly the baseline public non-tag routes', async 
   )
 
   const blocks = sitemapBlocks(xml)
-  const lastModified = blocks.map((block) => sitemapField(block, 'lastmod'))
+  const lastModified = blocks.map((block) => xmlField(block, 'lastmod'))
   assert.equal(new Set(lastModified).size, 1, 'one build timestamp is reused')
   assert.ok(!Number.isNaN(Date.parse(lastModified[0])), 'lastmod is an ISO timestamp')
 
   for (const block of blocks) {
-    const location = sitemapField(block, 'loc')
-    assert.equal(sitemapField(block, 'changefreq'), 'weekly', `${location} changefreq`)
+    const location = xmlField(block, 'loc')
+    assert.equal(xmlField(block, 'changefreq'), 'weekly', `${location} changefreq`)
     assert.equal(
-      sitemapField(block, 'priority'),
+      xmlField(block, 'priority'),
       location === `${PRODUCTION_ORIGIN}/` ? '1' : '0.8',
       `${location} priority`
     )
@@ -169,6 +177,33 @@ test('robots.txt artifact keeps the baseline allow/disallow and sitemap policy',
   assert.match(robots, /^Allow: \/$/m)
   assert.match(robots, /^Disallow: \/private\/$/m)
   assert.match(robots, /^Sitemap: https:\/\/rinae\.dev\/sitemap\.xml$/m)
+})
+
+test('XML well-formedness checks reject malformed feeds and sitemaps', () => {
+  assert.throws(
+    () =>
+      assertWellFormedXml(
+        '<?xml version="1.0"?><rss><channel></wrong></channel></rss>',
+        'mismatched-tag fixture'
+      ),
+    /must be well-formed XML/,
+    'mismatched closing tag is rejected'
+  )
+  assert.throws(
+    () =>
+      assertWellFormedXml(
+        '<?xml version="1.0"?><rss><title>a & b</title></rss>',
+        'unescaped-ampersand fixture'
+      ),
+    /must be well-formed XML/,
+    'unescaped ampersand is rejected'
+  )
+  assert.doesNotThrow(() =>
+    assertWellFormedXml(
+      '<?xml version="1.0"?><rss><title>a &amp; b</title></rss>',
+      'escaped-ampersand fixture'
+    )
+  )
 })
 
 test('every public page head matches baseline title, description and sharing metadata', async () => {
