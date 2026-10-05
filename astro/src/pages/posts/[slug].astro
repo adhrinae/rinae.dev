@@ -20,7 +20,7 @@ const { post, relatedPosts } = Astro.props
 const { Content, headings } = await render(post)
 ---
 
-<SiteLayout title={post.data.title}>
+<SiteLayout title={post.data.title} description={post.data.description}>
   <div class="reading-post">
     <h1 class="reading-title">{post.data.title}</h1>
     <div class="reading-metadata">

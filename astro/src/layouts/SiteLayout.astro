@@ -3,13 +3,15 @@ import 'nextra-theme-blog/style.css'
 import '../styles/reading.css'
 import Footer from '../components/Footer.astro'
 import Header from '../components/Header.astro'
+import { SITE } from '../lib/site'
 
 interface Props {
   title: string
+  description?: string
   pagefindIndex?: boolean
 }
 
-const { title, pagefindIndex = true } = Astro.props
+const { title, description = SITE.description, pagefindIndex = true } = Astro.props
 const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
 ---
 
@@ -28,7 +30,8 @@ const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(250,245,233)" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="rgb(21,18,13)" />
     {pagefindIndex && <meta data-pagefind-meta={`url:${pagefindUrl}`} />}
-    <title>{title} | rinae.dev</title>
+    <title>{title}</title>
+    <meta name="description" content={description} />
     {import.meta.env.PROD && (
       <link rel="stylesheet" href="/_pagefind/pagefind-component-ui.css" />
     )}

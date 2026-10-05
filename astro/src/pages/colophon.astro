@@ -9,6 +9,6 @@ if (!entry) throw new Error('[reading] Missing fixed page source: content/coloph
 const { Content } = await render(entry)
 ---
 
-<SiteLayout title={entry.data.title}>
+<SiteLayout title={entry.data.title} description={entry.data.description}>
   <Content components={{ h1: PageHeading }} />
 </SiteLayout>
