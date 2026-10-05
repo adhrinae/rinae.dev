@@ -3,6 +3,7 @@ import { render } from 'astro:content'
 import ReadingToc from '../../components/ReadingToc.astro'
 import PostList from '../../components/PostList.astro'
 import CodeCopyEnhancer from '../../components/CodeCopyEnhancer.astro'
+import GiscusComments from '../../components/GiscusComments.astro'
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import { formatPostDate, getReadingPosts, getRelatedPosts } from '../../lib/reading-posts'
 
@@ -33,6 +34,7 @@ const { Content, headings } = await render(post)
       <h2>관련 글</h2>
       <PostList posts={relatedPosts} />
     </section>
+    {post.data.enableComment === true && <GiscusComments />}
     <CodeCopyEnhancer />
   </div>
 </SiteLayout>
