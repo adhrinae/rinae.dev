@@ -176,3 +176,13 @@ test('the shipped Pagefind index is the current 120-page build without a stale c
   ).version
   assert.equal(entry.version, version)
 })
+
+test('every public page keeps the baseline discovery links to the colophon and the RSS feed', async () => {
+  await buildAstroSite()
+
+  for (const file of ['index.html', 'posts/recreating-blog-2025.html', 'tags/Programming.html']) {
+    const html = await readFile(path.join(outputRoot, file), 'utf8')
+    assert.ok(html.includes('href="/colophon"'), `${file} must link to the colophon`)
+    assert.ok(html.includes('href="/rss.xml"'), `${file} must link to the RSS feed`)
+  }
+})

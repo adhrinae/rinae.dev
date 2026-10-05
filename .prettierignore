@@ -6,3 +6,4 @@ astro/.astro
 pnpm-lock.yaml
 out/
 astro/src/styles/nextra-theme-blog.css
+.playwright-cli
