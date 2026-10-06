@@ -5,5 +5,9 @@ next-env.d.ts
 _pagefind/
 /.env
 out/
+dist/
+
+# Local-only migration planning and research
+/docs/
 
 .DS_Store
