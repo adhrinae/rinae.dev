@@ -280,3 +280,39 @@ test('the site compiles its own Tailwind v4 stylesheet instead of shipping the N
     'the semantic page markup must keep using the compiled utilities'
   )
 })
+
+test('the static site opts into native cross-document view transitions without a client router', async () => {
+  await buildAstroSite()
+
+  const siteCssFiles = (await walk(outputRoot, { skip: ['.prerender'] })).filter(
+    (file) => file.endsWith('.css') && !file.split(path.sep).includes('_pagefind')
+  )
+  assert.ok(siteCssFiles.length > 0, 'the build must emit a site stylesheet')
+  const css = (await Promise.all(siteCssFiles.map((file) => readFile(file, 'utf8')))).join('\n')
+
+  assert.match(
+    css,
+    /@view-transition\s*\{\s*navigation:\s*auto\s*\}/,
+    'the global stylesheet must enable native cross-document view transitions'
+  )
+  assert.match(
+    css,
+    /@media \(prefers-reduced-motion:\s*reduce\)\{[^}]*::view-transition-old\(\*\)[^{]*\{animation:\s*none/,
+    'the view-transition animations must be suppressed for prefers-reduced-motion'
+  )
+
+  // No client router means no cross-document swap hooks that would force script re-initialization.
+  const routerMarkers = ['astro-transition', 'astro:page-load', 'astro:after-swap']
+  const htmlFiles = (await walk(outputRoot, { skip: ['.prerender'] })).filter((file) =>
+    file.endsWith('.html')
+  )
+  for (const file of htmlFiles) {
+    const html = await readFile(file, 'utf8')
+    for (const marker of routerMarkers) {
+      assert.ok(
+        !html.includes(marker),
+        `${path.relative(repositoryRoot, file)} ships the client-router marker ${marker}`
+      )
+    }
+  }
+})
