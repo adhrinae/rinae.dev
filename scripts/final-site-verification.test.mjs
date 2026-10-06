@@ -31,6 +31,16 @@ const walk = async (directory, { skip = [] } = {}) => {
 const readPackageManifest = async () =>
   JSON.parse(await readFile(path.join(repositoryRoot, 'package.json'), 'utf8'))
 
+// Both stylesheet contracts must read the same emitted build output and apply the same
+// `_pagefind` exclusion.
+const readBuiltSiteCss = async () => {
+  const siteCssFiles = (await walk(outputRoot, { skip: ['.prerender'] })).filter(
+    (file) => file.endsWith('.css') && !file.split(path.sep).includes('_pagefind')
+  )
+  assert.ok(siteCssFiles.length > 0, 'the build must emit a site stylesheet')
+  return (await Promise.all(siteCssFiles.map((file) => readFile(file, 'utf8')))).join('\n')
+}
+
 // A hydrated framework runtime would ship these markers; plain DOM scripts must not.
 const REACT_RUNTIME_MARKERS =
   /react-dom|react\/jsx-runtime|preact\/hooks|__REACT_DEVTOOLS_GLOBAL_HOOK__|Symbol\.for\(['"]react/i
@@ -265,11 +275,7 @@ test('the site compiles its own Tailwind v4 stylesheet instead of shipping the N
     'astro/src/styles must hold exactly one stylesheet source that reading.css is absorbed into'
   )
 
-  const siteCssFiles = (await walk(outputRoot, { skip: ['.prerender'] })).filter(
-    (file) => file.endsWith('.css') && !file.split(path.sep).includes('_pagefind')
-  )
-  assert.ok(siteCssFiles.length > 0, 'the build must emit a site stylesheet')
-  const css = (await Promise.all(siteCssFiles.map((file) => readFile(file, 'utf8')))).join('\n')
+  const css = await readBuiltSiteCss()
   assert.ok(!/\.nextra-|--x-color-nextra-bg|twoslash/.test(css), 'the Nextra bundle must not ship')
   assert.ok(css.includes('.x\\:prose'), 'the prefixed typography utility must be compiled')
   assert.ok(css.includes('.x\\:container'), 'the prefixed container utility must be compiled')
@@ -284,11 +290,7 @@ test('the site compiles its own Tailwind v4 stylesheet instead of shipping the N
 test('the static site opts into native cross-document view transitions without a client router', async () => {
   await buildAstroSite()
 
-  const siteCssFiles = (await walk(outputRoot, { skip: ['.prerender'] })).filter(
-    (file) => file.endsWith('.css') && !file.split(path.sep).includes('_pagefind')
-  )
-  assert.ok(siteCssFiles.length > 0, 'the build must emit a site stylesheet')
-  const css = (await Promise.all(siteCssFiles.map((file) => readFile(file, 'utf8')))).join('\n')
+  const css = await readBuiltSiteCss()
 
   assert.match(
     css,

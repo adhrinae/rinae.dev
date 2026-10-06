@@ -1,14 +1,6 @@
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
-const searchInput = (page: Page) => page.locator('pagefind-searchbox input').first()
-
-// The searchbox binds `mod+k`, which resolves to Meta on macOS and Control elsewhere. Read
-// the binding the component actually declared so the shortcut test follows the live browser.
-const openSearch = async (page: Page) => {
-  const shortcut = (await searchInput(page).getAttribute('aria-keyshortcuts')) ?? 'Control+k'
-  const modifier = shortcut.startsWith('Meta') ? 'Meta' : 'Control'
-  await page.keyboard.press(`${modifier}+k`)
-}
+import { openSearch, searchInput } from './support/search'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')

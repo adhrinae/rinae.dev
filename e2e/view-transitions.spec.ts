@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
+import { openSearch, searchInput } from './support/search'
 import {
   readViewTransitionAnimations,
   readViewTransitionEvents,
@@ -14,14 +15,6 @@ const GISCUS_POST = '/posts/recreating-blog-2025'
 // observation. Each check walks the footer links a few times instead.
 const NAVIGATION_ATTEMPTS = 6
 const TRANSITION_SETTLE_MS = 300
-
-const searchInput = (page: Page) => page.locator('pagefind-searchbox input').first()
-
-const openSearch = async (page: Page) => {
-  const shortcut = (await searchInput(page).getAttribute('aria-keyshortcuts')) ?? 'Control+k'
-  const modifier = shortcut.startsWith('Meta') ? 'Meta' : 'Control'
-  await page.keyboard.press(`${modifier}+k`)
-}
 
 // Click the footer link that leads to the other side of the Home <-> Posts pair.
 const navigateAcrossFooter = async (page: Page) => {
