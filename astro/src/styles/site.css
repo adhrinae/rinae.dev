@@ -482,12 +482,23 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+.code-block {
+  position: relative;
+}
+
+/* Ticket 15's single intended visual change: the copy control sits inside the code block's
+   top-right corner instead of above it, de-emphasized so it does not compete with the code. */
 .code-copy-toolbar {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
   gap: 0.5rem;
-  margin-block: 0.75rem 0.25rem;
+  max-width: calc(100% - 1rem);
   font-size: 0.875rem;
 }
 
@@ -522,6 +533,7 @@ a:focus-visible {
 .code-copy-status {
   color: var(--reading-muted);
   font-size: 0.875rem;
+  text-align: right;
 }
 
 .code-copy-status[data-state='error'] {
@@ -534,7 +546,8 @@ pre.astro-code {
   color: var(--shiki-light) !important;
   font-size: 0.9em;
   line-height: 1.75;
-  padding-block: 1rem;
+  padding-block-start: 2.75rem;
+  padding-block-end: 1rem;
   padding-inline: 0;
   box-shadow: inset 0 0 0 1px var(--reading-code-border);
 }

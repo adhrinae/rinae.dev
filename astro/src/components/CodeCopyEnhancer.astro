@@ -33,6 +33,10 @@
     })
 
     toolbar.append(button, status)
-    pre.before(toolbar)
+
+    const wrapper = document.createElement('div')
+    wrapper.className = 'code-block'
+    pre.before(wrapper)
+    wrapper.append(toolbar, pre)
   })
 </script>
