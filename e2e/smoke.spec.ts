@@ -31,6 +31,7 @@ for (const route of REPRESENTATIVE_ROUTES) {
       )
 
     expect(brokenLocalImages, `${route} broken local images`).toEqual([])
+    expect(health.localResponses, `${route} served failing local responses`).toEqual([])
     expect(health.failedRequests, `${route} had unapproved failed requests`).toEqual([])
     expect(health.pageErrors, `${route} raised uncaught page errors`).toEqual([])
     expect(health.consoleErrors, `${route} logged unexpected console errors`).toEqual([])
