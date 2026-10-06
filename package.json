@@ -12,14 +12,14 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "@astrojs/mdx": "8.0.2",
+    "@astrojs/mdx": "8.0.3",
     "@shikijs/transformers": "4.5.0",
     "@types/node": "^24.13.3",
-    "astro": "7.3.5",
-    "lefthook": "^2.1.10",
+    "astro": "7.3.6",
+    "lefthook": "^2.1.17",
     "lint-staged": "^16.4.0",
     "pagefind": "^1.5.2",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.9",
     "typescript": "^5.9.3"
   },
   "lint-staged": {
