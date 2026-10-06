@@ -15,7 +15,9 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
-  // `test:e2e` assumes `pnpm build` already produced ./dist; the preview server only serves it.
+  // `--ignore-lock` keeps astro preview in the foreground. Without it, astro 7.3.6
+  // auto-backgrounds under agent/CI environments and Playwright reports the process
+  // as exited early. `test:e2e` assumes `pnpm build` already produced ./dist.
   webServer: {
     command: 'pnpm preview',
     url: baseURL,
