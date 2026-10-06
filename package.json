@@ -20,7 +20,7 @@
     "lint-staged": "^17.6.0",
     "pagefind": "^1.5.2",
     "prettier": "^3.9.9",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,cjs,mjs,json,md,mdx,css,scss}": [
