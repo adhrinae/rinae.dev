@@ -1,7 +1,7 @@
 .next
 node_modules
 .vercel
-astro-dist
+dist
 astro/.astro
 pnpm-lock.yaml
 out/

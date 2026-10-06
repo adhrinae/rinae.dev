@@ -224,7 +224,7 @@ test('every public page head matches baseline title, description and sharing met
 
 test('preview build environment never leaks into feed, sitemap, robots or canonical URLs', async () => {
   const previewOrigin = 'https://preview.rinae.pages.dev'
-  const build = spawnSync('pnpm', ['astro:build'], {
+  const build = spawnSync('pnpm', ['build'], {
     cwd: repositoryRoot,
     encoding: 'utf8',
     timeout: 300_000,

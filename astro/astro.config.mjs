@@ -6,7 +6,7 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'never',
   publicDir: '../public',
-  outDir: '../astro-dist',
+  outDir: '../dist',
   build: {
     format: 'file',
   },

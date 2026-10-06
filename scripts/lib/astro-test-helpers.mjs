@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url'
 
 export const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 
-export const outputRoot = path.join(repositoryRoot, 'astro-dist')
+export const outputRoot = path.join(repositoryRoot, 'dist')
 
 export const runAstroBuild = (label = 'Astro build') => {
-  const build = spawnSync('pnpm', ['astro:build'], {
+  const build = spawnSync('pnpm', ['build'], {
     cwd: repositoryRoot,
     encoding: 'utf8',
     timeout: 300_000,

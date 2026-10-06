@@ -6,12 +6,12 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const outputRoot = path.join(repositoryRoot, 'astro-dist')
+const outputRoot = path.join(repositoryRoot, 'dist')
 let buildResult
 
 const buildAstroSite = async () => {
   if (!buildResult) {
-    buildResult = spawnSync('pnpm', ['astro:build'], {
+    buildResult = spawnSync('pnpm', ['build'], {
       cwd: repositoryRoot,
       encoding: 'utf8',
       timeout: 90_000,

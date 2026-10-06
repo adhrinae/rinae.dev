@@ -10,7 +10,7 @@ let buildResult
 
 const buildAstroSite = async () => {
   if (!buildResult) {
-    buildResult = spawnSync('pnpm', ['astro:build'], {
+    buildResult = spawnSync('pnpm', ['build'], {
       cwd: repositoryRoot,
       encoding: 'utf8',
       timeout: 90_000,
@@ -53,7 +53,7 @@ const hasCodeCopyBehavior = async (
       return ''
 
     try {
-      return await readFile(path.join(repositoryRoot, 'astro-dist/_astro', assetPath), 'utf8')
+      return await readFile(path.join(repositoryRoot, 'dist/_astro', assetPath), 'utf8')
     } catch {
       return ''
     }
@@ -179,7 +179,7 @@ test('existing HTML-embed MDX preserves its public URL, headings, original ifram
   await buildAstroSite()
 
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/understanding-taming-the-meta-language-kor.html'),
+    path.join(repositoryRoot, 'dist/posts/understanding-taming-the-meta-language-kor.html'),
     'utf8'
   )
 
@@ -192,7 +192,7 @@ test('existing HTML-embed MDX preserves its public URL, headings, original ifram
   const image = html.match(/<img\b[^>]*src="([^"]+)"[^>]*alt="The Flow"/)
   assert.ok(image, 'the existing illustration must be emitted as an image')
   assert.equal(image[1], '/images/2017-04-04.png')
-  const imageBytes = await readFile(path.join(repositoryRoot, 'astro-dist', image[1].slice(1)))
+  const imageBytes = await readFile(path.join(repositoryRoot, 'dist', image[1].slice(1)))
   assert.deepEqual([...imageBytes.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10])
 })
 
@@ -200,7 +200,7 @@ test('existing JSX/GIF MDX preserves its public URL, baseline headings, local im
   await buildAstroSite()
 
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/a-complete-guide-to-useeffect-ko.html'),
+    path.join(repositoryRoot, 'dist/posts/a-complete-guide-to-useeffect-ko.html'),
     'utf8'
   )
   const headingRecords = renderedHeadings(html)
@@ -227,7 +227,7 @@ test('existing JSX/GIF MDX preserves its public URL, baseline headings, local im
       src?.startsWith('/images/a-complete-guide-to-useeffect/'),
       `unexpected local src: ${src}`
     )
-    const bytes = await readFile(path.join(repositoryRoot, 'astro-dist', src.slice(1)))
+    const bytes = await readFile(path.join(repositoryRoot, 'dist', src.slice(1)))
     if (src.endsWith('.gif')) assert.match(bytes.toString('ascii', 0, 6), /^GIF8[79]a$/)
   }
 
@@ -258,7 +258,7 @@ test('article code controls ship an accessible Clipboard API status without a Re
   await buildAstroSite()
 
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/a-complete-guide-to-useeffect-ko.html'),
+    path.join(repositoryRoot, 'dist/posts/a-complete-guide-to-useeffect-ko.html'),
     'utf8'
   )
   assert.equal(

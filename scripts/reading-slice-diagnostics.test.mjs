@@ -15,7 +15,7 @@ const assertBuildDiagnostic = async (testContext, filename, source, field) => {
 
   let build
   try {
-    build = spawnSync('pnpm', ['astro:build'], {
+    build = spawnSync('pnpm', ['build'], {
       cwd: repositoryRoot,
       encoding: 'utf8',
       timeout: 300_000,
@@ -79,7 +79,7 @@ test('Astro build reports both sources for a duplicate synthetic public path', a
   await Promise.all([writeFile(firstFile, source), writeFile(secondFile, source)])
   let build
   try {
-    build = spawnSync('pnpm', ['astro:build'], {
+    build = spawnSync('pnpm', ['build'], {
       cwd: repositoryRoot,
       encoding: 'utf8',
       timeout: 300_000,
@@ -108,7 +108,7 @@ test('Astro build rejects a slug that normalizes onto the home route', async (t)
   await writeFile(fixture, source)
   let build
   try {
-    build = spawnSync('pnpm', ['astro:build'], {
+    build = spawnSync('pnpm', ['build'], {
       cwd: repositoryRoot,
       encoding: 'utf8',
       timeout: 300_000,
@@ -136,7 +136,7 @@ test('Astro build reports both sources for a duplicate post public path', async 
   await Promise.all([writeFile(firstFile, source), writeFile(secondFile, source)])
   let build
   try {
-    build = spawnSync('pnpm', ['astro:build'], {
+    build = spawnSync('pnpm', ['build'], {
       cwd: repositoryRoot,
       encoding: 'utf8',
       timeout: 300_000,

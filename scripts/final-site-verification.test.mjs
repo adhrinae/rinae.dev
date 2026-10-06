@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
-import { readdir, readFile, stat } from 'node:fs/promises'
+import { spawnSync } from 'node:child_process'
+import { mkdir, mkdtemp, readdir, readFile, rm, stat } from 'node:fs/promises'
 import path from 'node:path'
 import test from 'node:test'
 
@@ -43,10 +44,7 @@ test('the static site ships the baseline 404 error screen outside the search ind
   await buildAstroSite()
 
   const notFoundPath = path.join(outputRoot, '404.html')
-  assert.ok(
-    await pathExists(notFoundPath),
-    'astro-dist/404.html must exist for static 404 responses'
-  )
+  assert.ok(await pathExists(notFoundPath), 'dist/404.html must exist for static 404 responses')
 
   const html = await readFile(notFoundPath, 'utf8')
   assert.match(html, /<title>rinae\.dev<\/title>/)
@@ -140,10 +138,7 @@ test('no Next.js or Nextra dependency, config, or runtime residue remains', asyn
     assert.ok(!(await pathExists(path.join(repositoryRoot, removed))), `${removed} must be removed`)
   }
 
-  assert.ok(
-    !(await pathExists(path.join(outputRoot, '_next'))),
-    'astro-dist must not contain /_next/'
-  )
+  assert.ok(!(await pathExists(path.join(outputRoot, '_next'))), 'dist must not contain /_next/')
 
   const htmlFiles = (await walk(outputRoot, { skip: ['.prerender'] })).filter((file) =>
     file.endsWith('.html')
@@ -199,4 +194,56 @@ test('post lists keep the baseline tag icon and the home page keeps the view-all
   const home = await readFile(path.join(outputRoot, 'index.html'), 'utf8')
   assert.ok(home.includes(arrowPath), 'index.html must render the baseline view-all arrow')
   assert.ok(home.includes('모든 글 보기'), 'index.html must keep the view-all label')
+})
+
+// The deployment build must not ship the synthetic /preview fixture route (`pnpm test` sets
+// MARKDOWN_FIXTURES=1 for the reading-slice assertions; Cloudflare runs `pnpm build` without
+// it). This builds into its own scratch directory so it neither depends on nor disturbs the
+// shared test build output: test files are not guaranteed to run in the order listed.
+test('the deployment build ships no synthetic /preview fixture route', async () => {
+  // Astro renames prerendered assets into the output directory, so the scratch build has to
+  // share a filesystem with the repository (`/tmp` fails with EXDEV on this machine).
+  const scratchParent = path.join(repositoryRoot, 'node_modules', '.cache')
+  await mkdir(scratchParent, { recursive: true })
+  const scratchRoot = await mkdtemp(path.join(scratchParent, 'rinae-deploy-check-'))
+
+  try {
+    const build = spawnSync(
+      'pnpm',
+      ['exec', 'astro', 'build', '--root', './astro', '--outDir', scratchRoot],
+      {
+        cwd: repositoryRoot,
+        encoding: 'utf8',
+        timeout: 300_000,
+        env: { ...process.env, MARKDOWN_FIXTURES: '' },
+      }
+    )
+    assert.equal(
+      build.status,
+      0,
+      `deployment-environment build failed (exit ${build.status}):\n${build.stdout}\n${build.stderr}`
+    )
+
+    assert.ok(
+      await pathExists(path.join(scratchRoot, 'index.html')),
+      'the deployment build must render index.html'
+    )
+    assert.ok(
+      await pathExists(path.join(scratchRoot, '404.html')),
+      'the deployment build must render 404.html'
+    )
+
+    const renderedFiles = (await walk(scratchRoot)).filter((file) => file.endsWith('.html'))
+    assert.ok(
+      renderedFiles.length >= 121,
+      `expected the full site to build, got ${renderedFiles.length} HTML files`
+    )
+    assert.equal(
+      renderedFiles.filter((file) => file.split(path.sep).includes('preview')).length,
+      0,
+      'no synthetic preview fixture pages may ship in a deployment build'
+    )
+  } finally {
+    await rm(scratchRoot, { recursive: true, force: true })
+  }
 })

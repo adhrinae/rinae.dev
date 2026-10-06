@@ -100,7 +100,7 @@ let buildResult
 
 const buildAstroSite = async () => {
   if (!buildResult) {
-    buildResult = spawnSync('pnpm', ['astro:build'], {
+    buildResult = spawnSync('pnpm', ['build'], {
       cwd: repositoryRoot,
       encoding: 'utf8',
       timeout: 90_000,
@@ -212,7 +212,7 @@ test('existing MDX keeps its public URL and baseline heading IDs in static HTML'
   await buildAstroSite()
 
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/recreating-blog-2025.html'),
+    path.join(repositoryRoot, 'dist/posts/recreating-blog-2025.html'),
     'utf8'
   )
 
@@ -224,7 +224,7 @@ test('synthetic Markdown renders as a labeled preview with Korean and inline-mar
   await buildAstroSite()
 
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/preview/markdown-heading-fixture.html'),
+    path.join(repositoryRoot, 'dist/preview/markdown-heading-fixture.html'),
     'utf8'
   )
 
@@ -237,11 +237,11 @@ test('other representative MDX keeps baseline heading levels, text, punctuation,
   await buildAstroSite()
 
   const fineArt = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/the-fine-art-of-fast-development-kr-1.html'),
+    path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
   const review = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/review-when-to-usememo-and-usecallback.html'),
+    path.join(repositoryRoot, 'dist/posts/review-when-to-usememo-and-usecallback.html'),
     'utf8'
   )
 
@@ -253,11 +253,11 @@ test('article and Markdown TOCs use final heading IDs, hierarchy, and native ope
   await buildAstroSite()
 
   const article = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/the-fine-art-of-fast-development-kr-1.html'),
+    path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
   const fixture = await readFile(
-    path.join(repositoryRoot, 'astro-dist/preview/markdown-heading-fixture.html'),
+    path.join(repositoryRoot, 'dist/preview/markdown-heading-fixture.html'),
     'utf8'
   )
   const tableOfContents = (html) => {
@@ -353,7 +353,7 @@ test('Noto Sans KR loads browser Google CSS with readable native fallbacks and n
   await buildAstroSite()
 
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/the-fine-art-of-fast-development-kr-1.html'),
+    path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
   const links = [...html.matchAll(/<link\b[^>]*>/g)].map(([tag]) => tag)
@@ -383,7 +383,7 @@ test('Noto Sans KR loads browser Google CSS with readable native fallbacks and n
     links
       .filter((tag) => tag.includes('rel="stylesheet"') && tag.includes('href="/_astro/'))
       .map((tag) =>
-        readFile(path.join(repositoryRoot, 'astro-dist', tag.match(/href="\/([^"]+)"/)[1]), 'utf8')
+        readFile(path.join(repositoryRoot, 'dist', tag.match(/href="\/([^"]+)"/)[1]), 'utf8')
       )
   )
   const renderedStyles = html + localStyles.join('\n')
@@ -422,13 +422,13 @@ test('Noto Sans KR loads browser Google CSS with readable native fallbacks and n
 test('baseline article markup and emitted CSS retain scoped reading contracts', async () => {
   await buildAstroSite()
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/the-fine-art-of-fast-development-kr-1.html'),
+    path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
   const css = (
     await Promise.all(
       [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*href="\/([^"?]+)"[^>]*>/g)].map(
-        ([, href]) => readFile(path.join(repositoryRoot, 'astro-dist', href), 'utf8')
+        ([, href]) => readFile(path.join(repositoryRoot, 'dist', href), 'utf8')
       )
     )
   ).join('\n')
@@ -465,13 +465,13 @@ test('baseline article markup and emitted CSS retain scoped reading contracts', 
 test('reading rhythm restores original block flow and text utility leading without resetting prose margins', async () => {
   await buildAstroSite()
   const html = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/the-fine-art-of-fast-development-kr-1.html'),
+    path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
   const css = (
     await Promise.all(
       [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*href="\/([^"?]+)"[^>]*>/g)].map(
-        ([, href]) => readFile(path.join(repositoryRoot, 'astro-dist', href), 'utf8')
+        ([, href]) => readFile(path.join(repositoryRoot, 'dist', href), 'utf8')
       )
     )
   ).join('\n')
@@ -504,13 +504,13 @@ test('reading rhythm restores original block flow and text utility leading witho
 test('home lists the five newest public posts and the list keeps every baseline URL in date order', async () => {
   await buildAstroSite()
 
-  const home = await readFile(path.join(repositoryRoot, 'astro-dist/index.html'), 'utf8')
-  const list = await readFile(path.join(repositoryRoot, 'astro-dist/posts.html'), 'utf8')
+  const home = await readFile(path.join(repositoryRoot, 'dist/index.html'), 'utf8')
+  const list = await readFile(path.join(repositoryRoot, 'dist/posts.html'), 'utf8')
   const slugs = (html) =>
     [...html.matchAll(/<a\b[^>]*href="\/posts\/([^"/#?]+)"[^>]*>/g)].map(([, slug]) => slug)
   const postSlugs = slugs(list)
   const detail = await readFile(
-    path.join(repositoryRoot, 'astro-dist/posts/the-fine-art-of-fast-development-kr-1.html'),
+    path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
 
