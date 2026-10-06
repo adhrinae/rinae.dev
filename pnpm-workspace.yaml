@@ -1,3 +1,10 @@
-onlyBuiltDependencies:
-  - lefthook
-  - sharp
+allowBuilds:
+  esbuild: true
+  lefthook: true
+# Ticket 14 pins these same-day releases; remove once the versions age past
+# pnpm 12's default minimumReleaseAge.
+minimumReleaseAgeExclude:
+  - astro
+  - '@astrojs/mdx'
+  - '@astrojs/internal-helpers'
+  - '@astrojs/markdown-satteri'
