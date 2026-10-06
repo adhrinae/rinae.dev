@@ -1,0 +1,36 @@
+---
+import PostList from '../components/PostList.astro'
+import SiteLayout from '../layouts/SiteLayout.astro'
+import { getReadingPosts } from '../lib/reading-posts'
+import { SITE } from '../lib/site'
+
+const posts = await getReadingPosts()
+---
+
+<SiteLayout title={SITE.htmlTitle} description={SITE.name}>
+  <div>
+    <p>리내입니다. 개발하며 배우고, 함께 자라기 위해 기록합니다.</p>
+    <p>이곳엔 그런 여정의 흔적들을 모아두었습니다.</p>
+    <h2 id="최신-글">최신 글</h2>
+    <PostList posts={posts.slice(0, 5)} />
+    <a class="view-all-link" href="/posts">
+      모든 글 보기
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="view-all-icon"
+      >
+        <path d="M5 12l14 0"></path>
+        <path d="M15 16l4 -4"></path>
+        <path d="M15 8l4 4"></path>
+      </svg>
+    </a>
+  </div>
+</SiteLayout>

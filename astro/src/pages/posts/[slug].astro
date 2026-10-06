@@ -1,0 +1,40 @@
+---
+import { render } from 'astro:content'
+import ReadingToc from '../../components/ReadingToc.astro'
+import PostList from '../../components/PostList.astro'
+import CodeCopyEnhancer from '../../components/CodeCopyEnhancer.astro'
+import GiscusComments from '../../components/GiscusComments.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import { formatPostDate, getReadingPosts, getRelatedPosts } from '../../lib/reading-posts'
+
+export async function getStaticPaths() {
+  const posts = await getReadingPosts()
+
+  return posts.map((post) => ({
+    params: { slug: post.data.slug || post.id },
+    props: { post, relatedPosts: getRelatedPosts(posts, post) },
+  }))
+}
+
+const { post, relatedPosts } = Astro.props
+const { Content, headings } = await render(post)
+---
+
+<SiteLayout title={post.data.title} description={post.data.description}>
+  <div class="reading-post">
+    <h1 class="reading-title">{post.data.title}</h1>
+    <div class="reading-metadata">
+      <a class="back-to-list" href="/posts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 10l-5 5l5 5M4 15h11a5 5 0 0 0 0-10h-1" /></svg><span>글 목록으로</span></a>
+      <svg class="metadata-point" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="1" /></svg>
+      <div><time datetime={post.data.date}>{formatPostDate(post.data.date)}</time></div>
+    </div>
+    <ReadingToc headings={headings} />
+    <Content />
+    <section class="related-posts" aria-label="관련 글">
+      <h2>관련 글</h2>
+      <PostList posts={relatedPosts} />
+    </section>
+    {post.data.enableComment === true && <GiscusComments />}
+    <CodeCopyEnhancer />
+  </div>
+</SiteLayout>

@@ -1,0 +1,15 @@
+---
+import { getTagUrl, type ReadingTag } from '../lib/reading-posts'
+
+interface Props {
+  tags: ReadingTag[]
+}
+
+const { tags } = Astro.props
+---
+
+<div class="tag-list">
+  {tags.map(({ name, count }) => (
+    <a class="tag-link" href={getTagUrl(name)}>{name} <span class="tag-count">({count})</span></a>
+  ))}
+</div>

@@ -8,4 +8,4 @@ pre-push:
   parallel: true
   jobs:
     - name: build test
-      run: pnpm build
+      run: pnpm astro:build

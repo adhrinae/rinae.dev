@@ -1,0 +1,27 @@
+---
+import { render } from 'astro:content'
+import ReadingToc from '../../components/ReadingToc.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import { getValidatedReadingCollections } from '../../lib/content-routes'
+
+export async function getStaticPaths() {
+  const { markdownFixtures } = await getValidatedReadingCollections()
+
+  return markdownFixtures.map((entry) => ({
+    params: { slug: entry.data.slug || entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content, headings } = await render(entry)
+---
+
+<SiteLayout title={entry.data.title} pagefindIndex={false}>
+  <h1>{entry.data.title}</h1>
+  <p class="synthetic-label">합성 Markdown 미리보기 — 이 예시는 기존 게시물이 아닙니다.</p>
+  <p class="post-date"><time datetime={entry.data.date}>{entry.data.date}</time></p>
+  <ReadingToc headings={headings} />
+  <Content />
+  <p><a class="back-to-list" href="/posts">글 목록으로</a></p>
+</SiteLayout>

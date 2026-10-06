@@ -1,0 +1,10 @@
+---
+interface Props {
+  id?: string
+  [key: string]: unknown
+}
+
+const { id: _id, ...props } = Astro.props
+---
+
+<h1 {...props}><slot /></h1>

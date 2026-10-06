@@ -1,7 +1,9 @@
 .next
 node_modules
 .vercel
-public/_pagefind
+astro-dist
+astro/.astro
 pnpm-lock.yaml
 out/
-next-env.d.ts
+astro/src/styles/nextra-theme-blog.css
+.playwright-cli

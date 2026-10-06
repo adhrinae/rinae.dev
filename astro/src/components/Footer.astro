@@ -1,0 +1,37 @@
+<footer class="site-footer">
+  <div class="footer-content">
+    <nav class="footer-nav" data-pagefind-ignore="all" aria-label="Site navigation">
+      <a href="/">Home</a>
+      <a href="/posts">Posts</a>
+      <a href="/colophon">제작 정보</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="https://github.com/adhrinae" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/adhrinae" target="_blank" rel="noreferrer">LinkedIn</a>
+    </nav>
+    {import.meta.env.PROD && (
+      <pagefind-searchbox
+        class="footer-search"
+        placeholder="글 검색..."
+        shortcut="mod+k"
+      />
+    )}
+    <div class="footer-controls">
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        data-pagefind-ignore="all"
+        aria-label="Toggle Dark Mode"
+      >
+        <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
+        <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M20.9 13.1A9 9 0 0 1 10.9 3.1 9 9 0 1 0 20.9 13.1Z" />
+        </svg>
+      </button>
+      <div>© {new Date().getFullYear()} rinae</div>
+    </div>
+  </div>
+</footer>
