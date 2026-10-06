@@ -7,3 +7,5 @@ pnpm-lock.yaml
 out/
 astro/src/styles/nextra-theme-blog.css
 .playwright-cli
+# Captured baseline data compared byte-for-byte by scripts/*.test.mjs; not source to format.
+scripts/fixtures/site-baseline/

@@ -1,0 +1,103 @@
+# Automated verification for rinae.dev (ticket 17).
+#
+# Run: every push and every pull request. The migration works on short-lived
+# branches that are merged locally instead of through PRs, so a branch filter on
+# `push` would leave those branches unchecked. A duplicate run per PR source
+# branch is accepted; the concurrency group stops superseded runs on one ref.
+#
+# Jobs: one `verify` job runs the ticket's linear sequence in order —
+# `pnpm install --frozen-lockfile` -> `pnpm test` -> `pnpm build` ->
+# `pnpm test:e2e`. It is deliberately not a matrix: every step shares the same
+# install and build output, so splitting it would only duplicate setup time.
+#
+# Recorded decisions:
+# - Node and pnpm versions are read from the repo's single sources of truth.
+#   Node comes from `.nvmrc` (`node-version-file`, mirrored by `engines.node`),
+#   pnpm comes from `package.json`'s `packageManager` field via
+#   `pnpm/action-setup` with no explicit version. Neither is repeated here.
+# - Third-party hosts: CI runs on GitHub runners with no AdGuard DNS filter, so
+#   the local allowlist in `e2e/support/blocked-hosts.ts` is not a CI
+#   accommodation and is left unchanged. We add no CI-only host allowances;
+#   transient third-party embed failures are absorbed by Playwright's existing
+#   in-CI `retries: 2`. If a third-party host ever becomes chronically flaky in
+#   CI, the fix is deterministic request interception in the specs, not a wider
+#   allowlist.
+# - Cloudflare Pages stays the only deployer (its GitHub App builds preview and
+#   production). This workflow verifies only: it holds no Cloudflare
+#   credentials and never uploads a deployment, so no deployment is duplicated.
+#   The `pnpm build` step exists because `playwright.config.ts` serves the
+#   already-built `./dist` through `pnpm preview`.
+
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: install, test, build, e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # No `version:` input on purpose — `pnpm/action-setup` reads
+      # `packageManager` from `package.json` so the pin lives in one place.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The cache key is the installed Playwright version, not the lockfile, so
+      # an unrelated dependency bump does not redownload the browser.
+      - name: Read Playwright version
+        id: playwright
+        run: |
+          echo "version=$(node -p 'require("@playwright/test/package.json").version')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
+
+      # Only the chromium project is configured, so only chromium is installed.
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: End-to-end tests
+        run: pnpm test:e2e
+
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7

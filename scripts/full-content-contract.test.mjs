@@ -13,7 +13,7 @@ import {
   repositoryRoot,
 } from './lib/astro-test-helpers.mjs'
 
-const baselinePath = path.join(repositoryRoot, 'docs/planning/reports/02-baseline/baseline.json')
+const baselinePath = path.join(repositoryRoot, 'scripts/fixtures/site-baseline/baseline.json')
 const buildAstroSite = createCachedAstroBuild('Astro full-content build')
 
 const loadBaseline = async () => JSON.parse(await readFile(baselinePath, 'utf8'))
