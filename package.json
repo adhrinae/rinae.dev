@@ -14,7 +14,7 @@
   "devDependencies": {
     "@astrojs/mdx": "8.0.3",
     "@shikijs/transformers": "4.5.0",
-    "@types/node": "^24.13.3",
+    "@types/node": "^26.6.4",
     "astro": "7.3.6",
     "lefthook": "^2.1.17",
     "lint-staged": "^17.6.0",
