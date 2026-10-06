@@ -1,8 +1,50 @@
+@import 'tailwindcss' source(none) prefix(x);
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Only the Astro markup is scanned for the utility classes it uses. */
+@source '../';
+
+/* Baseline page-shell rules absorbed from the removed Nextra bundle (they were unlayered in
+   the bundle, so they keep the same cascade position here). */
+html {
+  scroll-padding-top: 1.25rem;
+}
+
+article {
+  display: block;
+  margin-inline: auto;
+  padding-top: 5rem;
+  padding-bottom: 8rem;
+}
+
+article img {
+  margin-inline: auto;
+}
+
+h1 {
+  letter-spacing: -0.03em;
+}
+
+.x\:prose code::before,
+.x\:prose code::after {
+  display: none;
+}
+
+.x\:prose code .line {
+  font-weight: 400;
+}
+
 :root {
-  --nextra-primary-hue: 212deg;
-  --nextra-primary-saturation: 100%;
-  --nextra-primary-lightness: 45%;
-  --nextra-bg: 250, 245, 233;
+  --reading-accent-hue: 212deg;
+  --reading-accent-saturation: 100%;
+  --reading-accent-lightness: 45%;
+  --reading-code-border: oklch(87.2% 0.01 258.338);
+  --reading-highlight: hsl(
+    var(--reading-accent-hue) var(--reading-accent-saturation) var(--reading-accent-lightness)
+  );
   --reading-foreground: #171717;
   --reading-muted: oklch(0.556 0 0);
   --reading-background: #fff;
@@ -429,18 +471,27 @@ a:focus-visible {
   font-size: 0.875rem;
 }
 
+/* Ticket 15's single intended visual change: the copy control is de-emphasized to a
+   low-contrast ghost button that only gains the accent tint on hover/focus, instead of the
+   old card-colored box that competed with the code block. Box geometry is unchanged. */
 .code-copy-button {
-  border: 1px solid var(--reading-border);
+  border: 1px solid color-mix(in oklab, var(--reading-foreground) 16%, transparent);
   border-radius: 0.375rem;
   padding: 0.25rem 0.625rem;
-  background: var(--reading-card);
-  color: var(--reading-foreground);
+  background: color-mix(in oklab, var(--reading-foreground) 4%, transparent);
+  color: var(--reading-muted);
   font: inherit;
   cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .code-copy-button:hover {
-  background: var(--reading-background);
+  border-color: color-mix(in oklab, var(--reading-foreground) 30%, transparent);
+  background: color-mix(in oklab, var(--reading-foreground) 10%, transparent);
+  color: var(--reading-foreground);
 }
 
 .code-copy-button:focus-visible {
@@ -465,7 +516,7 @@ pre.astro-code {
   line-height: 1.75;
   padding-block: 1rem;
   padding-inline: 0;
-  box-shadow: inset 0 0 0 1px var(--x-color-gray-300);
+  box-shadow: inset 0 0 0 1px var(--reading-code-border);
 }
 
 pre.astro-code span {
@@ -485,20 +536,20 @@ pre.astro-code > code > span {
 }
 
 pre.astro-code > code > span.highlighted {
-  background-color: var(--x-color-primary-600);
-  color: var(--x-color-primary-600) !important;
+  background-color: var(--reading-highlight);
+  color: var(--reading-highlight) !important;
   box-shadow: 2px 0 currentColor inset;
 
   @supports (color: color-mix(in oklab, red, red)) {
-    background-color: color-mix(in oklab, var(--x-color-primary-600) 10%, transparent);
-    color: color-mix(in oklab, var(--x-color-primary-600) 80%, transparent) !important;
+    background-color: color-mix(in oklab, var(--reading-highlight) 10%, transparent);
+    color: color-mix(in oklab, var(--reading-highlight) 80%, transparent) !important;
   }
 }
 
 html.dark {
-  --nextra-primary-hue: 204deg;
-  --nextra-primary-lightness: 55%;
-  --nextra-bg: 21, 18, 13;
+  --reading-accent-hue: 204deg;
+  --reading-accent-lightness: 55%;
+  --reading-code-border: oklch(37.1% 0 0);
   --reading-foreground: #f5f5f5;
   --reading-muted: oklch(0.708 0 0);
   --reading-background: #0a0a0a;
@@ -515,7 +566,7 @@ html.dark .code-copy-status[data-state='error'] {
 html.dark pre.astro-code {
   background-color: #000 !important;
   color: var(--shiki-dark) !important;
-  box-shadow: inset 0 0 0 1px var(--x-color-neutral-700);
+  box-shadow: inset 0 0 0 1px var(--reading-code-border);
 }
 
 html.dark pre.astro-code span {
@@ -524,7 +575,7 @@ html.dark pre.astro-code span {
 
 html.dark pre.astro-code > code > span.highlighted {
   @supports (color: color-mix(in oklab, red, red)) {
-    background-color: color-mix(in oklab, var(--x-color-primary-600) 20%, transparent);
+    background-color: color-mix(in oklab, var(--reading-highlight) 20%, transparent);
   }
 }
 

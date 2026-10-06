@@ -400,7 +400,14 @@ test('baseline article markup and emitted CSS retain scoped reading contracts', 
   assert.match(html, /class="toc-nested"><ul class="toc-list"/)
   assert.match(html, /data-toc[^>]*open/)
   assert.match(html, /M3\.5 6\.5L8 11L12\.5 6\.5/)
-  const rule = (selector) => css.slice(css.lastIndexOf(selector + '{')).split('}')[0]
+  // Ticket 15's Tailwind v4 pipeline runs the stylesheet through lightningcss, which splits a
+  // single rule into a plain fallback plus an `@supports` override and re-spells color-mix
+  // values. Gather every rule for the selector instead of the last textual occurrence.
+  const rule = (selector) =>
+    `${selector}{${[...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+      .filter(([, selectors]) => selectors.split(',').some((value) => value.trim() === selector))
+      .map(([, , body]) => body)
+      .join(';')}}`
   assert.match(rule('.reading-title'), /font-size:1\.875rem/)
   assert.match(rule('.reading-title'), /line-height:2\.25rem/)
   assert.match(rule('.reading-title'), /font-weight:600/)
@@ -413,8 +420,8 @@ test('baseline article markup and emitted CSS retain scoped reading contracts', 
   assert.doesNotMatch(css, /\.toc-list(?:,| ul\{)/)
   assert.match(css, /rotate\(180deg\)/)
   assert.match(rule('.toc'), /border-radius:\.625rem/)
-  assert.match(rule('.toc'), /var\(--reading-card\) 80%/)
-  assert.match(rule('.toc'), /var\(--reading-border\) 80%/)
+  assert.match(rule('.toc'), /var\(--reading-card\)\s*80%/)
+  assert.match(rule('.toc'), /var\(--reading-border\)\s*80%/)
   assert.match(rule('.toc'), /box-shadow:/)
   assertTocItemBlockMargins(rule('.toc-list>:not(:last-child)'))
   assert.match(css, /list-style-type:disc/)

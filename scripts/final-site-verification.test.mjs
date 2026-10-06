@@ -116,8 +116,9 @@ test('no Next.js or Nextra dependency, config, or runtime residue remains', asyn
     'clsx',
     'tailwind-merge',
     '@types/react',
+    // Ticket 15 compiles Tailwind v4 through the Vite plugin, so `tailwindcss` itself is
+    // declared again; the PostCSS pipeline and animation preset stay unused.
     '@tailwindcss/postcss',
-    'tailwindcss',
     'tw-animate-css',
     'postcss',
   ]
@@ -246,4 +247,36 @@ test('the deployment build ships no synthetic /preview fixture route', async () 
   } finally {
     await rm(scratchRoot, { recursive: true, force: true })
   }
+})
+
+test('the site compiles its own Tailwind v4 stylesheet instead of shipping the Nextra bundle', async () => {
+  await buildAstroSite()
+
+  const manifest = await readPackageManifest()
+  const declared = { ...manifest.dependencies, ...manifest.devDependencies }
+  for (const dependency of ['@tailwindcss/vite', '@tailwindcss/typography', 'tailwindcss']) {
+    assert.ok(declared[dependency], `package.json must declare ${dependency}`)
+  }
+
+  const styleSources = await readdir(path.join(repositoryRoot, 'astro', 'src', 'styles'))
+  assert.deepEqual(
+    styleSources,
+    ['site.css'],
+    'astro/src/styles must hold exactly one stylesheet source that reading.css is absorbed into'
+  )
+
+  const siteCssFiles = (await walk(outputRoot, { skip: ['.prerender'] })).filter(
+    (file) => file.endsWith('.css') && !file.split(path.sep).includes('_pagefind')
+  )
+  assert.ok(siteCssFiles.length > 0, 'the build must emit a site stylesheet')
+  const css = (await Promise.all(siteCssFiles.map((file) => readFile(file, 'utf8')))).join('\n')
+  assert.ok(!/\.nextra-|--x-color-nextra-bg|twoslash/.test(css), 'the Nextra bundle must not ship')
+  assert.ok(css.includes('.x\\:prose'), 'the prefixed typography utility must be compiled')
+  assert.ok(css.includes('.x\\:container'), 'the prefixed container utility must be compiled')
+
+  const html = await readFile(path.join(outputRoot, 'index.html'), 'utf8')
+  assert.ok(
+    html.includes('x:container') && html.includes('x:prose'),
+    'the semantic page markup must keep using the compiled utilities'
+  )
 })
