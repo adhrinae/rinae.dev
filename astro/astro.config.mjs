@@ -1,4 +1,5 @@
 import mdx from '@astrojs/mdx'
+import tailwindcss from '@tailwindcss/vite'
 import { transformerMetaHighlight } from '@shikijs/transformers'
 import { defineConfig } from 'astro/config'
 
@@ -21,6 +22,7 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [tailwindcss()],
     build: {
       rollupOptions: {
         // Astro marks MDX content-render entries with its internal `use astro:head-inject`

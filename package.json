@@ -19,12 +19,15 @@
     "@astrojs/mdx": "8.0.3",
     "@playwright/test": "^1.63.0",
     "@shikijs/transformers": "4.5.0",
+    "@tailwindcss/typography": "0.5.20",
+    "@tailwindcss/vite": "4.1.10",
     "@types/node": "^26.6.4",
     "astro": "7.3.6",
     "lefthook": "^2.1.17",
     "lint-staged": "^17.6.0",
     "pagefind": "^1.5.2",
     "prettier": "^3.9.9",
+    "tailwindcss": "4.1.10",
     "typescript": "^7.0.2"
   },
   "lint-staged": {

@@ -1,6 +1,9 @@
 allowBuilds:
   esbuild: true
   lefthook: true
+  # Tailwind v4's native engine (`@tailwindcss/vite` dependency) needs its install script to
+  # verify/link the platform binary.
+  '@tailwindcss/oxide': true
 # Ticket 14 pins these same-day releases; remove once the versions age past
 # pnpm 12's default minimumReleaseAge.
 minimumReleaseAgeExclude:
