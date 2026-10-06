@@ -14,7 +14,20 @@ export default defineConfig({
     baseURL,
     trace: 'on-first-retry',
   },
-  projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
+  projects: [
+    {
+      name: 'chromium',
+      use: { browserName: 'chromium' },
+      // The Firefox project owns ticket 16's unsupported-browser check, which asserts the
+      // absence of a view transition and would fail in a browser that supports the at-rule.
+      testIgnore: /view-transitions-firefox\.spec\.ts/,
+    },
+    {
+      name: 'firefox',
+      use: { browserName: 'firefox' },
+      testMatch: /view-transitions-firefox\.spec\.ts/,
+    },
+  ],
   // `--ignore-lock` keeps astro preview in the foreground. Without it, astro 7.3.6
   // auto-backgrounds under agent/CI environments and Playwright reports the process
   // as exited early. `test:e2e` assumes `pnpm build` already produced ./dist.

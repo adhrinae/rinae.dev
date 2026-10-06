@@ -37,6 +37,26 @@ h1 {
   font-weight: 400;
 }
 
+/* Native cross-document view transitions (ticket 16). Same-origin navigations animate
+   between the outgoing and incoming document in browsers that support the at-rule. There is
+   no <ClientRouter /> and no client-side routing, so every navigation is a full document load
+   and the existing inline scripts run normally without any re-initialization logic.
+   Unsupported browsers ignore the at-rule and navigate exactly as before. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Browsers do not suppress cross-document view transitions for the reduced-motion
+   preference (verified in Chromium), so drop the transition animations explicitly while
+   keeping the instant document swap. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 :root {
   --reading-accent-hue: 212deg;
   --reading-accent-saturation: 100%;

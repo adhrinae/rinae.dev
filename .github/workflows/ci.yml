@@ -78,9 +78,10 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
 
-      # Only the chromium project is configured, so only chromium is installed.
+      # The chromium project runs the suite; the firefox project runs ticket 16's
+      # unsupported-browser view transition check, so both browsers are installed.
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium firefox
 
       - name: Test
         run: pnpm test
