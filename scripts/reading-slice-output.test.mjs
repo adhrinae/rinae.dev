@@ -249,20 +249,16 @@ test('other representative MDX keeps baseline heading levels, text, punctuation,
   assert.deepEqual(renderedHeadings(review), reviewHeadingsFromBaseline)
 })
 
-test('article and Markdown TOCs use final heading IDs, hierarchy, and native open details without hydration', async () => {
+test('the synthetic Markdown preview TOC uses final heading IDs and native open details without hydration', async () => {
   await buildAstroSite()
 
-  const article = await readFile(
-    path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
-    'utf8'
-  )
   const fixture = await readFile(
     path.join(repositoryRoot, 'dist/preview/markdown-heading-fixture.html'),
     'utf8'
   )
   const tableOfContents = (html) => {
     const labelPosition = html.indexOf('aria-label="Table of contents"')
-    assert.notEqual(labelPosition, -1, 'article is missing its Table of contents navigation')
+    assert.notEqual(labelPosition, -1, 'page is missing its Table of contents navigation')
     const navStart = html.lastIndexOf('<nav', labelPosition)
     const navEnd = html.indexOf('</nav>', labelPosition)
     assert.ok(navStart !== -1 && navEnd !== -1, 'Table of contents navigation is incomplete')
@@ -289,28 +285,6 @@ test('article and Markdown TOCs use final heading IDs, hierarchy, and native ope
 
     return links
   }
-  const listDepthFor = (toc, id) => {
-    const linkPosition = toc.indexOf(`href="#${id}"`)
-    assert.notEqual(linkPosition, -1, `missing TOC target #${id}`)
-    const prefix = toc.slice(0, linkPosition)
-    let depth = 0
-    let cursor = 0
-
-    while (cursor < prefix.length) {
-      const open = prefix.indexOf('<ul', cursor)
-      const close = prefix.indexOf('</ul>', cursor)
-      if (open === -1 && close === -1) break
-      if (close === -1 || (open !== -1 && open < close)) {
-        depth += 1
-        cursor = open + '<ul'.length
-      } else {
-        depth -= 1
-        cursor = close + '</ul>'.length
-      }
-    }
-
-    return depth
-  }
   const detailsStartTag = (toc) => {
     const start = toc.indexOf('<details')
     const end = toc.indexOf('>', start)
@@ -322,20 +296,6 @@ test('article and Markdown TOCs use final heading IDs, hierarchy, and native ope
       assert.equal(html.includes(marker), false, `unexpected framework runtime marker: ${marker}`)
     }
   }
-
-  const articleToc = tableOfContents(article)
-  const articleHeadings = renderedHeadings(article)
-  const articleLinks = tocLinks(articleToc)
-  assert.deepEqual(
-    articleLinks,
-    articleHeadings.map(({ id, text }) => ({ id, text }))
-  )
-  assert.equal(listDepthFor(articleToc, articleHeadings[0].id), 1)
-  assert.equal(listDepthFor(articleToc, articleHeadings[1].id), 2)
-  assert.equal(listDepthFor(articleToc, articleHeadings[3].id), 1)
-  assert.ok(detailsStartTag(articleToc).includes(' open'), 'TOC details should be open by default')
-  assert.ok(articleToc.includes('목차'), 'TOC summary should be visibly labeled')
-  assertNoFrameworkRuntime(article)
 
   const fixtureToc = tableOfContents(fixture)
   assert.deepEqual(

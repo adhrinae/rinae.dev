@@ -1,6 +1,10 @@
 node_modules
 .next
 next-env.d.ts
+
+# Playwright
+test-results/
+playwright-report/
 /.idea
 _pagefind/
 /.env
