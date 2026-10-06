@@ -17,7 +17,7 @@ const require = createRequire(import.meta.url)
 // collector vendors transitive parsers the same way, so this adds no dependency.
 const sax = require('../node_modules/.pnpm/sax@1.6.1/node_modules/sax')
 
-const baselineRoot = path.join(repositoryRoot, 'docs/planning/reports/02-baseline')
+const baselineRoot = path.join(repositoryRoot, 'scripts/fixtures/site-baseline')
 const baselinePath = path.join(baselineRoot, 'baseline.json')
 const baselineRssPath = path.join(baselineRoot, 'http/rss.xml.body')
 const baselineRobotsPath = path.join(baselineRoot, 'http/robots.txt.body')

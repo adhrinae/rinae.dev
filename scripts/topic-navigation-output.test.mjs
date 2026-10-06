@@ -14,10 +14,7 @@ import {
 const buildAstroSite = createCachedAstroBuild('Astro topic-navigation build')
 
 const baseline = JSON.parse(
-  await readFile(
-    path.join(repositoryRoot, 'docs/planning/reports/02-baseline/baseline.json'),
-    'utf8'
-  )
+  await readFile(path.join(repositoryRoot, 'scripts/fixtures/site-baseline/baseline.json'), 'utf8')
 )
 
 const publicPages = baseline.pages.filter((page) => page.routeKind === 'public-page')

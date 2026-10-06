@@ -4,6 +4,10 @@ import type { Page } from '@playwright/test'
 // permitted. The first three are the hosts named in ticket 13; the ad/tracking hosts after
 // them are the additionally blocked hosts observed while serving the built site locally.
 // Any other failed host request must fail the test.
+//
+// This allowlist is a local-environment accommodation only. CI runners have no DNS filter, so
+// it is not a CI workaround and must not be widened to make CI pass (ticket 17); see
+// .github/workflows/ci.yml for how CI treats third-party host failures.
 export const BLOCKED_HOSTS = [
   'static.cloudflareinsights.com',
   'syndication.twitter.com',
