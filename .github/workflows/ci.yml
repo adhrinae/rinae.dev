@@ -1,9 +1,17 @@
 # Automated verification for rinae.dev (ticket 17).
 #
-# Run: every push and every pull request. The migration works on short-lived
-# branches that are merged locally instead of through PRs, so a branch filter on
-# `push` would leave those branches unchecked. A duplicate run per PR source
-# branch is accepted; the concurrency group stops superseded runs on one ref.
+# Run: every push, plus every pull request from a fork. The migration works on
+# short-lived branches that are merged locally instead of through PRs, so a
+# branch filter on `push` would leave those branches unchecked. A same-repo PR
+# commit is already verified by its branch push, so the `pull_request` run is
+# gated to forks (job-level `if` on `verify`) and the same commit is not
+# verified twice. `workflow_dispatch` and the concurrency group (which cancels
+# superseded runs on one ref) behave as before.
+#
+# Run name: `CI - <branch>`. `head_ref` is set for pull_request and empty for
+# push, so both events name one branch the same way instead of showing a push
+# run titled after the commit subject next to a pull_request run titled after
+# the PR title.
 #
 # Jobs: one `verify` job runs the ticket's linear sequence in order —
 # `pnpm install --frozen-lockfile` -> `pnpm test` -> `pnpm build` ->
@@ -30,6 +38,8 @@
 
 name: CI
 
+run-name: ${{ github.workflow }} - ${{ github.head_ref || github.ref_name }}
+
 on:
   push:
   pull_request:
@@ -45,6 +55,12 @@ permissions:
 jobs:
   verify:
     name: install, test, build, e2e
+    # A same-repo branch push already verified this commit, so only a pull
+    # request that cannot push here (a fork) needs its own run. Locally merged
+    # task branches keep relying on the `push` run.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
