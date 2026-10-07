@@ -70,3 +70,21 @@ test('Escape closes the open search panel', async ({ page }) => {
   await expect(page.locator('pagefind-searchbox .pf-searchbox.open')).toHaveCount(0)
   await expect(searchInput(page)).toHaveAttribute('aria-expanded', 'false')
 })
+
+// The searchbox moved from the footer to the header, so Escape keeps focus on the input but the
+// next Tab stop is now the page content instead of the footer theme button (ticket 07 recorded
+// the footer destination for the footer placement). Pin the new order rather than jumping focus
+// back down to the footer.
+test('Escape keeps focus on the input and Tab continues into the page content', async ({
+  page,
+}) => {
+  await openSearch(page)
+  await searchInput(page).fill('블로그')
+  await expect(page.locator('pagefind-searchbox .pf-searchbox.open')).toHaveCount(1)
+
+  await page.keyboard.press('Escape')
+  await expect(searchInput(page)).toBeFocused()
+
+  await page.keyboard.press('Tab')
+  await expect(page.locator('.post-list a').first()).toBeFocused()
+})
