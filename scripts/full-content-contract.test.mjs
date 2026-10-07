@@ -31,6 +31,25 @@ const localImageSources = (html) =>
 
 const giscusLoaded = (html) => html.includes('giscus.app/client.js')
 
+const contentDirectory = path.join(repositoryRoot, 'content', 'posts')
+
+// The content frontmatter is the source of truth for the comment policy; the baseline fixture
+// only records the previous site and must not freeze which posts may enable comments.
+const contentEnabledRoutes = async () => {
+  const routes = new Set()
+  for (const file of await readdir(contentDirectory)) {
+    if (!file.endsWith('.mdx')) continue
+    const source = await readFile(path.join(contentDirectory, file), 'utf8')
+    const frontmatter = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1]
+    if (!frontmatter || !/^enableComment:\s*true\s*$/m.test(frontmatter)) continue
+    const slug =
+      frontmatter.match(/^slug:\s*(.+?)\s*$/m)?.[1]?.replace(/^['"]|['"]$/g, '') ??
+      file.replace(/\.mdx$/, '')
+    routes.add(`/posts/${slug}`)
+  }
+  return routes
+}
+
 const baselineCrossRouteLinks = (page) => {
   const links = new Set()
   for (const link of page.internalLinks) {
@@ -145,15 +164,20 @@ test('full content keeps every baseline content link, anchor target, and local i
   }
 })
 
-test('comment policy follows baseline enableComment across the full content set', async () => {
+test('comment policy follows the content enableComment flag across the full content set', async () => {
   await buildAstroSite()
   const baseline = await loadBaseline()
-  const enabledRoutes = new Set(
-    baseline.frontmatter.posts
-      .filter((post) => post.enableComment === true)
-      .map((post) => `/posts/${post.slug}`)
+  const enabledRoutes = await contentEnabledRoutes()
+
+  assert.deepEqual(
+    [...enabledRoutes].sort(),
+    [
+      '/posts/recreating-blog-2025',
+      '/posts/scanned-100-books-read-none',
+      '/posts/thinking-and-learn-in-public',
+    ].sort(),
+    'intended comment-enabled content set'
   )
-  assert.deepEqual([...enabledRoutes], ['/posts/recreating-blog-2025'])
 
   for (const page of publicPages(baseline).filter((page) => page.route.startsWith('/posts/'))) {
     const html = await readFile(pageFile(page), 'utf8')
