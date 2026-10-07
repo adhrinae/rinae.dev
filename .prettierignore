@@ -1,7 +1,11 @@
 .next
 node_modules
 .vercel
-public/_pagefind
+dist
+astro/.astro
 pnpm-lock.yaml
 out/
-next-env.d.ts
+astro/src/styles/nextra-theme-blog.css
+.playwright-cli
+# Captured baseline data compared byte-for-byte by scripts/*.test.mjs; not source to format.
+scripts/fixtures/site-baseline/

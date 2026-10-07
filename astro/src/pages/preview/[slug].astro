@@ -1,0 +1,33 @@
+---
+import { render } from 'astro:content'
+import ReadingToc from '../../components/ReadingToc.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import { getValidatedReadingCollections } from '../../lib/content-routes'
+
+export async function getStaticPaths() {
+  const { markdownFixtures } = await getValidatedReadingCollections()
+
+  // Test-only synthetic fixture route. `pnpm test` sets MARKDOWN_FIXTURES=1 so these pages
+  // exist for the reading-slice assertions; deployment builds leave it unset, so nothing
+  // under /preview/ ships with the site. Loading the collections above stays unconditional
+  // on purpose: fixture public-path validation must fail every build, not just test runs.
+  if (process.env.MARKDOWN_FIXTURES !== '1') return []
+
+  return markdownFixtures.map((entry) => ({
+    params: { slug: entry.data.slug || entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content, headings } = await render(entry)
+---
+
+<SiteLayout title={entry.data.title} pagefindIndex={false}>
+  <h1 class="tracking-[-0.03em]">{entry.data.title}</h1>
+  <p class="synthetic-label border-l-[3px] border-current px-3 py-2 text-sm text-muted">합성 Markdown 미리보기 — 이 예시는 기존 게시물이 아닙니다.</p>
+  <p class="post-date text-sm text-muted"><time datetime={entry.data.date}>{entry.data.date}</time></p>
+  <ReadingToc headings={headings} />
+  <Content />
+  <p><a class="back-to-list text-inherit no-underline hover:underline" href="/posts">글 목록으로</a></p>
+</SiteLayout>

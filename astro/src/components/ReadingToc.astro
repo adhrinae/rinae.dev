@@ -1,0 +1,96 @@
+---
+interface Heading {
+  depth: number
+  slug: string
+  text: string
+}
+
+interface TocNode extends Heading {
+  children: TocNode[]
+}
+
+interface Props {
+  headings: Heading[]
+}
+
+const { headings } = Astro.props
+
+const buildHeadingTree = (items: Heading[]): TocNode[] => {
+  const roots: TocNode[] = []
+  const stack: TocNode[] = []
+
+  for (const heading of items) {
+    const node: TocNode = { ...heading, children: [] }
+    while (stack.length && stack[stack.length - 1].depth >= node.depth) stack.pop()
+
+    if (stack.length) stack[stack.length - 1].children.push(node)
+    else roots.push(node)
+
+    stack.push(node)
+  }
+
+  return roots
+}
+
+const escapeHtml = (value: string): string =>
+  value.replace(/[&<>"']/g, (character) => {
+    switch (character) {
+      case '&':
+        return '&amp;'
+      case '<':
+        return '&lt;'
+      case '>':
+        return '&gt;'
+      case '"':
+        return '&quot;'
+      case "'":
+        return '&#39;'
+      default:
+        return character
+    }
+  })
+
+function renderTocNodes(nodes: TocNode[], isRoot = false): string {
+  const listClass = ' class="toc-list"'
+  const listItems = nodes
+    .map((node) => {
+      const slug = escapeHtml(node.slug)
+      const label = escapeHtml((node.text || node.slug).replace(/\s+/g, ' ').trim())
+      const children = node.children.length ? renderTocNodes(node.children) : ''
+      return `<li class="mb-2 last:mb-0"><a class="block border-l border-border/60 pl-3 text-sm leading-5 text-muted underline hover:border-primary hover:text-primary" href="#${slug}">${label}</a>${children}</li>`
+    })
+    .join('')
+
+  const list = `<ul${listClass}>${listItems}</ul>`
+  return isRoot ? list : `<div class="toc-nested mt-2 ml-3">${list}</div>`
+}
+
+const nodes = buildHeadingTree(headings)
+const listHtml = nodes.length ? renderTocNodes(nodes, true) : ''
+---
+
+{listHtml && (
+  <nav
+    class="toc rounded-[0.625rem] border border-border/80 bg-card/80 text-sm leading-5 shadow-sm"
+    aria-label="Table of contents"
+  >
+    <details data-toc open class="group">
+      <summary
+        class="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-xs leading-4 font-semibold tracking-wide text-muted uppercase [&::-webkit-details-marker]:hidden"
+        ><span>목차</span><svg
+          class="toc-chevron size-4 transition-transform duration-200 group-open:rotate-180"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"><path d="M3.5 6.5L8 11L12.5 6.5" /></svg
+        ></summary
+      >
+      <div class="toc-content border-t border-border/60 px-4 pt-3 pb-4" set:html={listHtml}></div>
+    </details>
+  </nav>
+)}

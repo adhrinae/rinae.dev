@@ -1,0 +1,26 @@
+---
+import PostList from '../../components/PostList.astro'
+import TagList from '../../components/TagList.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import { getPostsForTag, getReadingPosts, getReadingTags } from '../../lib/reading-posts'
+
+export async function getStaticPaths() {
+  const posts = await getReadingPosts()
+  const tags = getReadingTags(posts)
+
+  return tags.map(({ name }) => ({
+    params: { tag: name },
+    props: { tag: name, tags, posts: getPostsForTag(posts, name) },
+  }))
+}
+
+const { tag, tags, posts } = Astro.props
+const title = `Posts Tagged with "${tag}"`
+---
+
+<SiteLayout title={title}>
+  <h1 class="tracking-[-0.03em]">{title}</h1>
+  <PostList posts={posts} />
+  <h2>More tags</h2>
+  <TagList tags={tags} />
+</SiteLayout>

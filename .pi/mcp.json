@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "astro-docs": {
+      "url": "https://mcp.docs.astro.build/mcp",
+      "description": "Search official Astro documentation"
+    }
+  }
+}

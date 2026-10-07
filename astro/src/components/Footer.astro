@@ -1,0 +1,37 @@
+<footer class="site-footer mt-32">
+  <div class="footer-content flex flex-wrap items-center justify-between gap-3">
+    <nav class="footer-nav flex items-center gap-3" data-pagefind-ignore="all" aria-label="Site navigation">
+      <a class="no-underline hover:underline focus:underline" href="/">Home</a>
+      <a class="no-underline hover:underline focus:underline" href="/posts">Posts</a>
+      <a class="no-underline hover:underline focus:underline" href="/colophon">제작 정보</a>
+      <a class="no-underline hover:underline focus:underline" href="/rss.xml">RSS</a>
+      <a class="no-underline hover:underline focus:underline" href="https://github.com/adhrinae" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="no-underline hover:underline focus:underline" href="https://www.linkedin.com/in/adhrinae" target="_blank" rel="noreferrer">LinkedIn</a>
+    </nav>
+    {import.meta.env.PROD && (
+      <pagefind-searchbox
+        class="footer-search w-[min(100%,18rem)] min-w-0"
+        placeholder="글 검색..."
+        shortcut="mod+k"
+      />
+    )}
+    <div class="footer-controls flex items-center gap-3">
+      <button
+        class="theme-toggle inline-grid size-8 cursor-pointer place-items-center rounded-md border-0 bg-transparent p-1.5 text-inherit hover:bg-foreground/8"
+        type="button"
+        data-theme-toggle
+        data-pagefind-ignore="all"
+        aria-label="Toggle Dark Mode"
+      >
+        <svg class="theme-icon-sun block size-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
+        <svg class="theme-icon-moon hidden size-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M20.9 13.1A9 9 0 0 1 10.9 3.1 9 9 0 1 0 20.9 13.1Z" />
+        </svg>
+      </button>
+      <div>© {new Date().getFullYear()} rinae</div>
+    </div>
+  </div>
+</footer>

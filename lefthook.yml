@@ -7,5 +7,10 @@ pre-commit:
 pre-push:
   parallel: true
   jobs:
-    - name: build test
-      run: pnpm build
+    # `pnpm test` already runs a full `pnpm build` (scripts/lib/astro-test-helpers.mjs builds
+    # once and caches it), so it replaces the standalone build job: keeping both would build
+    # twice and the two parallel jobs would race on ./dist. `pnpm test:e2e` is deliberately
+    # not here — it needs a preview server and third-party network, which is too slow for a
+    # hook; CI runs it on every push and pull request instead.
+    - name: build and test
+      run: pnpm test

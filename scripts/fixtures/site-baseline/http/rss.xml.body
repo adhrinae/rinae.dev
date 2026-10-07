@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Read, Think and Code</title>
+    <link>https://rinae.dev</link>
+    <description>rinae의 개발 블로그</description>
+    <language>ko-kr</language>
+    <item>
+        <title>100권의 책을 스캔했다, 그리고 단 한 권도 읽지 않았다</title>
+        <description>100권의 책을 스캔하여 디지털 서고를 만들었지만, 단 한 권도 읽지 않았습니다. 잃어버린 시간의 통제력을 되찾기 위한 독서광 호소인의 회고록.</description>
+        <link>https://rinae.dev/posts/scanned-100-books-read-none</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/scanned-100-books-read-none</guid>
+        <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>블로그 다시 만들기</title>
+        <description>2년만에 블로그를 다시 만들며 생각했던 것과 AI를 활용하며 느낀 점을 기록한다.</description>
+        <link>https://rinae.dev/posts/recreating-blog-2025</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/recreating-blog-2025</guid>
+        <pubDate>Sun, 09 Nov 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>생각 정리, 그리고 Learn in Public</title>
+        <description>개발자로서 학습을 하면서 2024년의 내가 생각을 정리 방법과, 정리한 생각을 다지기 위한 Learn in Public 전략에 대해 이야기한다.</description>
+        <link>https://rinae.dev/posts/thinking-and-learn-in-public</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/thinking-and-learn-in-public</guid>
+        <pubDate>Mon, 15 Apr 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2021년 7월</title>
+        <description>2021년 7월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2107</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2107</guid>
+        <pubDate>Sun, 01 Aug 2021 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;자바스크립트는 왜 그 모양일까?&apos; 읽기</title>
+        <description>더글라스 크락포드의 &apos;자바스크립트는 왜 그 모양일까?&apos; 감상평 및 요약</description>
+        <link>https://rinae.dev/posts/how-javascript-works-summary</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-javascript-works-summary</guid>
+        <pubDate>Mon, 19 Jul 2021 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2021년 6월</title>
+        <description>2021년 6월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2106</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2106</guid>
+        <pubDate>Tue, 29 Jun 2021 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;Test Driven Development: By Example&apos; 책 내용 정리</title>
+        <description></description>
+        <link>https://rinae.dev/posts/tdd-by-example-summary</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/tdd-by-example-summary</guid>
+        <pubDate>Tue, 01 Jun 2021 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2021년 3월</title>
+        <description>2021년 3월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2103</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2103</guid>
+        <pubDate>Tue, 30 Mar 2021 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2021년 2월</title>
+        <description>2021년 2월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2102</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2102</guid>
+        <pubDate>Sun, 28 Feb 2021 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2021년 1월</title>
+        <description>2021년 1월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2101</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2101</guid>
+        <pubDate>Sun, 31 Jan 2021 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2020년 11월</title>
+        <description>2020년 11월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2011</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2011</guid>
+        <pubDate>Sun, 29 Nov 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[Summary] Handling React Form states in complex back-office application</title>
+        <description>A summary from the talk &apos;Handling React Form State in complex back-office application&apos; in FEConf KR 2020</description>
+        <link>https://rinae.dev/posts/managing-complex-form-state-summary-en</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/managing-complex-form-state-summary-en</guid>
+        <pubDate>Tue, 17 Nov 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[발표 정리] 복잡한 백오피스에서 Form의 상태 다루기</title>
+        <description>김성현님의 FEConf 2020 발표 정리입니다.</description>
+        <link>https://rinae.dev/posts/managing-complex-form-state-summary</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/managing-complex-form-state-summary</guid>
+        <pubDate>Sat, 07 Nov 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2020년 10월</title>
+        <description>2020년 10월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2010</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2010</guid>
+        <pubDate>Sat, 31 Oct 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;학교에서 알려주지 않는 17가지 실무 개발 기술&apos; 감상평</title>
+        <description></description>
+        <link>https://rinae.dev/posts/17-skills-for-practical-development-review</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/17-skills-for-practical-development-review</guid>
+        <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2020년 9월</title>
+        <description>2020년 9월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2009</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2009</guid>
+        <pubDate>Wed, 30 Sep 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2020년 8월</title>
+        <description>2020년 8월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2008</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2008</guid>
+        <pubDate>Mon, 31 Aug 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2020년 7월</title>
+        <description>2020년 7월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2007</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2007</guid>
+        <pubDate>Fri, 31 Jul 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This month I Learned - 2020년 5월</title>
+        <description>2020년 5월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2005</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2005</guid>
+        <pubDate>Sun, 31 May 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>XState 의 기본 익혀보기</title>
+        <description>상태 머신을 만들어 다루는 라이브러리인 XState 를 학습한 내용을 정리했습니다.</description>
+        <link>https://rinae.dev/posts/learning-xstate</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/learning-xstate</guid>
+        <pubDate>Tue, 05 May 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2020년 04월</title>
+        <description>2020년 4월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-2004</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-2004</guid>
+        <pubDate>Thu, 30 Apr 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>에러 처리를 어떻게 하면 좋을까? - 3</title>
+        <description>React + Hooks + MST(mobx-state-tree) 사용 시 데이터와 UI 결합 에 대한 고민 및 아이디어</description>
+        <link>https://rinae.dev/posts/how-to-handle-errors-3</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-to-handle-errors-3</guid>
+        <pubDate>Sat, 04 Apr 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>처음 발표를 준비하는 개발자들이 알아두면 좋을 것들</title>
+        <description>몇 안되는 발표 경험을 떠올리며, 처음 발표하는 개발자들이 발표를 준비할 때 도움이 될 만한 이야기를 써 보았습니다.</description>
+        <link>https://rinae.dev/posts/things-to-know-when-you-prepare-presentation-first-time</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/things-to-know-when-you-prepare-presentation-first-time</guid>
+        <pubDate>Sun, 16 Feb 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>2019년 회고</title>
+        <description>새해의 시작은 회고와 함께</description>
+        <link>https://rinae.dev/posts/retrospective-2019</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/retrospective-2019</guid>
+        <pubDate>Thu, 02 Jan 2020 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 10월</title>
+        <description>2019년 10월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1910</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1910</guid>
+        <pubDate>Thu, 31 Oct 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] useEffect 완벽 가이드</title>
+        <description>Dan Abramov의 &apos;A Complete Guide to useEffect&apos; 번역</description>
+        <link>https://rinae.dev/posts/a-complete-guide-to-useeffect-ko</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/a-complete-guide-to-useeffect-ko</guid>
+        <pubDate>Wed, 09 Oct 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>VisBug 기여 이야기 - 2</title>
+        <description>작은 버그 하나를 해결하면서 겪어본 소통, 테스팅 이야기</description>
+        <link>https://rinae.dev/posts/journey-to-contribute-to-visbug-2</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/journey-to-contribute-to-visbug-2</guid>
+        <pubDate>Sat, 05 Oct 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 9월</title>
+        <description>2019년 9월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1909</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1909</guid>
+        <pubDate>Mon, 30 Sep 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>VisBug 기여 이야기 - 1</title>
+        <description>자그마한 기여를 하면서 삽질한 기록 1</description>
+        <link>https://rinae.dev/posts/journey-to-contribute-to-visbug-1</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/journey-to-contribute-to-visbug-1</guid>
+        <pubDate>Mon, 09 Sep 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>차근차근 오픈소스에 기여해보기 (동기부여 편)</title>
+        <description>오픈소스 프로젝트에 기여하는 첫 걸음을 떼는 데 도움이 되는 글을 써 봤습니다</description>
+        <link>https://rinae.dev/posts/how-to-contribute-oss</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-to-contribute-oss</guid>
+        <pubDate>Sun, 08 Sep 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 8월</title>
+        <description>2019년 8월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1908</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1908</guid>
+        <pubDate>Sat, 31 Aug 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;Getting Closure on React Hooks&apos; 정리</title>
+        <description>JSConf.Asia 2019에서 발표된 React Hooks를 직접 구현해보는 세션 정리</description>
+        <link>https://rinae.dev/posts/getting-closure-on-react-hooks-summary</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/getting-closure-on-react-hooks-summary</guid>
+        <pubDate>Sat, 24 Aug 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 7월</title>
+        <description>2019년 7월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1907</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1907</guid>
+        <pubDate>Sun, 28 Jul 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;Practical Advanced TypeScript&apos; 정리</title>
+        <description>Egghead의 강좌 &apos;Practical Advanced TypeScript&apos; 내용 정리</description>
+        <link>https://rinae.dev/posts/practical-advanced-typescript-summary</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/practical-advanced-typescript-summary</guid>
+        <pubDate>Sun, 21 Jul 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 6월</title>
+        <description>2019년 6월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-06</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-06</guid>
+        <pubDate>Sun, 30 Jun 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;When to useMemo and useCallback&apos; 를 읽고</title>
+        <description>Kent C. Dodds의 &apos;When to useMemo and useCallback&apos; 을 읽고 복습한 개념 정리</description>
+        <link>https://rinae.dev/posts/review-when-to-usememo-and-usecallback</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/review-when-to-usememo-and-usecallback</guid>
+        <pubDate>Sun, 09 Jun 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 5월</title>
+        <description>2019년 5월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-05</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-05</guid>
+        <pubDate>Sat, 01 Jun 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 빠른 개발을 위한 기술 - 2</title>
+        <description>빠른 개발(이라고 쓰고 생산성 향상이라고 읽는다)을 위한 방법론 번역 두 번째</description>
+        <link>https://rinae.dev/posts/the-fine-art-of-fast-development-kr-2</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/the-fine-art-of-fast-development-kr-2</guid>
+        <pubDate>Sun, 19 May 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 빠른 개발을 위한 기술 - 1</title>
+        <description>빠른 개발(이라고 쓰고 생산성 향상이라고 읽는다)을 위한 방법론 번역 첫 번째</description>
+        <link>https://rinae.dev/posts/the-fine-art-of-fast-development-kr-1</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/the-fine-art-of-fast-development-kr-1</guid>
+        <pubDate>Sun, 12 May 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>에러 처리를 어떻게 하면 좋을까? - 2</title>
+        <description>에러 처리를 일관된 형태로 하기 위한 고민 이야기, 두 번째</description>
+        <link>https://rinae.dev/posts/how-to-handle-errors-2</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-to-handle-errors-2</guid>
+        <pubDate>Sat, 04 May 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>에러 처리를 어떻게 하면 좋을까? - 1</title>
+        <description>에러 처리를 일관된 형태로 하기 위한 고민 이야기, 첫 번째</description>
+        <link>https://rinae.dev/posts/how-to-handle-errors-1</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-to-handle-errors-1</guid>
+        <pubDate>Wed, 01 May 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 4월</title>
+        <description>2019년 4월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1904</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1904</guid>
+        <pubDate>Sun, 28 Apr 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 3월</title>
+        <description>2019년 3월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1903</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1903</guid>
+        <pubDate>Sun, 31 Mar 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 2월</title>
+        <description>2019년 2월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1902</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1902</guid>
+        <pubDate>Thu, 28 Feb 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] UI는 좀 이따 생각해봅시다</title>
+        <description>유명 상태 관리 라이브러리 MobX의 작성자가 도메인 모델과 UI의 직접적인 결합을 최대한 막아야 한다고 주장하는 글을 번역했습니다.</description>
+        <link>https://rinae.dev/posts/ui-as-an-afterthought-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/ui-as-an-afterthought-kr</guid>
+        <pubDate>Sun, 17 Feb 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>아이패드로 맥에 원격 접속하여 (프론트엔드) 개발하기</title>
+        <description>아이패드로 일반적인 개발을 해보고자 시도했던 방법 정리</description>
+        <link>https://rinae.dev/posts/how-to-remotely-connect-with-your-mac-using-ipad</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-to-remotely-connect-with-your-mac-using-ipad</guid>
+        <pubDate>Wed, 06 Feb 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>This Month I Learned - 2019년 1월</title>
+        <description>2019년 1월동안 익혔던 / 읽었던 것들 정리</description>
+        <link>https://rinae.dev/posts/this-month-i-learned-1901</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/this-month-i-learned-1901</guid>
+        <pubDate>Sun, 27 Jan 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>Dockerfile 작성부터 이미지 배포까지 간단 요약</title>
+        <description>Docker를 처음 써보면서 Dockerfile 작성부터 허브에 이미지 배포까지 경험한 과정을 간단히 정리했습니다</description>
+        <link>https://rinae.dev/posts/docker-101</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/docker-101</guid>
+        <pubDate>Wed, 09 Jan 2019 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>Today I Learned - 2018년 Best of Best</title>
+        <description>2018년 Today I Learned 중 인상깊었던 내용을 선별해봤습니다</description>
+        <link>https://rinae.dev/posts/today-i-learned-best-2018</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/today-i-learned-best-2018</guid>
+        <pubDate>Sun, 30 Dec 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>2018년 회고</title>
+        <description></description>
+        <link>https://rinae.dev/posts/retrospective-2018</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/retrospective-2018</guid>
+        <pubDate>Fri, 28 Dec 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] OOP를 빨리 잊을 수록 여러분과 여러분의 소프트웨어에 좋습니다</title>
+        <description>OOP를 향한 신랄한 비판(?) 번역 (not about functional programming) - 비판적으로 읽어주세요</description>
+        <link>https://rinae.dev/posts/the-faster-you-unlearn-oop-the-better-for-you-and-your-software-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/the-faster-you-unlearn-oop-the-better-for-you-and-your-software-kr</guid>
+        <pubDate>Tue, 25 Dec 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 초보 프론트엔드 개발자들을 위한 Pub-Sub(Publish-Subscribe) 패턴을 알아보기</title>
+        <description>비동기 자바스크립트 코드를 덜 괴롭게 이해하는 방법</description>
+        <link>https://rinae.dev/posts/why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr</guid>
+        <pubDate>Sun, 28 Oct 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 슈퍼마켓에서 우유를 사면서 웹 캐싱(Web Caching)을 알아봅시다</title>
+        <description>웹 개발을 할 때 기본 중의 기본이지만 대충 알고 넘어갔던 캐싱을 아주 깔끔하게 설명한 글</description>
+        <link>https://rinae.dev/posts/web-caching-explained-by-buying-milk-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/web-caching-explained-by-buying-milk-kr</guid>
+        <pubDate>Sun, 30 Sep 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;Node.js 교과서&apos; 감상평</title>
+        <description></description>
+        <link>https://rinae.dev/posts/nodejs-textbook-review</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/nodejs-textbook-review</guid>
+        <pubDate>Tue, 28 Aug 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 자바스크립트 &amp; 타입스크립트의 순환 참조를 한방에 해결하는 방법</title>
+        <description></description>
+        <link>https://rinae.dev/posts/fix-circular-dependency-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/fix-circular-dependency-kr</guid>
+        <pubDate>Sat, 21 Jul 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>타입스크립트에서 헬퍼 타입을 정의하고 활용하기</title>
+        <description></description>
+        <link>https://rinae.dev/posts/helper-types-in-typescript</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/helper-types-in-typescript</guid>
+        <pubDate>Sun, 08 Jul 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 나는 어떻게 더 나은 프로그래머가 되었는가</title>
+        <description></description>
+        <link>https://rinae.dev/posts/how-i-became-a-better-programmer-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-i-became-a-better-programmer-kr</guid>
+        <pubDate>Sat, 09 Jun 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 리액트 테스팅 튜토리얼: 테스트 프레임워크와 컴포넌트 테스트 방법</title>
+        <description></description>
+        <link>https://rinae.dev/posts/react-testing-tutorial-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/react-testing-tutorial-kr</guid>
+        <pubDate>Tue, 15 May 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>함수형 자바스크립트(루이스 아텐시오 저) 리뷰</title>
+        <description></description>
+        <link>https://rinae.dev/posts/functional-javascript-review</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/functional-javascript-review</guid>
+        <pubDate>Wed, 14 Mar 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 두려움, 믿음, 그리고 자바스크립트 - 언제 타입 시스템과 함수형 프로그래밍이 먹히지 않는가</title>
+        <description></description>
+        <link>https://rinae.dev/posts/fear-trust-and-javascript-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/fear-trust-and-javascript-kr</guid>
+        <pubDate>Sun, 04 Mar 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>자바스크립트로 함수형 프로그래밍 아주 살짝 맛보기</title>
+        <description></description>
+        <link>https://rinae.dev/posts/functional-js-tutorial</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/functional-js-tutorial</guid>
+        <pubDate>Mon, 19 Feb 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 리액트 + 리덕스 앱을 Jest와 Enzyme으로 테스트 하며 얻은 교훈</title>
+        <description></description>
+        <link>https://rinae.dev/posts/lessons-learned-testing-react-redux-apps-with-jest-and-enzyme-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/lessons-learned-testing-react-redux-apps-with-jest-and-enzyme-kr</guid>
+        <pubDate>Sat, 27 Jan 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 리덕스 앱을 저비용 고효율로 통합 테스트 하기</title>
+        <description></description>
+        <link>https://rinae.dev/posts/integration-tests-in-redux-apps-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/integration-tests-in-redux-apps-kr</guid>
+        <pubDate>Fri, 19 Jan 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>TypeStyle 사용하기</title>
+        <description></description>
+        <link>https://rinae.dev/posts/typestyle-basic</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/typestyle-basic</guid>
+        <pubDate>Tue, 16 Jan 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 테스트를 작성하라. 너무 많이는 말고. 통합 테스트를 많이 써라.</title>
+        <description></description>
+        <link>https://rinae.dev/posts/write-mostly-integration-test-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/write-mostly-integration-test-kr</guid>
+        <pubDate>Mon, 15 Jan 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 그래서, 자바스크립트 테스트가 뭔가요?</title>
+        <description></description>
+        <link>https://rinae.dev/posts/what-is-testing-javascript-kr</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/what-is-testing-javascript-kr</guid>
+        <pubDate>Sun, 14 Jan 2018 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>MobX로 상태 관리하기</title>
+        <description></description>
+        <link>https://rinae.dev/posts/mobx-basic-concepts</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/mobx-basic-concepts</guid>
+        <pubDate>Sun, 31 Dec 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>&apos;속깊은 Javascript&apos; 감상평 및 추천사</title>
+        <description></description>
+        <link>https://rinae.dev/posts/javascript-in-depth-review</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/javascript-in-depth-review</guid>
+        <pubDate>Thu, 21 Dec 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>Advanced React Component Patterns 내용 정리</title>
+        <description></description>
+        <link>https://rinae.dev/posts/advanced-react-component-patterns-summary</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/advanced-react-component-patterns-summary</guid>
+        <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>TDD(Test Driven Development) 를 연습하면서 참고하기 좋은 팁 10가지</title>
+        <description></description>
+        <link>https://rinae.dev/posts/tdd-practice-tips</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/tdd-practice-tips</guid>
+        <pubDate>Sat, 04 Nov 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>Javascript Roadmap Questions - 답안</title>
+        <description></description>
+        <link>https://rinae.dev/posts/jsr-questions-answers</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/jsr-questions-answers</guid>
+        <pubDate>Mon, 09 Oct 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>Javascript Roadmap Questions</title>
+        <description></description>
+        <link>https://rinae.dev/posts/javascript-roadmap-questions</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/javascript-roadmap-questions</guid>
+        <pubDate>Fri, 06 Oct 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 루비에서 상속을 피하는 방법</title>
+        <description></description>
+        <link>https://rinae.dev/posts/how-to-avoid-inheritance-in-ruby-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-to-avoid-inheritance-in-ruby-kor</guid>
+        <pubDate>Sun, 16 Jul 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>파이썬 코딩의 기술(Effective Python) 리뷰</title>
+        <description></description>
+        <link>https://rinae.dev/posts/effective-python-review</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/effective-python-review</guid>
+        <pubDate>Wed, 28 Jun 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 진짜배기 코드 평가자라면 하지 말아야 할 네 가지</title>
+        <description></description>
+        <link>https://rinae.dev/posts/four-nos-of-serious-code-reviewer-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/four-nos-of-serious-code-reviewer-kor</guid>
+        <pubDate>Sat, 27 May 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 내가 StackOverflow를 사용하는 방법</title>
+        <description></description>
+        <link>https://rinae.dev/posts/how-i-use-stackoverflow-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-i-use-stackoverflow-kor</guid>
+        <pubDate>Sat, 15 Apr 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 메타언어 길들이기</title>
+        <description></description>
+        <link>https://rinae.dev/posts/understanding-taming-the-meta-language-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/understanding-taming-the-meta-language-kor</guid>
+        <pubDate>Tue, 04 Apr 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 나는 &apos;puts&apos; 디버거다</title>
+        <description></description>
+        <link>https://rinae.dev/posts/i-am-a-puts-debuggerer-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/i-am-a-puts-debuggerer-kor</guid>
+        <pubDate>Sun, 19 Mar 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] C++와 Python 중 무엇을 먼저 배울까?</title>
+        <description></description>
+        <link>https://rinae.dev/posts/should-i-learn-cpp-or-python-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/should-i-learn-cpp-or-python-kor</guid>
+        <pubDate>Sat, 11 Mar 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>‘Remote - 사무실 따윈 필요 없어!’ 를 읽고</title>
+        <description></description>
+        <link>https://rinae.dev/posts/remote-the-book-review</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/remote-the-book-review</guid>
+        <pubDate>Sun, 26 Feb 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 초심자의 마음가짐</title>
+        <description></description>
+        <link>https://rinae.dev/posts/beginners-mind-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/beginners-mind-kor</guid>
+        <pubDate>Mon, 20 Feb 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 도우면서 배우기</title>
+        <description></description>
+        <link>https://rinae.dev/posts/learning-by-helping-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/learning-by-helping-kor</guid>
+        <pubDate>Mon, 13 Feb 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 테스트가 없는 앱을 이용하여 TDD를 배우는 방법</title>
+        <description></description>
+        <link>https://rinae.dev/posts/how-do-you-take-an-app-from-no-tests-to-tdd-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/how-do-you-take-an-app-from-no-tests-to-tdd-kor</guid>
+        <pubDate>Mon, 16 Jan 2017 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 펭귄은 날 수 없다(The Penguin That Can&apos;t Fly)</title>
+        <description></description>
+        <link>https://rinae.dev/posts/the-penguin-that-cannot-fly-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/the-penguin-that-cannot-fly-kor</guid>
+        <pubDate>Sat, 31 Dec 2016 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 전역 상태를 격리하라</title>
+        <description></description>
+        <link>https://rinae.dev/posts/isolate-global-state-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/isolate-global-state-kor</guid>
+        <pubDate>Fri, 30 Dec 2016 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+        <title>[번역] 오픈 소스에 참여하는 가장 쉬운 방법</title>
+        <description></description>
+        <link>https://rinae.dev/posts/the-easiest-way-to-get-into-open-source-kor</link>
+        <guid isPermaLink="true">https://rinae.dev/posts/the-easiest-way-to-get-into-open-source-kor</guid>
+        <pubDate>Fri, 09 Dec 2016 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

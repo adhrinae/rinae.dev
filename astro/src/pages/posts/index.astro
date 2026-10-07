@@ -1,0 +1,16 @@
+---
+import PostList from '../../components/PostList.astro'
+import TagList from '../../components/TagList.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import { getReadingPosts, getReadingTags } from '../../lib/reading-posts'
+
+const posts = await getReadingPosts()
+const tags = getReadingTags(posts)
+---
+
+<SiteLayout title="전체 글">
+  <h1 class="tracking-[-0.03em]">전체 글</h1>
+  <PostList posts={posts} />
+  <h2 id="태그">태그</h2>
+  <TagList tags={tags} />
+</SiteLayout>

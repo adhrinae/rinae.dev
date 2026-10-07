@@ -1,9 +1,17 @@
 node_modules
 .next
 next-env.d.ts
+
+# Playwright
+test-results/
+playwright-report/
 /.idea
 _pagefind/
 /.env
 out/
+dist/
+
+# Local-only migration planning and research
+/docs/
 
 .DS_Store

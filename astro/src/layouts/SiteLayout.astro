@@ -1,0 +1,104 @@
+---
+import '../styles/site.css'
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
+import { SITE } from '../lib/site'
+
+interface Props {
+  title: string
+  description?: string
+  pagefindIndex?: boolean
+  noindex?: boolean
+}
+
+const { title, description = SITE.description, pagefindIndex = true, noindex = false } = Astro.props
+const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
+---
+
+<!doctype html>
+<html lang="ko" dir="ltr" class="bg-background scroll-pt-5">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(250,245,233)" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="rgb(21,18,13)" />
+    {pagefindIndex && <meta data-pagefind-meta={`url:${pagefindUrl}`} />}
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {import.meta.env.PROD && (
+      <link rel="stylesheet" href="/_pagefind/pagefind-component-ui.css" />
+    )}
+    {import.meta.env.PROD && (
+      <script is:inline type="module" src="/_pagefind/pagefind-component-ui.js"></script>
+    )}
+    <script is:inline id="theme-bootstrap">
+      (() => {
+        const root = document.documentElement
+        const media = window.matchMedia('(prefers-color-scheme: dark)')
+        const storageKey = 'theme'
+        let selectedTheme = 'system'
+
+        try {
+          selectedTheme = localStorage.getItem(storageKey) || 'system'
+        } catch {}
+
+        const applyTheme = () => {
+          const theme = selectedTheme === 'system' ? (media.matches ? 'dark' : 'light') : selectedTheme
+          root.classList.remove('light', 'dark')
+          root.classList.add(theme)
+          root.style.colorScheme = theme
+          root.dataset.pfTheme = theme
+        }
+
+        applyTheme()
+
+        const updateSystemTheme = () => {
+          if (selectedTheme === 'system') applyTheme()
+        }
+
+        if (typeof media.addEventListener === 'function') {
+          media.addEventListener('change', updateSystemTheme)
+        } else {
+          media.addListener(updateSystemTheme)
+        }
+
+        document.addEventListener('click', (event) => {
+          if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return
+          selectedTheme = root.classList.contains('dark') ? 'light' : 'dark'
+          try {
+            localStorage.setItem(storageKey, selectedTheme)
+          } catch {}
+          applyTheme()
+        })
+
+        window.addEventListener('storage', (event) => {
+          if (event.key !== storageKey && event.key !== null) return
+          selectedTheme = event.newValue || 'system'
+          applyTheme()
+        })
+      })()
+    </script>
+  </head>
+  <body class="min-h-screen bg-background font-sans text-foreground">
+    {import.meta.env.PROD && (
+      <pagefind-config bundle-path="/_pagefind/" base-url="/" lang="ko" />
+    )}
+    <article
+      class="prose mx-auto w-full max-w-[43.75rem] px-4 pt-20 pb-32 max-md:prose-sm dark:prose-invert prose-code:before:content-none prose-code:after:content-none"
+      dir="ltr"
+      data-pagefind-body={pagefindIndex ? 'true' : undefined}
+    >
+      <Header />
+      <slot />
+      <Footer />
+    </article>
+  </body>
+</html>

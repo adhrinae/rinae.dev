@@ -1,0 +1,18 @@
+---
+import { getTagUrl, type ReadingTag } from '../lib/reading-posts'
+
+interface Props {
+  tags: ReadingTag[]
+}
+
+const { tags } = Astro.props
+---
+
+<div class="tag-list flex flex-wrap gap-1">
+  {tags.map(({ name, count }) => (
+    <a
+      class="tag-link inline-flex items-center rounded-full border border-border px-2 py-0.5 text-xs leading-4 no-underline hover:bg-border/35"
+      href={getTagUrl(name)}>{name} <span class="tag-count opacity-50">({count})</span></a
+    >
+  ))}
+</div>

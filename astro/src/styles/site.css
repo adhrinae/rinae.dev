@@ -1,0 +1,177 @@
+@import 'tailwindcss' source(none);
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Only the Astro markup is scanned for the utility classes it uses. */
+@source '../';
+
+/* Design tokens are the single source of truth. Values stay as CSS variables so the
+   light/dark switch is a variable swap; `@theme inline` exposes them as Tailwind utilities
+   (bg-background, text-foreground, text-muted, border-border, ...). */
+@theme inline {
+  --color-background: var(--reading-background);
+  --color-foreground: var(--reading-foreground);
+  --color-muted: var(--reading-muted);
+  --color-card: var(--reading-card);
+  --color-border: var(--reading-border);
+  --color-primary: var(--reading-primary);
+  --color-highlight: var(--reading-highlight);
+  --color-code-border: var(--reading-code-border);
+  --font-sans:
+    'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI',
+    'Malgun Gothic', '맑은 고딕', sans-serif;
+}
+
+:root {
+  --reading-accent-hue: 212deg;
+  --reading-accent-saturation: 100%;
+  --reading-accent-lightness: 45%;
+  --reading-code-border: oklch(87.2% 0.01 258.338);
+  --reading-highlight: hsl(
+    var(--reading-accent-hue) var(--reading-accent-saturation) var(--reading-accent-lightness)
+  );
+  --reading-foreground: #171717;
+  --reading-muted: oklch(0.556 0 0);
+  --reading-background: #fff;
+  --reading-card: oklch(1 0 0);
+  --reading-border: oklch(0.922 0 0);
+  --reading-primary: oklch(0.205 0 0);
+  color-scheme: light;
+}
+
+html.dark {
+  --reading-accent-hue: 204deg;
+  --reading-accent-lightness: 55%;
+  --reading-code-border: oklch(37.1% 0 0);
+  --reading-foreground: #f5f5f5;
+  --reading-muted: oklch(0.708 0 0);
+  --reading-background: #0a0a0a;
+  --reading-card: oklch(0.205 0 0);
+  --reading-border: rgb(255 255 255 / 10%);
+  --reading-primary: oklch(0.922 0 0);
+  color-scheme: dark;
+}
+
+/* One accessible focus ring for every keyboard-focusable element (component styling lives in
+   the markup as utilities). */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Pagefind searchbox integration: the component reads its own custom properties and needs a
+   descendant override so its panel opens upward in the footer. This is a third-party
+   component contract that utilities cannot express, so it stays as CSS. */
+.footer-search {
+  --pf-font: inherit;
+  --pf-text: var(--reading-foreground);
+  --pf-text-secondary: var(--reading-muted);
+  --pf-text-muted: var(--reading-muted);
+  --pf-background: var(--reading-background);
+  --pf-border: var(--reading-border);
+  --pf-border-focus: var(--reading-primary);
+  --pf-hover: color-mix(in oklab, var(--reading-foreground) 8%, var(--reading-background));
+  --pf-mark: var(--reading-foreground);
+  --pf-outline-focus: var(--reading-primary);
+  --pf-searchbox-max-width: 100%;
+}
+
+.footer-search .pf-searchbox.open .pf-searchbox-input {
+  border-top-color: var(--pf-border);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: var(--pf-border-radius);
+  border-bottom-right-radius: var(--pf-border-radius);
+}
+
+.footer-search .pf-searchbox.open .pf-searchbox-dropdown {
+  top: 100%;
+  bottom: auto;
+  transform: translateY(calc(-100% - var(--pf-input-height))) !important;
+  border-top: 1px solid var(--pf-border);
+  border-bottom: 0;
+  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+}
+
+/* Native cross-document view transitions (ticket 16). Same-origin navigations animate
+   between the outgoing and incoming document in browsers that support the at-rule. There is
+   no <ClientRouter /> and no client-side routing, so every navigation is a full document load
+   and the existing inline scripts run normally without any re-initialization logic.
+   Unsupported browsers ignore the at-rule and navigate exactly as before. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Browsers do not suppress cross-document view transitions for the reduced-motion
+   preference (verified in Chromium), so drop the transition animations explicitly while
+   keeping the instant document swap. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Shiki code blocks: Astro emits <pre class="astro-code"> and per-token `--shiki-*` variables
+   that utilities cannot target, so the code block shell and token colors stay as CSS. */
+pre.astro-code {
+  background-color: #fff !important;
+  border-radius: 0.375rem;
+  color: var(--shiki-light) !important;
+  font-size: 0.9em;
+  line-height: 1.75;
+  padding-block-start: 2.75rem;
+  padding-block-end: 1rem;
+  padding-inline: 0;
+  box-shadow: inset 0 0 0 1px var(--reading-code-border);
+}
+
+pre.astro-code span {
+  color: var(--shiki-light);
+}
+
+pre.astro-code > code {
+  display: grid;
+  box-decoration-break: slice;
+  font-size: 0.875rem;
+  line-height: 20px;
+}
+
+pre.astro-code > code > span {
+  min-height: 20px;
+  padding-inline: 1rem;
+}
+
+pre.astro-code code .line {
+  font-weight: 400;
+}
+
+pre.astro-code > code > span.highlighted {
+  background-color: var(--reading-highlight);
+  color: var(--reading-highlight) !important;
+  box-shadow: 2px 0 currentColor inset;
+
+  @supports (color: color-mix(in oklab, red, red)) {
+    background-color: color-mix(in oklab, var(--reading-highlight) 10%, transparent);
+    color: color-mix(in oklab, var(--reading-highlight) 80%, transparent) !important;
+  }
+}
+
+html.dark pre.astro-code {
+  background-color: #000 !important;
+  color: var(--shiki-dark) !important;
+  box-shadow: inset 0 0 0 1px var(--reading-code-border);
+}
+
+html.dark pre.astro-code span {
+  color: var(--shiki-dark);
+}
+
+html.dark pre.astro-code > code > span.highlighted {
+  @supports (color: color-mix(in oklab, red, red)) {
+    background-color: color-mix(in oklab, var(--reading-highlight) 20%, transparent);
+  }
+}
