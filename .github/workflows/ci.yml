@@ -35,6 +35,12 @@
 #   credentials and never uploads a deployment, so no deployment is duplicated.
 #   The `pnpm build` step exists because `playwright.config.ts` serves the
 #   already-built `./dist` through `pnpm preview`.
+# - Actions are pinned to majors that run on Node.js 24. The runner forces
+#   node20 actions onto node24 and annotates the run; node20 was removed on
+#   2026-09-23. `runs-on` cannot fix this, since an action's runtime comes from
+#   its own `action.yml`. `upload-artifact` needs v6 or newer for node24:
+#   v5 still defaults to node20. Because that step is `if: failure()`, a green
+#   run never loads it, so a bump there is only proven by a failing run.
 
 name: CI
 
@@ -65,15 +71,15 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # No `version:` input on purpose — `pnpm/action-setup` reads
       # `packageManager` from `package.json` so the pin lives in one place.
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -89,7 +95,7 @@ jobs:
           echo "version=$(node -p 'require("@playwright/test/package.json").version')" >> "$GITHUB_OUTPUT"
 
       - name: Cache Playwright browsers
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
@@ -110,7 +116,7 @@ jobs:
 
       - name: Upload Playwright artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-artifacts
           path: |
