@@ -2,6 +2,9 @@ node_modules
 .next
 next-env.d.ts
 
+# Astro-generated content-collection types and data store
+.astro/
+
 # Playwright
 test-results/
 playwright-report/

@@ -136,18 +136,28 @@ test('no Next.js or Nextra dependency, config, or runtime residue remains', asyn
     assert.ok(!declared.has(dependency), `package.json still declares ${dependency}`)
   }
 
+  // The Astro project now lives at the repository root, so the root `src/` and
+  // `tsconfig.json` are Astro's own. What must stay gone is the Next.js source tree and the
+  // Next.js-specific config residue that used to sit next to it.
   const removedPaths = [
-    'src',
     'next.config.mjs',
     'mdx-components.tsx',
     'components.json',
     'next-env.d.ts',
     'postcss.config.mjs',
-    'tsconfig.json',
+    'src/app',
+    'src/pages/_app.tsx',
+    'src/pages/_document.tsx',
   ]
   for (const removed of removedPaths) {
     assert.ok(!(await pathExists(path.join(repositoryRoot, removed))), `${removed} must be removed`)
   }
+
+  const tsconfig = await readFile(path.join(repositoryRoot, 'tsconfig.json'), 'utf8')
+  assert.ok(
+    !tsconfig.includes('"next"'),
+    'tsconfig.json must extend the Astro preset without the Next.js plugin config'
+  )
 
   assert.ok(!(await pathExists(path.join(outputRoot, '_next'))), 'dist must not contain /_next/')
 
@@ -219,16 +229,12 @@ test('the deployment build ships no synthetic /preview fixture route', async () 
   const scratchRoot = await mkdtemp(path.join(scratchParent, 'rinae-deploy-check-'))
 
   try {
-    const build = spawnSync(
-      'pnpm',
-      ['exec', 'astro', 'build', '--root', './astro', '--outDir', scratchRoot],
-      {
-        cwd: repositoryRoot,
-        encoding: 'utf8',
-        timeout: 300_000,
-        env: { ...process.env, MARKDOWN_FIXTURES: '' },
-      }
-    )
+    const build = spawnSync('pnpm', ['exec', 'astro', 'build', '--outDir', scratchRoot], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      timeout: 300_000,
+      env: { ...process.env, MARKDOWN_FIXTURES: '' },
+    })
     assert.equal(
       build.status,
       0,
@@ -268,11 +274,11 @@ test('the site compiles its own Tailwind v4 stylesheet instead of shipping the N
     assert.ok(declared[dependency], `package.json must declare ${dependency}`)
   }
 
-  const styleSources = await readdir(path.join(repositoryRoot, 'astro', 'src', 'styles'))
+  const styleSources = await readdir(path.join(repositoryRoot, 'src', 'styles'))
   assert.deepEqual(
     styleSources,
     ['site.css'],
-    'astro/src/styles must hold exactly one stylesheet source that reading.css is absorbed into'
+    'src/styles must hold exactly one stylesheet source that reading.css is absorbed into'
   )
 
   const css = await readBuiltSiteCss()
