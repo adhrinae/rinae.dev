@@ -61,10 +61,17 @@ html.dark {
   outline-offset: 2px;
 }
 
-/* Pagefind searchbox integration: the component reads its own custom properties and needs a
-   descendant override so its panel opens upward in the footer. This is a third-party
-   component contract that utilities cannot express, so it stays as CSS. */
-.footer-search {
+/* Pagefind searchbox integration: the component reads its own custom properties to theme
+   itself, which a utility class cannot express, so the variable bridge stays as CSS. The
+   panel placement is left to the component default, which opens the results below the input.
+
+   The host sizing lives here too: Pagefind's own stylesheet is unlayered and opens with
+   `all: initial` on its host elements, and an unlayered declaration beats Tailwind's
+   `@layer utilities` no matter the specificity, so a `w-full`/`min-w-0` utility on the
+   element has no effect. */
+.header-search {
+  width: 100%;
+  min-width: 0;
   --pf-font: inherit;
   --pf-text: var(--reading-foreground);
   --pf-text-secondary: var(--reading-muted);
@@ -78,30 +85,31 @@ html.dark {
   --pf-searchbox-max-width: 100%;
 }
 
-.footer-search .pf-searchbox.open .pf-searchbox-input {
-  border-top-color: var(--pf-border);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: var(--pf-border-radius);
-  border-bottom-right-radius: var(--pf-border-radius);
-}
-
-.footer-search .pf-searchbox.open .pf-searchbox-dropdown {
-  top: 100%;
-  bottom: auto;
-  transform: translateY(calc(-100% - var(--pf-input-height))) !important;
-  border-top: 1px solid var(--pf-border);
-  border-bottom: 0;
-  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+/* Beside the site title the input only needs its own width; on phones it takes the full
+   header line under the title. */
+@media (min-width: 40rem) {
+  .header-search {
+    width: min(100%, 18rem);
+  }
 }
 
 /* Native cross-document view transitions (ticket 16). Same-origin navigations animate
    between the outgoing and incoming document in browsers that support the at-rule. There is
    no <ClientRouter /> and no client-side routing, so every navigation is a full document load
    and the existing inline scripts run normally without any re-initialization logic.
-   Unsupported browsers ignore the at-rule and navigate exactly as before. */
-@view-transition {
-  navigation: auto;
+   Unsupported browsers ignore the at-rule and navigate exactly as before.
+
+   The transition is gated to viewports at least 48rem wide. A cross-document transition is
+   skipped when the snapshot containing block size differs between the two documents, and the
+   mobile viewport is not stable across a navigation: the dynamic URL bar changes the viewport
+   height, and content wider than the viewport (the 560px embed on one article) widens the
+   mobile layout viewport. Browsers that do not correct the outgoing snapshot also stretch it
+   in that case, which reads as the page squashing and springing back. Phones therefore
+   navigate instantly, exactly like an unsupported browser. */
+@media (min-width: 48rem) {
+  @view-transition {
+    navigation: auto;
+  }
 }
 
 /* Browsers do not suppress cross-document view transitions for the reduced-motion

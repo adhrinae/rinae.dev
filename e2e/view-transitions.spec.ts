@@ -49,6 +49,28 @@ test('footer link navigations run a native cross-document view transition', asyn
   ).toBe(true)
 })
 
+test.describe('mobile viewport', () => {
+  // The stylesheet only opts in from 48rem upward, so a phone-sized viewport must navigate
+  // without starting a cross-document view transition.
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
+
+  test('navigates without starting a cross-document view transition', async ({ page }) => {
+    await recordViewTransitions(page)
+    await page.goto('/')
+    await page.bringToFront()
+
+    for (let attempt = 0; attempt < NAVIGATION_ATTEMPTS; attempt += 1) {
+      await navigateAcrossFooter(page)
+    }
+
+    const events = await readViewTransitionEvents(page)
+    expect(
+      events.filter((event) => event.hasTransition),
+      'a mobile viewport must not run a cross-document view transition'
+    ).toEqual([])
+  })
+})
+
 test.describe('prefers-reduced-motion: reduce', () => {
   // Set at context creation; toggling with `page.emulateMedia` mid-test was unreliable here.
   test.use({ reducedMotion: 'reduce' })

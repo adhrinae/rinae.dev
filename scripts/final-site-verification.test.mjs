@@ -294,8 +294,8 @@ test('the static site opts into native cross-document view transitions without a
 
   assert.match(
     css,
-    /@view-transition\s*\{\s*navigation:\s*auto\s*\}/,
-    'the global stylesheet must enable native cross-document view transitions'
+    /@media \(width>=48rem\)\{@view-transition\{navigation:auto\}\}/,
+    'the global stylesheet must enable native cross-document view transitions from 48rem upward'
   )
   assert.match(
     css,

@@ -1,4 +1,4 @@
-<header class="custom-header mb-10 flex items-center justify-between">
+<header class="custom-header mb-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
   <a class="site-brand inline-flex items-center gap-2 text-inherit no-underline hover:underline" href="/" title="Go to home">
     <svg class="site-logo size-10 shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path
@@ -10,4 +10,11 @@
     </svg>
     <span class="site-title font-bold">Read, Think and Code</span>
   </a>
+  {import.meta.env.PROD && (
+    <pagefind-searchbox
+      class="header-search"
+      placeholder="글 검색..."
+      shortcut="mod+k"
+    />
+  )}
 </header>
