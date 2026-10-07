@@ -10,7 +10,7 @@ const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url))
 const invalidMarkdown = (frontmatter, body) => `---\n${frontmatter}\n---\n\n${body}\n`
 
 const assertBuildDiagnostic = async (testContext, filename, source, field) => {
-  const invalidFile = path.join(repositoryRoot, 'astro/fixtures/content', filename)
+  const invalidFile = path.join(repositoryRoot, 'fixtures/content', filename)
   await writeFile(invalidFile, source)
 
   let build
@@ -71,8 +71,8 @@ test('Astro build reports both sources for a duplicate synthetic public path', a
   const firstName = `diagnostic-collision-first-${process.pid}.md`
   const secondName = `diagnostic-collision-second-${process.pid}.md`
   const routeSlug = `duplicate-fixture-${process.pid}`
-  const firstFile = path.join(repositoryRoot, 'astro/fixtures/content', firstName)
-  const secondFile = path.join(repositoryRoot, 'astro/fixtures/content', secondName)
+  const firstFile = path.join(repositoryRoot, 'fixtures/content', firstName)
+  const secondFile = path.join(repositoryRoot, 'fixtures/content', secondName)
   const frontmatter = `title: 'Collision fixture'\ndate: '2025-01-02'\nslug: ${routeSlug}\ntags:\n  - Synthetic`
   const source = invalidMarkdown(frontmatter, 'A duplicate route fixture.')
 
@@ -99,7 +99,7 @@ test('Astro build reports both sources for a duplicate synthetic public path', a
 
 test('Astro build rejects a slug that normalizes onto the home route', async (t) => {
   const filename = `diagnostic-reserved-route-${process.pid}.md`
-  const fixture = path.join(repositoryRoot, 'astro/fixtures/content', filename)
+  const fixture = path.join(repositoryRoot, 'fixtures/content', filename)
   const source = invalidMarkdown(
     "title: 'Reserved route fixture'\ndate: '2025-01-02'\nslug: '..'\ntags:\n  - Synthetic",
     'A reserved route diagnostic fixture.'

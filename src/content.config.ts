@@ -42,7 +42,7 @@ const pageSchema = z.object({
 
 const post = defineCollection({
   loader: glob({
-    base: '../content/posts',
+    base: './content/posts',
     pattern: ['**/*.{md,mdx}', '!index.mdx'],
     generateId: ({ entry }) => entry.replace(/\.mdx?$/u, ''),
   }),
@@ -60,7 +60,7 @@ const markdownFixture = defineCollection({
 
 const page = defineCollection({
   loader: glob({
-    base: '../content',
+    base: './content',
     pattern: 'colophon.{md,mdx}',
     generateId: ({ entry }) => entry.replace(/\.mdx?$/u, ''),
   }),

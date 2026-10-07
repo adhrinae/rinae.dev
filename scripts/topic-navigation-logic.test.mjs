@@ -5,7 +5,7 @@ import {
   getReadingTags,
   getRelatedPosts,
   getTagUrl,
-} from '../astro/src/lib/topic-navigation.ts'
+} from '../src/lib/topic-navigation.ts'
 
 const post = (id, title, tags) => ({ id, data: { title, tags } })
 

@@ -6,8 +6,8 @@ import { defineConfig } from 'astro/config'
 export default defineConfig({
   output: 'static',
   trailingSlash: 'never',
-  publicDir: '../public',
-  outDir: '../dist',
+  publicDir: './public',
+  outDir: './dist',
   build: {
     format: 'file',
   },
