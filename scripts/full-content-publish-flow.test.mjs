@@ -40,7 +40,7 @@ enableComment: false
     assert.ok(!detail.includes('giscus.app/client.js'), 'enableComment false must not load Giscus')
 
     const list = await readFile(path.join(outputRoot, 'posts.html'), 'utf8')
-    const firstPost = list.match(/<a href="\/posts\/([^"]+)">/)?.[1]
+    const firstPost = list.match(/<a\b[^>]*href="\/posts\/([^"]+)"/)?.[1]
     assert.equal(firstPost, slug, 'the newest post is listed first')
 
     await access(path.join(outputRoot, 'tags', 'Ticket09 Verification.html'))

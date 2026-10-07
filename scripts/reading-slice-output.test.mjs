@@ -81,21 +81,6 @@ test('TOC item block-margin helper rejects incorrect or missing margins', () => 
   }
 })
 
-// Compare declaration values, not minifier spelling or declaration order.
-const cssDeclarations = (css, selector) => {
-  const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
-  const declarations = new Map()
-  for (const [, selectors, body] of rules) {
-    if (!selectors.split(',').some((value) => value.trim() === selector)) continue
-    for (const declaration of body.split(';')) {
-      const colon = declaration.indexOf(':')
-      if (colon !== -1)
-        declarations.set(declaration.slice(0, colon).trim(), declaration.slice(colon + 1).trim())
-    }
-  }
-  return declarations
-}
-
 let buildResult
 
 const buildAstroSite = async () => {
@@ -347,8 +332,9 @@ test('Noto Sans KR loads browser Google CSS with readable native fallbacks and n
       )
   )
   const renderedStyles = html + localStyles.join('\n')
-  const bodyFamily = renderedStyles.match(/body\s*\{[^}]*font-family:([^;}]+)/)?.[1]
-  assert.ok(bodyFamily, 'body must define a native fallback stack')
+  const bodyFamily = renderedStyles.match(/\.font-sans\s*\{[^}]*font-family:([^;}]+)/)?.[1]
+  assert.ok(bodyFamily, 'the body font utility must define a native fallback stack')
+  assert.match(html, /<body class="[^"]*\bfont-sans\b/)
   assert.deepEqual(
     bodyFamily.split(',').map((name) => name.trim().replaceAll('"', '').replaceAll("'", '')),
     [
@@ -392,41 +378,43 @@ test('baseline article markup and emitted CSS retain scoped reading contracts', 
       )
     )
   ).join('\n')
-  assert.match(html, /<h1 class="reading-title"/)
+  assert.match(html, /<h1 class="reading-title\b/)
   assert.match(
     html,
-    /class="reading-metadata"[\s\S]*href="\/posts"[\s\S]*<time[\s\S]*aria-label="Table of contents"/
+    /class="reading-metadata[^"]*"[\s\S]*href="\/posts"[\s\S]*<time[\s\S]*aria-label="Table of contents"/
   )
-  assert.match(html, /class="toc-nested"><ul class="toc-list"/)
+  assert.match(html, /class="toc-nested[^"]*"><ul class="toc-list"/)
   assert.match(html, /data-toc[^>]*open/)
   assert.match(html, /M3\.5 6\.5L8 11L12\.5 6\.5/)
-  // Ticket 15's Tailwind v4 pipeline runs the stylesheet through lightningcss, which splits a
-  // single rule into a plain fallback plus an `@supports` override and re-spells color-mix
-  // values. Gather every rule for the selector instead of the last textual occurrence.
+  // Ticket 18 moved component styling into Tailwind utilities. Assert the markup carries the
+  // utility contract and the compiled stylesheet emits the matching utilities.
+  assert.match(
+    html,
+    /class="reading-title[^"]*\btext-3xl\b[^"]*\bleading-9\b[^"]*\bfont-semibold\b/
+  )
+  assert.match(
+    html,
+    /class="toc [^"]*\brounded-\[0\.625rem\][^"]*\bborder-border\/80\b[^"]*\bbg-card\/80\b[^"]*\bshadow-sm\b/
+  )
+  assert.match(html, /class="toc-nested[^"]*\bmt-2\b[^"]*\bml-3\b/)
+  assert.doesNotMatch(html, /class="toc-nested[^"]*\bborder\b/)
+  assert.match(html, /<a class="[^"]*\bunderline\b[^"]*" href="#/)
+  assert.match(html, /class="toc-list"><li class="mb-2 last:mb-0"/)
+  assert.match(css, /--reading-background:\s*#fff(?:[;}])/)
+  assert.match(css, /--reading-background:\s*#0a0a0a/)
+  assert.doesNotMatch(css, /\.toc-list(?:,| ul\{)/)
+  assert.match(css, /rotate:180deg/)
+  assert.match(css, /list-style-type:disc/)
+  assert.match(html, /<html lang="ko" dir="ltr" class="bg-background[^"]*"/)
+  assert.match(html, /<body class="[^"]*\bbg-background\b[^"]*"/)
   const rule = (selector) =>
     `${selector}{${[...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
       .filter(([, selectors]) => selectors.split(',').some((value) => value.trim() === selector))
       .map(([, , body]) => body)
       .join(';')}}`
-  assert.match(rule('.reading-title'), /font-size:1\.875rem/)
-  assert.match(rule('.reading-title'), /line-height:2\.25rem/)
-  assert.match(rule('.reading-title'), /font-weight:600/)
-  assert.match(css, /--reading-background:\s*#fff(?:[;}])/)
-  assert.match(css, /--reading-background:\s*#0a0a0a/)
-  assert.match(rule('.toc-nested'), /margin-top:\.5rem/)
-  assert.match(rule('.toc-nested'), /margin-left:\.75rem/)
-  assert.doesNotMatch(rule('.toc-nested'), /border/)
-  assert.match(rule('.toc-list a'), /text-decoration:underline/)
-  assert.doesNotMatch(css, /\.toc-list(?:,| ul\{)/)
-  assert.match(css, /rotate\(180deg\)/)
-  assert.match(rule('.toc'), /border-radius:\.625rem/)
-  assert.match(rule('.toc'), /var\(--reading-card\)\s*80%/)
-  assert.match(rule('.toc'), /var\(--reading-border\)\s*80%/)
-  assert.match(rule('.toc'), /box-shadow:/)
-  assertTocItemBlockMargins(rule('.toc-list>:not(:last-child)'))
-  assert.match(css, /list-style-type:disc/)
-  assert.match(rule('html'), /background:var\(--reading-background\)/)
-  assert.match(rule('body'), /background:var\(--reading-background\)/)
+  assert.match(rule('.bg-background'), /var\(--reading-background\)/)
+  assert.match(rule('.font-semibold'), /font-weight/)
+  assert.match(rule('.text-3xl'), /font-size/)
 })
 
 test('reading rhythm restores original block flow and text utility leading without resetting prose margins', async () => {
@@ -435,34 +423,23 @@ test('reading rhythm restores original block flow and text utility leading witho
     path.join(repositoryRoot, 'dist/posts/the-fine-art-of-fast-development-kr-1.html'),
     'utf8'
   )
-  const css = (
-    await Promise.all(
-      [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*href="\/([^"?]+)"[^>]*>/g)].map(
-        ([, href]) => readFile(path.join(repositoryRoot, 'dist', href), 'utf8')
-      )
-    )
-  ).join('\n')
-  assert.equal(
-    cssDeclarations(css, '.reading-post').get('display'),
-    'block',
-    'original unlayered article rule defeats flex; gap must be inert'
-  )
-  const rem = (selector, property, expected) => {
-    const value = cssDeclarations(css, selector).get(property)
-    assert.ok(value?.endsWith('rem'), `${selector} ${property} must retain rem units`)
-    assert.equal(Number.parseFloat(value), expected, `${selector} ${property}`)
-  }
-  rem('.reading-metadata', 'line-height', 1.25)
-  rem('.reading-metadata', 'margin-bottom', 1.5)
-  rem('.reading-metadata .back-to-list svg', 'height', 1.5)
-  rem('.reading-metadata .metadata-point', 'height', 1.5)
-  rem('.toc', 'line-height', 1.25)
-  rem('.toc summary', 'line-height', 1)
-  rem('.toc-list a', 'line-height', 1.25)
-  for (const selector of ['.reading-title', '.toc-list', '.toc-list a']) {
-    assert.equal(
-      cssDeclarations(css, selector).has('margin'),
-      false,
+  // Ticket 18: block flow and leading now come from utilities on the markup.
+  assert.match(html, /class="reading-post[^"]*\bblock\b[^"]*"/)
+  assert.match(html, /class="reading-metadata[^"]*\bmb-6\b[^"]*\bleading-5\b/)
+  assert.match(html, /class="back-to-list[^"]*"[\s\S]*?<svg class="[^"]*\bh-6\b[^"]*"/)
+  assert.match(html, /class="metadata-point[^"]*\bh-6\b[^"]*\bw-3\b/)
+  assert.match(html, /class="toc [^"]*\bleading-5\b/)
+  assert.match(html, /class="[^"]*\bleading-4\b[^"]*"[^>]*><span>목차/)
+  assert.match(html, /<a class="[^"]*\bleading-5\b[^"]*" href="#/)
+  const classOf = (regex) => html.match(regex)?.[1] ?? ''
+  for (const [selector, value] of [
+    ['.reading-title', classOf(/<h1 class="(reading-title[^"]*)"/)],
+    ['.toc-list', classOf(/<ul class="(toc-list[^"]*)"/)],
+    ['.toc-list a', classOf(/<a class="([^"]*)" href="#/)],
+  ]) {
+    assert.doesNotMatch(
+      value,
+      /\bm[trblxy]?-\S+/,
       `${selector} must not reset inherited prose margins`
     )
   }

@@ -6,16 +6,19 @@
     if (!code) return
 
     const toolbar = document.createElement('div')
-    toolbar.className = 'code-copy-toolbar'
+    toolbar.className =
+      'code-copy-toolbar absolute top-2 right-2 z-1 flex max-w-[calc(100%-1rem)] flex-wrap items-center justify-end gap-2 text-sm'
 
     const button = document.createElement('button')
-    button.className = 'code-copy-button'
+    button.className =
+      'code-copy-button cursor-pointer rounded-md border border-foreground/16 bg-foreground/4 px-2.5 py-1 text-muted transition-colors hover:border-foreground/30 hover:bg-foreground/10 hover:text-foreground'
     button.type = 'button'
     button.textContent = '복사'
     button.setAttribute('aria-label', '코드 복사')
 
     const status = document.createElement('span')
-    status.className = 'code-copy-status'
+    status.className =
+      'code-copy-status text-right text-sm text-muted data-[state=error]:text-red-600 dark:data-[state=error]:text-red-300'
     status.setAttribute('role', 'status')
     status.setAttribute('aria-live', 'polite')
 
@@ -35,7 +38,7 @@
     toolbar.append(button, status)
 
     const wrapper = document.createElement('div')
-    wrapper.className = 'code-block'
+    wrapper.className = 'code-block relative'
     pre.before(wrapper)
     wrapper.append(toolbar, pre)
   })

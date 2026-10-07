@@ -277,12 +277,12 @@ test('the site compiles its own Tailwind v4 stylesheet instead of shipping the N
 
   const css = await readBuiltSiteCss()
   assert.ok(!/\.nextra-|--x-color-nextra-bg|twoslash/.test(css), 'the Nextra bundle must not ship')
-  assert.ok(css.includes('.x\\:prose'), 'the prefixed typography utility must be compiled')
-  assert.ok(css.includes('.x\\:container'), 'the prefixed container utility must be compiled')
+  assert.ok(css.includes('.prose'), 'the typography utility must be compiled')
+  assert.ok(css.includes('max-w-\\[43\\.75rem\\]'), 'the reading column utility must be compiled')
 
   const html = await readFile(path.join(outputRoot, 'index.html'), 'utf8')
   assert.ok(
-    html.includes('x:container') && html.includes('x:prose'),
+    html.includes('prose') && html.includes('max-w-[43.75rem]'),
     'the semantic page markup must keep using the compiled utilities'
   )
 })

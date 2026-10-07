@@ -24,10 +24,10 @@ const { Content, headings } = await render(entry)
 ---
 
 <SiteLayout title={entry.data.title} pagefindIndex={false}>
-  <h1>{entry.data.title}</h1>
-  <p class="synthetic-label">합성 Markdown 미리보기 — 이 예시는 기존 게시물이 아닙니다.</p>
-  <p class="post-date"><time datetime={entry.data.date}>{entry.data.date}</time></p>
+  <h1 class="tracking-[-0.03em]">{entry.data.title}</h1>
+  <p class="synthetic-label border-l-[3px] border-current px-3 py-2 text-sm text-muted">합성 Markdown 미리보기 — 이 예시는 기존 게시물이 아닙니다.</p>
+  <p class="post-date text-sm text-muted"><time datetime={entry.data.date}>{entry.data.date}</time></p>
   <ReadingToc headings={headings} />
   <Content />
-  <p><a class="back-to-list" href="/posts">글 목록으로</a></p>
+  <p><a class="back-to-list text-inherit no-underline hover:underline" href="/posts">글 목록으로</a></p>
 </SiteLayout>

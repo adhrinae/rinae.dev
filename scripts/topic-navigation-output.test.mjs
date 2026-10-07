@@ -26,7 +26,7 @@ const postRoutes = (html) =>
   )
 
 const tagListItems = (html) => {
-  const match = html.match(/<div class="tag-list">([\s\S]*?)<\/div>/)
+  const match = html.match(/<div class="tag-list[^"]*">([\s\S]*?)<\/div>/)
   assert.ok(match, 'page must expose the full tag list')
   return [...match[1].matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)].map(
     ([, href, label]) => ({
@@ -42,12 +42,12 @@ const tagListItems = (html) => {
 }
 
 const postTagRoutes = (html, slug) => {
-  const titleLink = `<a href="/posts/${slug}">`
+  const titleLink = `href="/posts/${slug}"`
   const titlePosition = html.indexOf(titleLink)
   assert.notEqual(titlePosition, -1, `${slug} must appear in the public posts list`)
-  const rowStart = html.lastIndexOf('<div class="post-row">', titlePosition)
-  const tagsStart = html.indexOf('<div class="post-tags">', titlePosition)
-  const nextRow = html.indexOf('<div class="post-row">', rowStart + '<div class="post-row">'.length)
+  const rowStart = html.lastIndexOf('<div class="post-row', titlePosition)
+  const tagsStart = html.indexOf('<div class="post-tags', titlePosition)
+  const nextRow = html.indexOf('<div class="post-row', rowStart + '<div class="post-row'.length)
   assert.ok(tagsStart > titlePosition && (nextRow === -1 || tagsStart < nextRow))
   const tagsEnd = html.indexOf('</div>', tagsStart)
   return [...html.slice(tagsStart, tagsEnd).matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>/g)].map(

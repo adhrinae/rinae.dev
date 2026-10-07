@@ -8,14 +8,14 @@ interface Props {
 const { posts } = Astro.props
 ---
 
-<div class="post-list">
+<div class="post-list flex flex-col gap-6">
   {posts.map((post) => (
-    <div class="post-row">
-      <div class="post-title-column">
-        <div class="post-title">
-          <a href={getPostUrl(post)}>{post.data.title}</a>
+    <div class="post-row flex flex-wrap">
+      <div class="post-title-column w-[calc(100%-100px)]">
+        <div class="post-title font-bold">
+          <a class="text-inherit no-underline hover:underline" href={getPostUrl(post)}>{post.data.title}</a>
         </div>
-        <div class="post-tags">
+        <div class="post-tags flex flex-wrap gap-1 text-sm text-muted">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -26,7 +26,7 @@ const { posts } = Astro.props
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="post-tags-icon"
+            class="post-tags-icon size-4 min-w-4 self-center"
           >
             <path d="M3 8v4.172a2 2 0 0 0 .586 1.414l5.71 5.71a2.41 2.41 0 0 0 3.408 0l3.592 -3.592a2.41 2.41 0 0 0 0 -3.408l-5.71 -5.71a2 2 0 0 0 -1.414 -.586h-4.172a2 2 0 0 0 -2 2"
             ></path>
@@ -34,11 +34,11 @@ const { posts } = Astro.props
             <path d="M7 10h-.01"></path>
           </svg>
           {post.data.tags.map((tag, index) => (
-            <a href={getTagUrl(tag)}>{tag}{index < post.data.tags.length - 1 ? ', ' : ''}</a>
+            <a class="text-inherit no-underline hover:underline" href={getTagUrl(tag)}>{tag}{index < post.data.tags.length - 1 ? ', ' : ''}</a>
           ))}
         </div>
       </div>
-      <div class="post-date-column">
+      <div class="post-date-column w-[100px] pt-1 text-right text-sm text-muted">
         <time datetime={post.data.date}>{formatPostDate(post.data.date)}</time>
       </div>
     </div>

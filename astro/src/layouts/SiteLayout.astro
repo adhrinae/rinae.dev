@@ -16,7 +16,7 @@ const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
 ---
 
 <!doctype html>
-<html lang="ko" dir="ltr">
+<html lang="ko" dir="ltr" class="bg-background scroll-pt-5">
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -87,12 +87,12 @@ const pagefindUrl = Astro.url.pathname.replace(/(?:\/index)?\.html$/, '') || '/'
       })()
     </script>
   </head>
-  <body>
+  <body class="min-h-screen bg-background font-sans text-foreground">
     {import.meta.env.PROD && (
       <pagefind-config bundle-path="/_pagefind/" base-url="/" lang="ko" />
     )}
     <article
-      class="x:container x:px-4 x:prose x:max-md:prose-sm x:dark:prose-invert"
+      class="prose mx-auto w-full max-w-[43.75rem] px-4 pt-20 pb-32 max-md:prose-sm dark:prose-invert prose-code:before:content-none prose-code:after:content-none"
       dir="ltr"
       data-pagefind-body={pagefindIndex ? 'true' : undefined}
     >

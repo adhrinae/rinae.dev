@@ -64,8 +64,8 @@ test('static pages preserve the system-backed theme contract without a React isl
       `${route} must resolve the stored/system theme before body content`
     )
     assert.match(html, /<button\b[^>]*data-theme-toggle[^>]*aria-label="Toggle Dark Mode"/)
-    assert.match(html, /class="theme-icon-sun"/)
-    assert.match(html, /class="theme-icon-moon"/)
+    assert.match(html, /class="theme-icon-sun[^"]*"/)
+    assert.match(html, /class="theme-icon-moon[^"]*"/)
     assert.doesNotMatch(html, /<astro-island\b/)
 
     const css = (await stylesheets(html)).join('\n')

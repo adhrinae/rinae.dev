@@ -21,11 +21,11 @@ const { Content, headings } = await render(post)
 ---
 
 <SiteLayout title={post.data.title} description={post.data.description}>
-  <div class="reading-post">
-    <h1 class="reading-title">{post.data.title}</h1>
-    <div class="reading-metadata">
-      <a class="back-to-list" href="/posts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 10l-5 5l5 5M4 15h11a5 5 0 0 0 0-10h-1" /></svg><span>글 목록으로</span></a>
-      <svg class="metadata-point" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="1" /></svg>
+  <div class="reading-post mx-auto block w-full max-w-[64rem] pt-0">
+    <h1 class="reading-title text-3xl leading-9 font-semibold tracking-[-0.03em]">{post.data.title}</h1>
+    <div class="reading-metadata mb-6 flex items-center gap-4 text-sm leading-5">
+      <a class="back-to-list inline-flex items-center gap-1 text-inherit no-underline hover:underline" href="/posts"><svg class="h-6 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 10l-5 5l5 5M4 15h11a5 5 0 0 0 0-10h-1" /></svg><span>글 목록으로</span></a>
+      <svg class="metadata-point h-6 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="1" /></svg>
       <div><time datetime={post.data.date}>{formatPostDate(post.data.date)}</time></div>
     </div>
     <ReadingToc headings={headings} />

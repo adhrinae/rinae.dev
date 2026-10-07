@@ -1,4 +1,4 @@
-@import 'tailwindcss' source(none) prefix(x);
+@import 'tailwindcss' source(none);
 
 @plugin '@tailwindcss/typography';
 
@@ -7,34 +7,92 @@
 /* Only the Astro markup is scanned for the utility classes it uses. */
 @source '../';
 
-/* Baseline page-shell rules absorbed from the removed Nextra bundle (they were unlayered in
-   the bundle, so they keep the same cascade position here). */
-html {
-  scroll-padding-top: 1.25rem;
+/* Design tokens are the single source of truth. Values stay as CSS variables so the
+   light/dark switch is a variable swap; `@theme inline` exposes them as Tailwind utilities
+   (bg-background, text-foreground, text-muted, border-border, ...). */
+@theme inline {
+  --color-background: var(--reading-background);
+  --color-foreground: var(--reading-foreground);
+  --color-muted: var(--reading-muted);
+  --color-card: var(--reading-card);
+  --color-border: var(--reading-border);
+  --color-primary: var(--reading-primary);
+  --color-highlight: var(--reading-highlight);
+  --color-code-border: var(--reading-code-border);
+  --font-sans:
+    'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI',
+    'Malgun Gothic', '맑은 고딕', sans-serif;
 }
 
-article {
-  display: block;
-  margin-inline: auto;
-  padding-top: 5rem;
-  padding-bottom: 8rem;
+:root {
+  --reading-accent-hue: 212deg;
+  --reading-accent-saturation: 100%;
+  --reading-accent-lightness: 45%;
+  --reading-code-border: oklch(87.2% 0.01 258.338);
+  --reading-highlight: hsl(
+    var(--reading-accent-hue) var(--reading-accent-saturation) var(--reading-accent-lightness)
+  );
+  --reading-foreground: #171717;
+  --reading-muted: oklch(0.556 0 0);
+  --reading-background: #fff;
+  --reading-card: oklch(1 0 0);
+  --reading-border: oklch(0.922 0 0);
+  --reading-primary: oklch(0.205 0 0);
+  color-scheme: light;
 }
 
-article img {
-  margin-inline: auto;
+html.dark {
+  --reading-accent-hue: 204deg;
+  --reading-accent-lightness: 55%;
+  --reading-code-border: oklch(37.1% 0 0);
+  --reading-foreground: #f5f5f5;
+  --reading-muted: oklch(0.708 0 0);
+  --reading-background: #0a0a0a;
+  --reading-card: oklch(0.205 0 0);
+  --reading-border: rgb(255 255 255 / 10%);
+  --reading-primary: oklch(0.922 0 0);
+  color-scheme: dark;
 }
 
-h1 {
-  letter-spacing: -0.03em;
+/* One accessible focus ring for every keyboard-focusable element (component styling lives in
+   the markup as utilities). */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
-.x\:prose code::before,
-.x\:prose code::after {
-  display: none;
+/* Pagefind searchbox integration: the component reads its own custom properties and needs a
+   descendant override so its panel opens upward in the footer. This is a third-party
+   component contract that utilities cannot express, so it stays as CSS. */
+.footer-search {
+  --pf-font: inherit;
+  --pf-text: var(--reading-foreground);
+  --pf-text-secondary: var(--reading-muted);
+  --pf-text-muted: var(--reading-muted);
+  --pf-background: var(--reading-background);
+  --pf-border: var(--reading-border);
+  --pf-border-focus: var(--reading-primary);
+  --pf-hover: color-mix(in oklab, var(--reading-foreground) 8%, var(--reading-background));
+  --pf-mark: var(--reading-foreground);
+  --pf-outline-focus: var(--reading-primary);
+  --pf-searchbox-max-width: 100%;
 }
 
-.x\:prose code .line {
-  font-weight: 400;
+.footer-search .pf-searchbox.open .pf-searchbox-input {
+  border-top-color: var(--pf-border);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: var(--pf-border-radius);
+  border-bottom-right-radius: var(--pf-border-radius);
+}
+
+.footer-search .pf-searchbox.open .pf-searchbox-dropdown {
+  top: 100%;
+  bottom: auto;
+  transform: translateY(calc(-100% - var(--pf-input-height))) !important;
+  border-top: 1px solid var(--pf-border);
+  border-bottom: 0;
+  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
 }
 
 /* Native cross-document view transitions (ticket 16). Same-origin navigations animate
@@ -57,489 +115,8 @@ h1 {
   }
 }
 
-:root {
-  --reading-accent-hue: 212deg;
-  --reading-accent-saturation: 100%;
-  --reading-accent-lightness: 45%;
-  --reading-code-border: oklch(87.2% 0.01 258.338);
-  --reading-highlight: hsl(
-    var(--reading-accent-hue) var(--reading-accent-saturation) var(--reading-accent-lightness)
-  );
-  --reading-foreground: #171717;
-  --reading-muted: oklch(0.556 0 0);
-  --reading-background: #fff;
-  --reading-card: oklch(1 0 0);
-  --reading-border: oklch(0.922 0 0);
-  --reading-primary: oklch(0.205 0 0);
-  color-scheme: light;
-}
-
-html {
-  background: var(--reading-background);
-}
-
-body {
-  min-height: 100vh;
-  background: var(--reading-background);
-  color: var(--reading-foreground);
-  font-family:
-    'Noto Sans KR',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Apple SD Gothic Neo',
-    'Segoe UI',
-    'Malgun Gothic',
-    '맑은 고딕',
-    sans-serif;
-}
-
-.x\:container {
-  max-width: 700px;
-}
-
-.custom-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2.5rem;
-}
-
-.site-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: inherit;
-  text-decoration: none;
-}
-
-.site-brand:hover {
-  text-decoration: underline;
-}
-
-.site-logo {
-  width: 2.5rem;
-  height: 2.5rem;
-  flex: none;
-}
-
-.site-title {
-  font-weight: 700;
-}
-
-.site-footer {
-  margin-top: 8rem;
-}
-
-.footer-content,
-.footer-controls {
-  display: flex;
-  align-items: center;
-}
-
-.footer-content {
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.footer-controls {
-  gap: 0.75rem;
-}
-
-.footer-search {
-  width: min(100%, 18rem);
-  min-width: 0;
-  --pf-font: inherit;
-  --pf-text: var(--reading-foreground);
-  --pf-text-secondary: var(--reading-muted);
-  --pf-text-muted: var(--reading-muted);
-  --pf-background: var(--reading-background);
-  --pf-border: var(--reading-border);
-  --pf-border-focus: var(--reading-primary);
-  --pf-hover: color-mix(in oklab, var(--reading-foreground) 8%, var(--reading-background));
-  --pf-mark: var(--reading-foreground);
-  --pf-outline-focus: var(--reading-primary);
-  --pf-searchbox-max-width: 100%;
-}
-
-/* The search sits in the footer, so keep its result panel above the input. */
-.footer-search .pf-searchbox.open .pf-searchbox-input {
-  border-top-color: var(--pf-border);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: var(--pf-border-radius);
-  border-bottom-right-radius: var(--pf-border-radius);
-}
-
-.footer-search .pf-searchbox.open .pf-searchbox-dropdown {
-  top: 100%;
-  bottom: auto;
-  transform: translateY(calc(-100% - var(--pf-input-height))) !important;
-  border-top: 1px solid var(--pf-border);
-  border-bottom: 0;
-  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
-}
-
-.theme-toggle {
-  display: inline-grid;
-  width: 2rem;
-  height: 2rem;
-  place-items: center;
-  border: 0;
-  border-radius: 0.375rem;
-  padding: 0.375rem;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-}
-
-.theme-toggle:hover {
-  background: color-mix(in oklab, var(--reading-foreground) 8%, transparent);
-}
-
-.theme-toggle:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
-.theme-toggle svg {
-  display: block;
-  width: 1rem;
-  height: 1rem;
-}
-
-.theme-icon-moon {
-  display: none;
-}
-
-html.dark .theme-icon-sun {
-  display: none;
-}
-
-html.dark .theme-icon-moon {
-  display: block;
-}
-
-.giscus-comments {
-  width: 100%;
-  margin-top: 8rem;
-}
-
-.giscus {
-  width: 100%;
-}
-
-.footer-nav {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.footer-nav a {
-  text-decoration: none;
-}
-
-.footer-nav a:hover,
-.footer-nav a:focus {
-  text-decoration: underline;
-}
-
-.post-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.post-row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.post-title-column {
-  width: calc(100% - 100px);
-}
-
-.post-title {
-  font-weight: 700;
-}
-
-.post-title a,
-.view-all-link,
-.back-to-list {
-  color: inherit;
-  text-decoration: none;
-}
-
-.post-title a:hover,
-.view-all-link:hover,
-.back-to-list:hover {
-  text-decoration: underline;
-}
-
-.post-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  color: var(--reading-muted);
-  font-size: 0.875rem;
-}
-
-.post-tags a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.post-tags-icon {
-  width: 1rem;
-  min-width: 1rem;
-  height: 1rem;
-  align-self: center;
-}
-
-.post-tags a:hover {
-  text-decoration: underline;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-}
-
-.tag-link {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid var(--reading-border);
-  border-radius: 9999px;
-  padding: 0.125rem 0.5rem;
-  color: inherit;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  text-decoration: none;
-}
-
-.tag-link:hover {
-  background: color-mix(in oklab, var(--reading-border) 35%, transparent);
-}
-
-.tag-count {
-  opacity: 0.5;
-}
-
-.post-date-column {
-  width: 100px;
-  padding-top: 0.25rem;
-  color: var(--reading-muted);
-  font-size: 0.875rem;
-  text-align: right;
-}
-
-.view-all-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin-top: 1.5rem;
-}
-
-.view-all-icon {
-  width: 1rem;
-  min-width: 1rem;
-  height: 1rem;
-}
-
-.post-date {
-  color: var(--reading-muted);
-  font-size: 0.875rem;
-}
-
-.synthetic-label {
-  border-left: 3px solid currentColor;
-  padding: 0.5rem 0.75rem;
-  color: var(--reading-muted);
-  font-size: 0.875rem;
-}
-
-.reading-post {
-  display: block;
-  flex-direction: column;
-  gap: 2.5rem;
-  padding-top: 0;
-  margin-inline: auto;
-  width: 100%;
-  max-width: 64rem;
-}
-
-.reading-title {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  font-weight: 600;
-}
-
-.reading-metadata {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.reading-metadata .back-to-list {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.reading-metadata svg {
-  width: 1rem;
-  height: 1rem;
-  flex: none;
-}
-.reading-metadata .back-to-list svg {
-  height: 1.5rem;
-}
-.reading-metadata .metadata-point {
-  width: 0.75rem;
-  height: 1.5rem;
-}
-
-.toc {
-  border: 1px solid color-mix(in oklab, var(--reading-border) 80%, transparent);
-  border-radius: 0.625rem;
-  background: color-mix(in oklab, var(--reading-card) 80%, transparent);
-  box-shadow:
-    0 1px 3px 0 rgb(0 0 0 / 0.1),
-    0 1px 2px -1px rgb(0 0 0 / 0.1);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.toc summary {
-  display: flex;
-  cursor: pointer;
-  list-style: none;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
-  color: var(--reading-muted);
-}
-
-.toc summary::-webkit-details-marker {
-  display: none;
-}
-
-.toc summary::marker {
-  content: '';
-}
-
-.toc-content {
-  border-top: 1px solid color-mix(in oklab, var(--reading-border) 60%, transparent);
-  padding: 0.75rem 1rem 1rem;
-}
-
-.toc-list > :not(:last-child) {
-  margin-block-start: 0;
-  margin-block-end: 0.5rem;
-}
-
-.toc-nested {
-  margin-top: 0.5rem;
-  margin-left: 0.75rem;
-}
-
-.toc-chevron {
-  transition: transform 0.2s ease;
-}
-[data-toc][open] .toc-chevron {
-  transform: rotate(180deg);
-}
-
-.toc-list a {
-  display: block;
-  border-left: 1px solid color-mix(in oklab, var(--reading-border) 60%, transparent);
-  padding-left: 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: var(--reading-muted);
-  text-decoration: underline;
-}
-
-.toc-list a:hover,
-.toc-list a:focus {
-  border-color: var(--reading-primary);
-  color: var(--reading-primary);
-}
-
-.toc summary:focus-visible,
-.toc-list a:focus-visible,
-a:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
-.code-block {
-  position: relative;
-}
-
-/* Ticket 15's single intended visual change: the copy control sits inside the code block's
-   top-right corner instead of above it, de-emphasized so it does not compete with the code. */
-.code-copy-toolbar {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  max-width: calc(100% - 1rem);
-  font-size: 0.875rem;
-}
-
-/* Ticket 15's single intended visual change: the copy control is de-emphasized to a
-   low-contrast ghost button that only gains the accent tint on hover/focus, instead of the
-   old card-colored box that competed with the code block. Box geometry is unchanged. */
-.code-copy-button {
-  border: 1px solid color-mix(in oklab, var(--reading-foreground) 16%, transparent);
-  border-radius: 0.375rem;
-  padding: 0.25rem 0.625rem;
-  background: color-mix(in oklab, var(--reading-foreground) 4%, transparent);
-  color: var(--reading-muted);
-  font: inherit;
-  cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    color 0.15s ease;
-}
-
-.code-copy-button:hover {
-  border-color: color-mix(in oklab, var(--reading-foreground) 30%, transparent);
-  background: color-mix(in oklab, var(--reading-foreground) 10%, transparent);
-  color: var(--reading-foreground);
-}
-
-.code-copy-button:focus-visible {
-  outline: 2px solid var(--reading-primary);
-  outline-offset: 2px;
-}
-
-.code-copy-status {
-  color: var(--reading-muted);
-  font-size: 0.875rem;
-  text-align: right;
-}
-
-.code-copy-status[data-state='error'] {
-  color: #b91c1c;
-}
-
+/* Shiki code blocks: Astro emits <pre class="astro-code"> and per-token `--shiki-*` variables
+   that utilities cannot target, so the code block shell and token colors stay as CSS. */
 pre.astro-code {
   background-color: #fff !important;
   border-radius: 0.375rem;
@@ -568,6 +145,10 @@ pre.astro-code > code > span {
   padding-inline: 1rem;
 }
 
+pre.astro-code code .line {
+  font-weight: 400;
+}
+
 pre.astro-code > code > span.highlighted {
   background-color: var(--reading-highlight);
   color: var(--reading-highlight) !important;
@@ -577,23 +158,6 @@ pre.astro-code > code > span.highlighted {
     background-color: color-mix(in oklab, var(--reading-highlight) 10%, transparent);
     color: color-mix(in oklab, var(--reading-highlight) 80%, transparent) !important;
   }
-}
-
-html.dark {
-  --reading-accent-hue: 204deg;
-  --reading-accent-lightness: 55%;
-  --reading-code-border: oklch(37.1% 0 0);
-  --reading-foreground: #f5f5f5;
-  --reading-muted: oklch(0.708 0 0);
-  --reading-background: #0a0a0a;
-  --reading-card: oklch(0.205 0 0);
-  --reading-border: rgb(255 255 255 / 10%);
-  --reading-primary: oklch(0.922 0 0);
-  color-scheme: dark;
-}
-
-html.dark .code-copy-status[data-state='error'] {
-  color: #fca5a5;
 }
 
 html.dark pre.astro-code {
@@ -610,51 +174,4 @@ html.dark pre.astro-code > code > span.highlighted {
   @supports (color: color-mix(in oklab, red, red)) {
     background-color: color-mix(in oklab, var(--reading-highlight) 20%, transparent);
   }
-}
-
-html.dark .x\:prose {
-  --tw-prose-body: #d1d5db;
-  --tw-prose-headings: #f9fafb;
-  --tw-prose-lead: #d1d5db;
-  --tw-prose-links: #f9fafb;
-  --tw-prose-bold: #f9fafb;
-  --tw-prose-counters: #9ca3af;
-  --tw-prose-bullets: #6b7280;
-  --tw-prose-hr: #374151;
-  --tw-prose-quotes: #f3f4f6;
-  --tw-prose-quote-borders: #4b5563;
-  --tw-prose-captions: #9ca3af;
-  --tw-prose-code: #f9fafb;
-  --tw-prose-pre-code: #d1d5db;
-  --tw-prose-pre-bg: #1f2937;
-  --tw-prose-th-borders: #4b5564;
-  --tw-prose-td-borders: #374151;
-}
-
-/* Baseline 404 error screen (Next.js default error page) recreated for the Astro site */
-.not-found {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-}
-
-.not-found-code {
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 49px;
-  margin: 0 20px 0 0;
-  padding: 0 23px 0 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.not-found-message {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 49px;
-  margin: 0;
-}
-
-html.dark .not-found-code {
-  border-right-color: rgba(255, 255, 255, 0.3);
 }
