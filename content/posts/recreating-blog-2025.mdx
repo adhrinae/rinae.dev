@@ -136,3 +136,10 @@ Codex가 가장 큰 도움이 되었던 부분은 Tailwind CSS 기반의 스타�
 - 자주 활용되는 컴포넌트는 `mdx-components.tsx` 파일에 등록하자.
 - 페이지별 커스터마이징은 `page.jsx|tsx` 파일 안에 구현 가능하다.
   - [https://nextra.site/docs/file-conventions/content-directory#add-mdxpathpagejsx-file](https://nextra.site/docs/file-conventions/content-directory#add-mdxpathpagejsx-file)
+
+**덧붙임: 다시 Astro로**
+
+- **동기**: 적은 코드와 낮은 의존성 관리 비용으로 블로그를 유지하고 싶어, 이번에는 테마 없이 Astro vanilla 기반으로 다시 옮겼다.
+- **진행 상황**: 에이전트를 활용해 마이그레이션을 마쳤고, 지금 보고 있는 블로그도 Astro로 빌드한 정적 사이트다.
+- **마이그레이션 전략**: 기존 글과 URL, 읽기 경험을 유지하는 것을 기준으로 삼았다. 대표 글부터 옮겨 검증한 뒤 전체 콘텐츠로 범위를 넓히고, 검색·댓글·피드 등 기존 기능을 확인한 후 Next.js와 Nextra 의존성을 제거했다.
+- **참고 PR**: [Next.js/Nextra에서 Astro로 마이그레이션한 기록](https://github.com/adhrinae/rinae.dev/pull/137)

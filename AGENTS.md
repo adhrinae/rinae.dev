@@ -7,6 +7,8 @@ other projects live in the global agent instructions.
 
 <!-- Newest on top. Delete what no longer applies. -->
 
+- When adding a brief migration update to an existing post, use the requested bullets for motivation, progress, strategy, and the reference PR.
+
 - When a user explicitly defers external behavior verification until after deployment, record it as a post-deployment follow-up and keep deployment authorization separate from ticket completion.
 - When verifying Astro client scripts, accept inline module output as well as external bundles and use real Playwright CLI interactions to prove UI behavior before calling a script missing.
 - When proposing a font provider, explicitly distinguish the build-time source from browser-time delivery and confirm external loading versus self-hosting before implementation.
