@@ -1,3 +1,4 @@
+import { currentPosts } from './lib/current-posts.mjs'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
@@ -458,8 +459,12 @@ test('home lists the five newest public posts and the list keeps every baseline 
     'utf8'
   )
 
-  assert.equal(postSlugs.length, 86, 'the list must expose every existing public post')
-  assert.equal(new Set(postSlugs).size, 86, 'the list must not repeat a post')
+  assert.deepEqual(
+    postSlugs,
+    (await currentPosts()).map((post) => post.slug),
+    'the list contains current posts in date order'
+  )
+  assert.equal(new Set(postSlugs).size, postSlugs.length, 'the list must not repeat a post')
   assert.deepEqual(slugs(home), postSlugs.slice(0, 5), 'home shows the five newest posts')
   assert.match(home, /href="\/posts"/)
   assert.match(list, /블로그 다시 만들기/)

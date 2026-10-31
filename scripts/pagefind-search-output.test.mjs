@@ -94,16 +94,9 @@ test('the generated Korean index covers every public post and tag route', async 
   await buildAstroSite()
 
   const entry = JSON.parse(await readFile(path.join(pagefindRoot, 'pagefind-entry.json'), 'utf8'))
-  assert.equal(
-    entry.languages.ko.page_count,
-    120,
-    '86 posts + 31 tags + home + list + colophon, excluding the synthetic preview'
-  )
-
   const postFiles = (await readdir(path.join(outputRoot, 'posts'))).filter((name) =>
     name.endsWith('.html')
   )
-  assert.equal(postFiles.length, 86)
   for (const file of postFiles) {
     const html = await readOutputPage(path.join('posts', file))
     assert.match(html, /data-pagefind-body/, `${file} must be indexed`)
@@ -112,5 +105,5 @@ test('the generated Korean index covers every public post and tag route', async 
   const tagFiles = (await readdir(path.join(outputRoot, 'tags'))).filter((name) =>
     name.endsWith('.html')
   )
-  assert.equal(tagFiles.length, 31)
+  assert.equal(entry.languages.ko.page_count, postFiles.length + tagFiles.length + 3)
 })

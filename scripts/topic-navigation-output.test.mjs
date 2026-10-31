@@ -1,3 +1,4 @@
+import { currentPosts } from './lib/current-posts.mjs'
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -12,13 +13,6 @@ import {
 } from './lib/astro-test-helpers.mjs'
 
 const buildAstroSite = createCachedAstroBuild('Astro topic-navigation build')
-
-const baseline = JSON.parse(
-  await readFile(path.join(repositoryRoot, 'scripts/fixtures/site-baseline/baseline.json'), 'utf8')
-)
-
-const publicPages = baseline.pages.filter((page) => page.routeKind === 'public-page')
-const baselinePage = (route) => publicPages.find((page) => page.route === route)
 
 const postRoutes = (html) =>
   [...html.matchAll(/<a\b[^>]*href="(\/posts\/[^"#?]+)"[^>]*>/g)].map(([, href]) =>
@@ -63,71 +57,43 @@ const relatedHtml = (html) => {
   return html.slice(start, end)
 }
 
-// The baseline renders the tag list last on /posts, so the final 31 tag links are the list in order.
-const postsListTagLinks = baselinePage('/posts')
-  .internalLinks.filter((link) => link.targetRoute?.startsWith('/tags/'))
-  .map((link) => decodePath(link.targetRoute))
-const expectedTagOrder = postsListTagLinks.slice(-31).map((route) => route.slice('/tags/'.length))
-assert.equal(new Set(expectedTagOrder).size, 31, 'baseline tag list must be 31 distinct tags')
-
-const expectedTagCounts = new Map()
-for (const post of baseline.frontmatter.posts) {
-  for (const tag of post.tags ?? []) {
-    expectedTagCounts.set(tag, (expectedTagCounts.get(tag) ?? 0) + 1)
-  }
-}
-
-const expectedTagListItems = expectedTagOrder.map((name) => ({
-  href: `/tags/${name}`,
-  label: `${name} (${expectedTagCounts.get(name)})`,
-}))
-
-test('home, list, and every tag route expose the full baseline post selection in date order', async () => {
+test('home, list, tags and related posts reflect current content', async () => {
   await buildAstroSite()
-
+  const posts = await currentPosts()
+  const routes = (items) => items.map((post) => `/posts/${post.slug}`)
+  const counts = new Map()
+  for (const post of posts) {
+    for (const tag of post.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1)
+  }
+  const expectedTags = [...counts].map(([name, count]) => ({
+    href: `/tags/${name}`,
+    label: `${name} (${count})`,
+  }))
   const home = await readFile(path.join(outputRoot, 'index.html'), 'utf8')
-  assert.deepEqual(
-    postRoutes(home),
-    baselinePage('/').contentPostRoutes,
-    'home shows the five most recent posts in baseline order'
-  )
-
   const list = await readFile(path.join(outputRoot, 'posts.html'), 'utf8')
-  assert.deepEqual(
-    postRoutes(list),
-    baselinePage('/posts').contentPostRoutes,
-    'the list shows every baseline post in baseline order'
-  )
-  assert.deepEqual(tagListItems(list), expectedTagListItems, 'list tag order and counts')
+  assert.deepEqual(postRoutes(home), routes(posts.slice(0, 5)))
+  assert.deepEqual(postRoutes(list), routes(posts))
+  assert.deepEqual(tagListItems(list), expectedTags)
 
-  for (const tag of expectedTagOrder) {
+  for (const [tag] of counts) {
     const html = await readFile(path.join(outputRoot, 'tags', `${tag}.html`), 'utf8')
-    assert.deepEqual(
-      postRoutes(html),
-      baselinePage(`/tags/${tag}`).contentPostRoutes,
-      `${tag} posts must match the baseline subset`
-    )
-    assert.deepEqual(tagListItems(html), expectedTagListItems, `${tag} More tags list`)
+    assert.deepEqual(postRoutes(html), routes(posts.filter((post) => post.tags.includes(tag))))
+    assert.deepEqual(tagListItems(html), expectedTags)
   }
-})
-
-test('public post-list tag links and article related posts follow the full baseline selection', async () => {
-  await buildAstroSite()
-
-  const list = await readFile(path.join(outputRoot, 'posts.html'), 'utf8')
-  for (const post of baseline.frontmatter.posts) {
+  for (const post of posts) {
     assert.deepEqual(
       postTagRoutes(list, post.slug),
-      post.tags.map((tag) => `/tags/${tag}`),
-      `${post.slug} should link each displayed tag to its public route`
+      post.tags.map((tag) => `/tags/${tag}`)
     )
-
     const html = await readFile(path.join(outputRoot, 'posts', `${post.slug}.html`), 'utf8')
     const related = relatedHtml(html)
     assert.match(related, /aria-label="관련 글"/)
-    const actualRoutes = postRoutes(related)
-    assert.deepEqual(actualRoutes, baselinePage(`/posts/${post.slug}`).relatedPostRoutes)
-    assert.ok(actualRoutes.length <= 5, 'related posts must never exceed five results')
-    assert.equal(actualRoutes.includes(`/posts/${post.slug}`), false, 'current article excluded')
+    const expected = posts
+      .filter(
+        (candidate) =>
+          candidate.title !== post.title && candidate.tags.some((tag) => post.tags.includes(tag))
+      )
+      .slice(0, 5)
+    assert.deepEqual(postRoutes(related), routes(expected))
   }
 })

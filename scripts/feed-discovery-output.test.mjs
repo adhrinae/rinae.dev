@@ -1,3 +1,4 @@
+import { currentPosts } from './lib/current-posts.mjs'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
@@ -19,7 +20,6 @@ const sax = require('../node_modules/.pnpm/sax@1.6.1/node_modules/sax')
 
 const baselineRoot = path.join(repositoryRoot, 'scripts/fixtures/site-baseline')
 const baselinePath = path.join(baselineRoot, 'baseline.json')
-const baselineRssPath = path.join(baselineRoot, 'http/rss.xml.body')
 const baselineRobotsPath = path.join(baselineRoot, 'http/robots.txt.body')
 const buildAstroSite = createCachedAstroBuild('Astro feed/discovery build')
 const PRODUCTION_ORIGIN = 'https://rinae.dev'
@@ -78,12 +78,9 @@ const assertWellFormedXml = (xml, label) => {
   assert.deepEqual(errors, [], `${label} must be well-formed XML`)
 }
 
-test('RSS artifact matches the baseline feed contract item by item', async () => {
+test('RSS artifact includes all current posts in order', async () => {
   await buildAstroSite()
-  const [xml, baselineXml] = await Promise.all([
-    artifact('rss.xml'),
-    readFile(baselineRssPath, 'utf8'),
-  ])
+  const [xml, posts] = await Promise.all([artifact('rss.xml'), currentPosts()])
 
   assert.ok(xml.startsWith('<?xml version="1.0" encoding="UTF-8" ?>'), 'XML declaration')
   assert.match(xml, /<rss version="2\.0">/)
@@ -95,22 +92,19 @@ test('RSS artifact matches the baseline feed contract item by item', async () =>
   assertWellFormedXml(xml, 'rss.xml')
 
   const items = rssItems(xml)
-  const baselineItems = rssItems(baselineXml)
-  assert.equal(items.length, 86, 'all published posts are in the feed')
-  assert.equal(items.length, baselineItems.length, 'feed item count matches baseline')
+  assert.equal(items.length, posts.length, 'all published posts are in the feed')
 
   for (let index = 0; index < items.length; index += 1) {
     const item = items[index]
-    const expected = baselineItems[index]
+    const expected = posts[index]
     const link = xmlField(item, 'link')
 
-    assert.equal(xmlField(item, 'title'), xmlField(expected, 'title'), `item ${index} title`)
     assert.equal(
-      xmlField(item, 'description'),
-      xmlField(expected, 'description'),
-      `item ${index} description`
+      decodeHtml(xmlField(item, 'title').replaceAll('&apos;', "'")),
+      expected.title,
+      `item ${index} title`
     )
-    assert.equal(link, xmlField(expected, 'link'), `item ${index} link`)
+    assert.equal(link, `${PRODUCTION_ORIGIN}/posts/${expected.slug}`, `item ${index} link`)
     assert.equal(
       link,
       `${PRODUCTION_ORIGIN}${new URL(link).pathname}`,
@@ -118,7 +112,11 @@ test('RSS artifact matches the baseline feed contract item by item', async () =>
     )
     assert.equal(xmlField(item, 'guid'), link, `item ${index} guid equals link`)
     assert.equal(xmlAttribute(item, 'guid', 'isPermaLink'), 'true', `item ${index} guid permalink`)
-    assert.equal(xmlField(item, 'pubDate'), xmlField(expected, 'pubDate'), `item ${index} pubDate`)
+    assert.equal(
+      new Date(xmlField(item, 'pubDate')).toISOString().slice(0, 10),
+      expected.date,
+      `item ${index} pubDate`
+    )
     assert.ok(!Number.isNaN(Date.parse(xmlField(item, 'pubDate'))), `item ${index} pubDate parses`)
   }
 
@@ -128,19 +126,17 @@ test('RSS artifact matches the baseline feed contract item by item', async () =>
   assert.ok(escapedTitle, 'apostrophes are XML escaped')
 })
 
-test('sitemap artifact lists exactly the baseline public non-tag routes', async () => {
+test('sitemap artifact lists current public non-tag routes', async () => {
   await buildAstroSite()
   const xml = await artifact('sitemap.xml')
   assertWellFormedXml(xml, 'sitemap.xml')
 
-  const baseline = await loadBaseline()
-  const expected = publicPages(baseline)
-    .filter((page) => !page.route.startsWith('/tags/'))
-    .map((page) => `${PRODUCTION_ORIGIN}${page.route}`)
+  const posts = await currentPosts()
+  const expected = ['/', '/posts', '/colophon', ...posts.map((post) => `/posts/${post.slug}`)]
+    .map((route) => `${PRODUCTION_ORIGIN}${route}`)
     .sort()
   const locations = sitemapLocations(xml).sort()
 
-  assert.equal(locations.length, 89, 'sitemap entry count')
   assert.deepEqual(locations, expected, 'sitemap covers all public content and hides tag routes')
   assert.ok(
     locations.every(

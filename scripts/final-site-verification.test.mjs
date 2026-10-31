@@ -173,7 +173,7 @@ test('no Next.js or Nextra dependency, config, or runtime residue remains', asyn
   }
 })
 
-test('the shipped Pagefind index is the current 120-page build without a stale copied index', async () => {
+test('the shipped Pagefind index covers current pages without a stale copied index', async () => {
   await buildAstroSite()
 
   assert.ok(
@@ -184,7 +184,13 @@ test('the shipped Pagefind index is the current 120-page build without a stale c
   const entry = JSON.parse(
     await readFile(path.join(outputRoot, '_pagefind', 'pagefind-entry.json'), 'utf8')
   )
-  assert.equal(entry.languages.ko.page_count, 120)
+  const posts = (await readdir(path.join(outputRoot, 'posts'))).filter((file) =>
+    file.endsWith('.html')
+  )
+  const tags = (await readdir(path.join(outputRoot, 'tags'))).filter((file) =>
+    file.endsWith('.html')
+  )
+  assert.equal(entry.languages.ko.page_count, posts.length + tags.length + 3)
 
   const version = JSON.parse(
     await readFile(path.join(repositoryRoot, 'node_modules/pagefind/package.json'), 'utf8')

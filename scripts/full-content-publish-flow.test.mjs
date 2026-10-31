@@ -10,6 +10,8 @@ test('a new Markdown post flows through build, list, tag, detail, and the Pagefi
   const filename = `${slug}.md`
   const sourcePath = path.join(repositoryRoot, 'content/posts', filename)
   const pagefindEntryPath = path.join(outputRoot, '_pagefind/pagefind-entry.json')
+  runAstroBuild('Astro build before adding the temporary post')
+  const initialCount = JSON.parse(await readFile(pagefindEntryPath, 'utf8')).languages.ko.page_count
   const source = `---
 title: '발행 흐름 검증 글'
 date: '2099-01-01'
@@ -47,7 +49,7 @@ enableComment: false
 
     const entry = JSON.parse(await readFile(pagefindEntryPath, 'utf8'))
     assert.ok(
-      entry.languages.ko.page_count >= 121,
+      entry.languages.ko.page_count === initialCount + 2,
       `expected the temporary post to be indexed (page_count=${entry.languages.ko.page_count})`
     )
   } finally {
@@ -59,7 +61,7 @@ enableComment: false
   const entry = JSON.parse(await readFile(pagefindEntryPath, 'utf8'))
   assert.equal(
     entry.languages.ko.page_count,
-    120,
+    initialCount,
     'the temporary post must not remain in the production Pagefind index'
   )
 })
